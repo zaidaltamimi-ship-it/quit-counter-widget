@@ -57,6 +57,11 @@ const Index = () => {
           />
         </div>
 
+        {/* Patch Tracker */}
+        <div className="mb-6">
+          <PatchTracker />
+        </div>
+
         {/* Health Milestones */}
         <HealthMilestones hoursElapsed={hoursElapsed} />
 
