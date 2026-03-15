@@ -4,6 +4,7 @@ import HealthMilestones from "@/components/HealthMilestones";
 import StatsBar from "@/components/StatsBar";
 import QuitDatePicker from "@/components/QuitDatePicker";
 import ResetConfirmation from "@/components/ResetConfirmation";
+import PatchTracker from "@/components/PatchTracker";
 
 const STORAGE_KEY = "quit-smoking-date";
 
@@ -54,6 +55,11 @@ const Index = () => {
             pricePerPack={10}
             cigarettesPerPack={20}
           />
+        </div>
+
+        {/* Patch Tracker */}
+        <div className="mb-6">
+          <PatchTracker />
         </div>
 
         {/* Health Milestones */}
