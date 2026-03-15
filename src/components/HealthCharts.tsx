@@ -49,14 +49,6 @@ const HealthCharts = ({ entries, quitDate }: HealthChartsProps) => {
       });
   }, [entries, selectedMetric, activeMetric, quitDate]);
 
-  if (entries.length === 0) {
-    return null;
-  }
-
-  if (availableMetrics.length === 0) {
-    return null;
-  }
-
   // Calculate trend
   const trend = useMemo(() => {
     if (chartData.length < 2) return null;
@@ -66,6 +58,10 @@ const HealthCharts = ({ entries, quitDate }: HealthChartsProps) => {
     const pct = first !== 0 ? ((diff / first) * 100).toFixed(1) : "0";
     return { diff, pct, direction: diff > 0 ? "up" : diff < 0 ? "down" : "stable" as const };
   }, [chartData]);
+
+  if (entries.length === 0 || availableMetrics.length === 0) {
+    return null;
+  }
 
   return (
     <div className="card-elevated p-5 space-y-4">

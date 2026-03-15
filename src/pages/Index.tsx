@@ -5,6 +5,8 @@ import StatsBar from "@/components/StatsBar";
 import QuitDatePicker from "@/components/QuitDatePicker";
 import ResetConfirmation from "@/components/ResetConfirmation";
 import PatchTracker from "@/components/PatchTracker";
+import HealthLogForm, { loadEntries, type HealthEntry } from "@/components/HealthLogForm";
+import HealthCharts from "@/components/HealthCharts";
 
 const STORAGE_KEY = "quit-smoking-date";
 
@@ -15,6 +17,7 @@ const Index = () => {
   });
 
   const [hoursElapsed, setHoursElapsed] = useState(0);
+  const [healthEntries, setHealthEntries] = useState<HealthEntry[]>(loadEntries);
 
   useEffect(() => {
     if (!quitDate) return;
@@ -42,7 +45,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-md px-5 pb-12">
-        {/* Counter Section — upper third */}
+        {/* Counter Section */}
         <div className="flex flex-col items-center justify-center pt-16 pb-8">
           <LiveCounter quitDate={quitDate} />
         </div>
@@ -55,6 +58,19 @@ const Index = () => {
             pricePerPack={10}
             cigarettesPerPack={20}
           />
+        </div>
+
+        {/* Health Charts */}
+        <div className="mb-6">
+          <HealthCharts entries={healthEntries} quitDate={quitDate} />
+        </div>
+
+        {/* Health Log */}
+        <div className="card-elevated p-5 mb-6">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4">
+            Health Log
+          </p>
+          <HealthLogForm entries={healthEntries} onEntriesChange={setHealthEntries} />
         </div>
 
         {/* Patch Tracker */}
