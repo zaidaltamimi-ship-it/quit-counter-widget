@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import type { TobaccoType } from "@/components/QuitDatePicker";
 
 interface LiveCounterProps {
   quitDate: Date;
+  tobaccoType: TobaccoType;
 }
 
 interface TimeElapsed {
