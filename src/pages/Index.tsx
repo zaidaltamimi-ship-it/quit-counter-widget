@@ -3,6 +3,7 @@ import LiveCounter from "@/components/LiveCounter";
 import HealthMilestones from "@/components/HealthMilestones";
 import StatsBar from "@/components/StatsBar";
 import QuitDatePicker from "@/components/QuitDatePicker";
+import type { TobaccoType } from "@/components/QuitDatePicker";
 import ResetConfirmation from "@/components/ResetConfirmation";
 import PatchTracker from "@/components/PatchTracker";
 import HealthLogForm, { loadEntries, type HealthEntry } from "@/components/HealthLogForm";
@@ -14,6 +15,10 @@ const Index = () => {
   const [quitDate, setQuitDate] = useState<Date | null>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? new Date(stored) : null;
+  });
+
+  const [tobaccoType, setTobaccoType] = useState<TobaccoType>(() => {
+    return (localStorage.getItem("quit-tobacco-type") as TobaccoType) || "cigarette";
   });
 
   const [hoursElapsed, setHoursElapsed] = useState(0);
