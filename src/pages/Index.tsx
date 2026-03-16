@@ -39,8 +39,10 @@ const Index = () => {
 
   const handleReset = () => {
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem("quit-tobacco-type");
     setQuitDate(null);
     setHoursElapsed(0);
+    setTobaccoType("cigarette");
   };
 
   if (!quitDate) {
