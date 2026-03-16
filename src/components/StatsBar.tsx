@@ -8,11 +8,18 @@ interface StatsBarProps {
   tobaccoType: TobaccoType;
 }
 
+const unitLabels: Record<TobaccoType, string> = {
+  cigarette: "Cigarettes avoided",
+  vape: "Sessions avoided",
+  iqos: "Sticks avoided",
+};
+
 const StatsBar = ({
   hoursElapsed,
   cigarettesPerDay = 20,
   pricePerPack = 10,
   cigarettesPerPack = 20,
+  tobaccoType,
 }: StatsBarProps) => {
   const daysElapsed = hoursElapsed / 24;
   const cigarettesAvoided = Math.floor(daysElapsed * cigarettesPerDay);
@@ -21,7 +28,7 @@ const StatsBar = ({
   return (
     <div className="card-elevated p-5">
       <div className="grid grid-cols-2 gap-4">
-        <StatItem label="Cigarettes avoided" value={cigarettesAvoided.toLocaleString()} />
+        <StatItem label={unitLabels[tobaccoType]} value={cigarettesAvoided.toLocaleString()} />
         <StatItem label="Money saved" value={`$${moneySaved.toFixed(2)}`} />
       </div>
     </div>

@@ -25,7 +25,13 @@ function calcElapsed(quitDate: Date): TimeElapsed {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const LiveCounter = ({ quitDate }: LiveCounterProps) => {
+const tobaccoLabels: Record<TobaccoType, string> = {
+  cigarette: "last cigarette",
+  vape: "last vape",
+  iqos: "last IQOS",
+};
+
+const LiveCounter = ({ quitDate, tobaccoType }: LiveCounterProps) => {
   const [elapsed, setElapsed] = useState<TimeElapsed>(calcElapsed(quitDate));
   const [pulse, setPulse] = useState(false);
 
@@ -44,7 +50,7 @@ const LiveCounter = ({ quitDate }: LiveCounterProps) => {
   return (
     <div className="text-center">
       <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-3">
-        Time since last cigarette
+        Time since {tobaccoLabels[tobaccoType]}
       </p>
       <div className="flex items-baseline justify-center gap-1">
         <CounterUnit value={elapsed.days} label="days" />
