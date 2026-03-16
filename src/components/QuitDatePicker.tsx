@@ -44,6 +44,25 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
           Set the date and time to start tracking.
         </p>
 
+        {/* Tobacco type selector */}
+        <div className="flex gap-2 mb-6">
+          {tobaccoOptions.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setTobaccoType(opt.value)}
+              className={`flex-1 rounded-[16px] px-3 py-3 text-xs font-medium transition-all ${
+                tobaccoType === opt.value
+                  ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
+                  : "bg-secondary text-muted-foreground hover:bg-accent"
+              }`}
+            >
+              <span className="block text-lg mb-0.5">{opt.emoji}</span>
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
         <div className="space-y-3 mb-8">
           <input
             type="date"
