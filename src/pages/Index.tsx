@@ -64,6 +64,7 @@ const Index = () => {
             cigarettesPerDay={20}
             pricePerPack={10}
             cigarettesPerPack={20}
+            tobaccoType={tobaccoType}
           />
         </div>
 
