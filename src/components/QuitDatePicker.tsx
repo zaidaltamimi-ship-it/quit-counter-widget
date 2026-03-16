@@ -5,9 +5,18 @@ interface QuitDatePickerProps {
   onDateSet: (date: Date) => void;
 }
 
+export type TobaccoType = "cigarette" | "vape" | "iqos";
+
+const tobaccoOptions: { value: TobaccoType; label: string; emoji: string }[] = [
+  { value: "cigarette", label: "Cigarette", emoji: "🚬" },
+  { value: "vape", label: "Vape", emoji: "💨" },
+  { value: "iqos", label: "IQOS", emoji: "🔥" },
+];
+
 const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("12:00");
+  const [tobaccoType, setTobaccoType] = useState<TobaccoType>("cigarette");
 
   const handleSubmit = () => {
     if (!dateStr) return;
@@ -15,6 +24,7 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
     const [hours, minutes] = timeStr.split(":").map(Number);
     const date = new Date(year, month - 1, day, hours, minutes);
     if (date <= new Date()) {
+      localStorage.setItem("quit-tobacco-type", tobaccoType);
       onDateSet(date);
     }
   };
@@ -33,6 +43,25 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
         <p className="text-sm text-muted-foreground mb-8">
           Set the date and time to start tracking.
         </p>
+
+        {/* Tobacco type selector */}
+        <div className="flex gap-2 mb-6">
+          {tobaccoOptions.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => setTobaccoType(opt.value)}
+              className={`flex-1 rounded-[16px] px-3 py-3 text-xs font-medium transition-all ${
+                tobaccoType === opt.value
+                  ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
+                  : "bg-secondary text-muted-foreground hover:bg-accent"
+              }`}
+            >
+              <span className="block text-lg mb-0.5">{opt.emoji}</span>
+              {opt.label}
+            </button>
+          ))}
+        </div>
 
         <div className="space-y-3 mb-8">
           <input
