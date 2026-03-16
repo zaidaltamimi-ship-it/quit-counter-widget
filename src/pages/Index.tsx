@@ -54,7 +54,7 @@ const Index = () => {
       <div className="mx-auto max-w-md px-5 pb-12">
         {/* Counter Section */}
         <div className="flex flex-col items-center justify-center pt-16 pb-8">
-          <LiveCounter quitDate={quitDate} />
+          <LiveCounter quitDate={quitDate} tobaccoType={tobaccoType} />
         </div>
 
         {/* Stats */}
