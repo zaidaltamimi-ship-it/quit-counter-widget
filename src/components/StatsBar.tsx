@@ -1,8 +1,11 @@
+import type { TobaccoType } from "@/components/QuitDatePicker";
+
 interface StatsBarProps {
   hoursElapsed: number;
   cigarettesPerDay: number;
   pricePerPack: number;
   cigarettesPerPack: number;
+  tobaccoType: TobaccoType;
 }
 
 const StatsBar = ({
