@@ -5,9 +5,18 @@ interface QuitDatePickerProps {
   onDateSet: (date: Date) => void;
 }
 
+export type TobaccoType = "cigarette" | "vape" | "iqos";
+
+const tobaccoOptions: { value: TobaccoType; label: string; emoji: string }[] = [
+  { value: "cigarette", label: "Cigarette", emoji: "🚬" },
+  { value: "vape", label: "Vape", emoji: "💨" },
+  { value: "iqos", label: "IQOS", emoji: "🔥" },
+];
+
 const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("12:00");
+  const [tobaccoType, setTobaccoType] = useState<TobaccoType>("cigarette");
 
   const handleSubmit = () => {
     if (!dateStr) return;
@@ -15,6 +24,7 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
     const [hours, minutes] = timeStr.split(":").map(Number);
     const date = new Date(year, month - 1, day, hours, minutes);
     if (date <= new Date()) {
+      localStorage.setItem("quit-tobacco-type", tobaccoType);
       onDateSet(date);
     }
   };
