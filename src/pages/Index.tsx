@@ -8,10 +8,13 @@ import ResetConfirmation from "@/components/ResetConfirmation";
 import PatchTracker from "@/components/PatchTracker";
 import HealthLogForm, { loadEntries, type HealthEntry } from "@/components/HealthLogForm";
 import HealthCharts from "@/components/HealthCharts";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const STORAGE_KEY = "quit-smoking-date";
 
 const Index = () => {
+  const { t } = useLanguage();
   const [quitDate, setQuitDate] = useState<Date | null>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? new Date(stored) : null;
@@ -52,8 +55,13 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-md px-5 pb-12">
+        {/* Language Switcher */}
+        <div className="flex justify-end pt-4">
+          <LanguageSwitcher />
+        </div>
+
         {/* Counter Section */}
-        <div className="flex flex-col items-center justify-center pt-16 pb-8">
+        <div className="flex flex-col items-center justify-center pt-8 pb-8">
           <LiveCounter quitDate={quitDate} tobaccoType={tobaccoType} />
         </div>
 
@@ -76,7 +84,7 @@ const Index = () => {
         {/* Health Log */}
         <div className="card-elevated p-5 mb-6">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4">
-            Health Log
+            {t.healthLog}
           </p>
           <HealthLogForm entries={healthEntries} onEntriesChange={setHealthEntries} />
         </div>

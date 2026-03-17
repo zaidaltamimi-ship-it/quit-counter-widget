@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, X } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const STORAGE_KEY = "health-metrics-log";
 
 export interface HealthEntry {
   id: string;
-  date: string; // ISO
+  date: string;
   heartRate?: number;
   systolic?: number;
   diastolic?: number;
   weight?: number;
-  peakFlow?: number; // lung capacity L/min
+  peakFlow?: number;
   note?: string;
 }
 
@@ -34,6 +35,7 @@ interface HealthLogFormProps {
 }
 
 const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
+  const { t } = useLanguage();
   const [showForm, setShowForm] = useState(false);
   const [heartRate, setHeartRate] = useState("");
   const [systolic, setSystolic] = useState("");
@@ -80,7 +82,6 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
 
   return (
     <div className="space-y-3">
-      {/* Add button or form */}
       <AnimatePresence mode="wait">
         {!showForm ? (
           <motion.button
@@ -92,7 +93,7 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
             className="flex w-full items-center justify-center gap-2 rounded-[16px] bg-secondary py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             <Plus className="h-4 w-4" />
-            Log today's health data
+            {t.logTodaysHealth}
           </motion.button>
         ) : (
           <motion.div
@@ -106,7 +107,7 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
             <div className="rounded-[16px] bg-secondary p-4 space-y-3">
               <div className="flex items-center justify-between mb-1">
                 <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                  New entry
+                  {t.newEntry}
                 </p>
                 <button onClick={resetForm} className="text-muted-foreground hover:text-foreground">
                   <X className="h-4 w-4" />
@@ -114,15 +115,15 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <InputField label="Heart rate" placeholder="bpm" value={heartRate} onChange={setHeartRate} />
-                <InputField label="Weight" placeholder="kg" value={weight} onChange={setWeight} />
-                <InputField label="Systolic BP" placeholder="mmHg" value={systolic} onChange={setSystolic} />
-                <InputField label="Diastolic BP" placeholder="mmHg" value={diastolic} onChange={setDiastolic} />
+                <InputField label={t.heartRate} placeholder="bpm" value={heartRate} onChange={setHeartRate} />
+                <InputField label={t.weight} placeholder="kg" value={weight} onChange={setWeight} />
+                <InputField label={t.systolicBP} placeholder="mmHg" value={systolic} onChange={setSystolic} />
+                <InputField label={t.diastolicBP} placeholder="mmHg" value={diastolic} onChange={setDiastolic} />
               </div>
-              <InputField label="Peak flow (lung capacity)" placeholder="L/min" value={peakFlow} onChange={setPeakFlow} fullWidth />
+              <InputField label={t.peakFlowLung} placeholder="L/min" value={peakFlow} onChange={setPeakFlow} fullWidth />
               <input
                 type="text"
-                placeholder="Note (optional)"
+                placeholder={t.noteOptional}
                 value={note}
                 onChange={e => setNote(e.target.value)}
                 className="w-full rounded-[12px] bg-background px-3 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground/50"
@@ -133,18 +134,17 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
                 disabled={!hasAnyValue}
                 className="w-full rounded-[12px] bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
               >
-                Save Entry
+                {t.saveEntry}
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Recent entries */}
       {recentEntries.length > 0 && (
         <div className="space-y-2">
           <p className="text-[0.6rem] font-medium uppercase tracking-widest text-muted-foreground px-1">
-            Recent
+            {t.recent}
           </p>
           {recentEntries.map((entry) => (
             <div key={entry.id} className="flex items-start justify-between rounded-[12px] bg-secondary px-3 py-2.5">

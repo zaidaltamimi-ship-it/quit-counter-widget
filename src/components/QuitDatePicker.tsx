@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/i18n/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface QuitDatePickerProps {
   onDateSet: (date: Date) => void;
@@ -7,16 +9,17 @@ interface QuitDatePickerProps {
 
 export type TobaccoType = "cigarette" | "vape" | "iqos";
 
-const tobaccoOptions: { value: TobaccoType; label: string; emoji: string }[] = [
-  { value: "cigarette", label: "Cigarette", emoji: "🚬" },
-  { value: "vape", label: "Vape", emoji: "💨" },
-  { value: "iqos", label: "IQOS", emoji: "🔥" },
-];
-
 const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
+  const { t } = useLanguage();
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("12:00");
   const [tobaccoType, setTobaccoType] = useState<TobaccoType>("cigarette");
+
+  const tobaccoOptions: { value: TobaccoType; label: string; emoji: string }[] = [
+    { value: "cigarette", label: t.cigarette, emoji: "🚬" },
+    { value: "vape", label: t.vape, emoji: "💨" },
+    { value: "iqos", label: t.iqos, emoji: "🔥" },
+  ];
 
   const handleSubmit = () => {
     if (!dateStr) return;
@@ -36,12 +39,15 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
       transition={{ duration: 0.5, ease: [0.2, 0, 0, 1] }}
       className="flex min-h-screen flex-col items-center justify-center px-6"
     >
+      <div className="absolute top-4 right-6">
+        <LanguageSwitcher />
+      </div>
       <div className="card-elevated p-8 w-full max-w-sm text-center">
         <h1 className="text-2xl font-semibold text-foreground mb-2">
-          When was your last cigarette?
+          {t.whenLastCigarette}
         </h1>
         <p className="text-sm text-muted-foreground mb-8">
-          Set the date and time to start tracking.
+          {t.setDateToStart}
         </p>
 
         {/* Tobacco type selector */}
@@ -84,7 +90,7 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
           disabled={!dateStr}
           className="w-full rounded-[16px] bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-40"
         >
-          Start Tracking
+          {t.startTracking}
         </button>
       </div>
     </motion.div>

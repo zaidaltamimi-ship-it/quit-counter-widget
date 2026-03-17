@@ -1,4 +1,5 @@
 import type { TobaccoType } from "@/components/QuitDatePicker";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface StatsBarProps {
   hoursElapsed: number;
@@ -8,12 +9,6 @@ interface StatsBarProps {
   tobaccoType: TobaccoType;
 }
 
-const unitLabels: Record<TobaccoType, string> = {
-  cigarette: "Cigarettes avoided",
-  vape: "Sessions avoided",
-  iqos: "Sticks avoided",
-};
-
 const StatsBar = ({
   hoursElapsed,
   cigarettesPerDay = 20,
@@ -21,6 +16,14 @@ const StatsBar = ({
   cigarettesPerPack = 20,
   tobaccoType,
 }: StatsBarProps) => {
+  const { t } = useLanguage();
+
+  const unitLabels: Record<TobaccoType, string> = {
+    cigarette: t.cigarettesAvoided,
+    vape: t.sessionsAvoided,
+    iqos: t.sticksAvoided,
+  };
+
   const daysElapsed = hoursElapsed / 24;
   const cigarettesAvoided = Math.floor(daysElapsed * cigarettesPerDay);
   const moneySaved = ((daysElapsed * cigarettesPerDay) / cigarettesPerPack) * pricePerPack;
@@ -29,7 +32,7 @@ const StatsBar = ({
     <div className="card-elevated p-5">
       <div className="grid grid-cols-2 gap-4">
         <StatItem label={unitLabels[tobaccoType]} value={cigarettesAvoided.toLocaleString()} />
-        <StatItem label="Money saved" value={`$${moneySaved.toFixed(2)}`} />
+        <StatItem label={t.moneySaved} value={`$${moneySaved.toFixed(2)}`} />
       </div>
     </div>
   );
