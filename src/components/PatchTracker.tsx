@@ -1,27 +1,28 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell, BellOff, ChevronDown, ChevronUp } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const PATCH_STORAGE_KEY = "niquitin-patch-tracker";
 
 interface PatchStep {
   step: number;
-  label: string;
+  labelKey: string;
   mg: number;
   durationWeeks: number;
-  description: string;
+  descKey: string;
 }
 
 const PATCH_STEPS: PatchStep[] = [
-  { step: 1, label: "Step 1", mg: 21, durationWeeks: 6, description: "Full strength — strongest nicotine support." },
-  { step: 2, label: "Step 2", mg: 14, durationWeeks: 2, description: "Reduced strength — tapering down." },
-  { step: 3, label: "Step 3", mg: 7, durationWeeks: 2, description: "Low strength — final phase before stopping." },
+  { step: 1, labelKey: "step1", mg: 21, durationWeeks: 6, descKey: "fullStrength" },
+  { step: 2, labelKey: "step2", mg: 14, durationWeeks: 2, descKey: "reducedStrength" },
+  { step: 3, labelKey: "step3", mg: 7, durationWeeks: 2, descKey: "lowStrength" },
 ];
 
 interface PatchState {
   active: boolean;
-  currentStep: number; // 1, 2, or 3
-  stepStartDate: string; // ISO string
+  currentStep: number;
+  stepStartDate: string;
   notificationsEnabled: boolean;
 }
 
@@ -42,6 +43,7 @@ function saveState(state: PatchState) {
 }
 
 const PatchTracker = () => {
+  const { t } = useLanguage();
   const [state, setState] = useState<PatchState>(loadState);
   const [expanded, setExpanded] = useState(false);
   const [now, setNow] = useState(Date.now());
@@ -53,7 +55,6 @@ const PatchTracker = () => {
 
   useEffect(() => { saveState(state); }, [state]);
 
-  // Check if we should notify about step change
   useEffect(() => {
     if (!state.active || !state.notificationsEnabled) return;
     const currentPatchStep = PATCH_STEPS.find(s => s.step === state.currentStep);
@@ -66,25 +67,24 @@ const PatchTracker = () => {
     if (now >= oneDayBefore && now < stepEnd && state.currentStep < 3) {
       const nextStep = PATCH_STEPS.find(s => s.step === state.currentStep + 1);
       if (nextStep && Notification.permission === "granted") {
-        // Only notify once — check if we already did
         const notifKey = `patch-notif-step-${state.currentStep}`;
         if (!localStorage.getItem(notifKey)) {
+          const nextLabel = (t as any)[nextStep.labelKey] as string;
           new Notification("Time to step down", {
-            body: `Switch to ${nextStep.label} (${nextStep.mg}mg) tomorrow.`,
+            body: `Switch to ${nextLabel} (${nextStep.mg}mg) tomorrow.`,
             icon: "/icon-192.png",
           });
           localStorage.setItem(notifKey, "true");
         }
       }
     }
-  }, [now, state]);
+  }, [now, state, t]);
 
   const handleActivate = () => {
     setState(prev => ({ ...prev, active: true, currentStep: 1, stepStartDate: new Date().toISOString() }));
   };
 
   const handleStepChange = (step: number) => {
-    // Clear notification flags for previous steps
     for (let i = 1; i <= 3; i++) localStorage.removeItem(`patch-notif-step-${i}`);
     setState(prev => ({ ...prev, currentStep: step, stepStartDate: new Date().toISOString() }));
   };
@@ -108,8 +108,6 @@ const PatchTracker = () => {
   };
 
   const currentPatchStep = PATCH_STEPS.find(s => s.step === state.currentStep);
-
-  // Calculate progress for current step
   const stepStart = new Date(state.stepStartDate).getTime();
   const stepDurationMs = currentPatchStep ? currentPatchStep.durationWeeks * 7 * 24 * 3600000 : 0;
   const stepProgress = stepDurationMs > 0 ? Math.min(1, (now - stepStart) / stepDurationMs) : 0;
@@ -118,7 +116,6 @@ const PatchTracker = () => {
 
   return (
     <div className="card-elevated overflow-hidden">
-      {/* Header */}
       <button
         onClick={() => setExpanded(e => !e)}
         className="flex w-full items-center justify-between p-5"
@@ -128,11 +125,11 @@ const PatchTracker = () => {
             <span className="text-sm font-semibold text-accent-foreground">NRT</span>
           </div>
           <div className="text-left">
-            <p className="text-sm font-medium text-foreground">Nicotine Patches</p>
+            <p className="text-sm font-medium text-foreground">{t.nicotinePatches}</p>
             <p className="text-xs text-muted-foreground">
               {state.active
-                ? `Step ${state.currentStep} · ${currentPatchStep?.mg}mg`
-                : "Not tracking"}
+                ? `${(t as any)[PATCH_STEPS[state.currentStep - 1].labelKey]} · ${currentPatchStep?.mg}mg`
+                : t.notTracking}
             </p>
           </div>
         </div>
@@ -154,51 +151,49 @@ const PatchTracker = () => {
           >
             <div className="px-5 pb-5 space-y-4">
               {!state.active ? (
-                /* Inactive state */
                 <div className="text-center py-4">
                   <p className="text-sm text-muted-foreground mb-4">
-                    Track your Niquitin patch schedule and get reminded when to step down.
+                    {t.trackPatchSchedule}
                   </p>
                   <button
                     onClick={handleActivate}
                     className="rounded-[16px] bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
                   >
-                    Start Patch Tracking
+                    {t.startPatchTracking}
                   </button>
                 </div>
               ) : (
-                /* Active state */
                 <>
-                  {/* Step selector */}
                   <div className="flex gap-2">
-                    {PATCH_STEPS.map((ps) => (
-                      <button
-                        key={ps.step}
-                        onClick={() => handleStepChange(ps.step)}
-                        className={`flex-1 rounded-[12px] py-2.5 text-center transition-all ${
-                          state.currentStep === ps.step
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-secondary text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        <span className="block text-xs font-medium">{ps.mg}mg</span>
-                        <span className="block text-[0.6rem] uppercase tracking-wider mt-0.5 opacity-70">
-                          {ps.label}
-                        </span>
-                      </button>
-                    ))}
+                    {PATCH_STEPS.map((ps) => {
+                      const label = (t as any)[ps.labelKey] as string;
+                      return (
+                        <button
+                          key={ps.step}
+                          onClick={() => handleStepChange(ps.step)}
+                          className={`flex-1 rounded-[12px] py-2.5 text-center transition-all ${
+                            state.currentStep === ps.step
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-secondary text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <span className="block text-xs font-medium">{ps.mg}mg</span>
+                          <span className="block text-[0.6rem] uppercase tracking-wider mt-0.5 opacity-70">
+                            {label}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
 
-                  {/* Current step info */}
                   {currentPatchStep && (
                     <div className="rounded-[16px] bg-secondary p-4 space-y-3">
-                      <p className="text-xs text-muted-foreground">{currentPatchStep.description}</p>
+                      <p className="text-xs text-muted-foreground">{(t as any)[currentPatchStep.descKey]}</p>
 
-                      {/* Progress bar */}
                       <div>
                         <div className="flex justify-between text-[0.65rem] uppercase tracking-widest text-muted-foreground mb-1.5">
-                          <span>{currentPatchStep.durationWeeks} weeks total</span>
-                          <span>{daysRemaining} days left</span>
+                          <span>{currentPatchStep.durationWeeks} {t.weeksTotal}</span>
+                          <span>{daysRemaining} {t.daysLeft}</span>
                         </div>
                         <div className="h-1.5 w-full rounded-full bg-background overflow-hidden">
                           <motion.div
@@ -209,7 +204,6 @@ const PatchTracker = () => {
                         </div>
                       </div>
 
-                      {/* Step complete message */}
                       {stepComplete && state.currentStep < 3 && (
                         <motion.div
                           initial={{ opacity: 0, y: 4 }}
@@ -217,7 +211,7 @@ const PatchTracker = () => {
                           className="rounded-[12px] bg-accent p-3"
                         >
                           <p className="text-xs font-medium text-accent-foreground">
-                            Ready to move to Step {state.currentStep + 1} ({PATCH_STEPS[state.currentStep]?.mg}mg)
+                            {t.readyToMove(state.currentStep + 1, PATCH_STEPS[state.currentStep]?.mg)}
                           </p>
                         </motion.div>
                       )}
@@ -228,14 +222,13 @@ const PatchTracker = () => {
                           className="rounded-[12px] bg-accent p-3"
                         >
                           <p className="text-xs font-medium text-accent-foreground">
-                            Program complete. You can stop using patches.
+                            {t.programComplete}
                           </p>
                         </motion.div>
                       )}
                     </div>
                   )}
 
-                  {/* Notification toggle */}
                   <button
                     onClick={handleToggleNotifications}
                     className="flex w-full items-center justify-between rounded-[16px] bg-secondary px-4 py-3"
@@ -246,7 +239,7 @@ const PatchTracker = () => {
                       ) : (
                         <BellOff className="h-4 w-4 text-muted-foreground" />
                       )}
-                      <span className="text-sm text-foreground">Step-down reminders</span>
+                      <span className="text-sm text-foreground">{t.stepDownReminders}</span>
                     </div>
                     <div
                       className={`h-6 w-10 rounded-full p-0.5 transition-colors ${
@@ -261,12 +254,11 @@ const PatchTracker = () => {
                     </div>
                   </button>
 
-                  {/* Stop tracking */}
                   <button
                     onClick={handleDeactivate}
                     className="text-xs font-medium text-muted-foreground/50 hover:text-muted-foreground transition-colors w-full text-center"
                   >
-                    Stop patch tracking
+                    {t.stopPatchTracking}
                   </button>
                 </>
               )}

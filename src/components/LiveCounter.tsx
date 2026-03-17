@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import type { TobaccoType } from "@/components/QuitDatePicker";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface LiveCounterProps {
   quitDate: Date;
@@ -25,15 +26,16 @@ function calcElapsed(quitDate: Date): TimeElapsed {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const tobaccoLabels: Record<TobaccoType, string> = {
-  cigarette: "last cigarette",
-  vape: "last vape",
-  iqos: "last IQOS",
-};
-
 const LiveCounter = ({ quitDate, tobaccoType }: LiveCounterProps) => {
+  const { t } = useLanguage();
   const [elapsed, setElapsed] = useState<TimeElapsed>(calcElapsed(quitDate));
   const [pulse, setPulse] = useState(false);
+
+  const tobaccoLabels: Record<TobaccoType, string> = {
+    cigarette: t.timeSinceLastCigarette,
+    vape: t.timeSinceLastVape,
+    iqos: t.timeSinceLastIqos,
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,16 +52,16 @@ const LiveCounter = ({ quitDate, tobaccoType }: LiveCounterProps) => {
   return (
     <div className="text-center">
       <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-3">
-        Time since {tobaccoLabels[tobaccoType]}
+        {tobaccoLabels[tobaccoType]}
       </p>
       <div className="flex items-baseline justify-center gap-1">
-        <CounterUnit value={elapsed.days} label="days" />
+        <CounterUnit value={elapsed.days} label={t.days} />
         <Separator />
-        <CounterUnit value={pad(elapsed.hours)} label="hrs" />
+        <CounterUnit value={pad(elapsed.hours)} label={t.hrs} />
         <Separator />
-        <CounterUnit value={pad(elapsed.minutes)} label="min" />
+        <CounterUnit value={pad(elapsed.minutes)} label={t.min} />
         <Separator />
-        <CounterUnit value={pad(elapsed.seconds)} label="sec" />
+        <CounterUnit value={pad(elapsed.seconds)} label={t.sec} />
       </div>
       <motion.div
         className="mx-auto mt-4 h-0.5 w-16 rounded-full bg-primary"

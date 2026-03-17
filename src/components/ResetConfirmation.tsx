@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ResetConfirmationProps {
   onReset: () => void;
 }
 
 const ResetConfirmation = ({ onReset }: ResetConfirmationProps) => {
-  const [step, setStep] = useState(0); // 0=idle, 1=first confirm, 2=final confirm
+  const { t } = useLanguage();
+  const [step, setStep] = useState(0);
 
   const handleFirst = () => setStep(1);
   const handleCancel = () => setStep(0);
@@ -27,7 +29,7 @@ const ResetConfirmation = ({ onReset }: ResetConfirmationProps) => {
             onClick={handleFirst}
             className="text-xs font-medium text-muted-foreground/60 hover:text-muted-foreground transition-colors"
           >
-            Reset counter
+            {t.resetCounter}
           </motion.button>
         )}
         {step === 1 && (
@@ -38,19 +40,19 @@ const ResetConfirmation = ({ onReset }: ResetConfirmationProps) => {
             exit={{ opacity: 0, y: -4 }}
             className="space-y-2"
           >
-            <p className="text-sm text-muted-foreground">Are you sure?</p>
+            <p className="text-sm text-muted-foreground">{t.areYouSure}</p>
             <div className="flex justify-center gap-3">
               <button
                 onClick={handleCancel}
                 className="rounded-[12px] bg-secondary px-4 py-2 text-xs font-medium text-muted-foreground"
               >
-                Cancel
+                {t.cancel}
               </button>
               <button
                 onClick={handleFinal}
                 className="rounded-[12px] bg-muted-foreground/20 px-4 py-2 text-xs font-medium text-foreground"
               >
-                Yes, reset
+                {t.yesReset}
               </button>
             </div>
           </motion.div>

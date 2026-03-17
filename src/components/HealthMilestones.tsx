@@ -1,23 +1,24 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Milestone {
-  time: number; // hours
-  title: string;
-  description: string;
+  time: number;
+  titleKey: string;
+  descKey: string;
 }
 
-const MILESTONES: Milestone[] = [
-  { time: 0.33, title: "Heart rate drops", description: "Your heart rate begins to return to normal." },
-  { time: 8, title: "Oxygen normalizes", description: "Carbon monoxide levels in your blood drop by half." },
-  { time: 24, title: "Heart attack risk drops", description: "Your risk of heart attack begins to decrease." },
-  { time: 48, title: "Nerve endings regrow", description: "Your sense of taste and smell start to improve." },
-  { time: 72, title: "Breathing improves", description: "Your bronchial tubes begin to relax. Lung capacity increases." },
-  { time: 336, title: "Circulation restored", description: "Blood circulation has significantly improved." },
-  { time: 2160, title: "Coughing decreases", description: "Lung function increases up to 30%." },
-  { time: 8760, title: "Risk halved", description: "Heart disease risk is now half that of a smoker." },
-  { time: 43800, title: "Lung cancer risk halved", description: "Risk of lung cancer drops to half that of a smoker." },
-  { time: 87600, title: "Risk normalized", description: "Heart disease risk is now the same as a non-smoker." },
+const MILESTONE_KEYS: Milestone[] = [
+  { time: 0.33, titleKey: "heartRateDrops", descKey: "heartRateDropsDesc" },
+  { time: 8, titleKey: "oxygenNormalizes", descKey: "oxygenNormalizesDesc" },
+  { time: 24, titleKey: "heartAttackRiskDrops", descKey: "heartAttackRiskDropsDesc" },
+  { time: 48, titleKey: "nerveEndingsRegrow", descKey: "nerveEndingsRegrowDesc" },
+  { time: 72, titleKey: "breathingImproves", descKey: "breathingImprovesDesc" },
+  { time: 336, titleKey: "circulationRestored", descKey: "circulationRestoredDesc" },
+  { time: 2160, titleKey: "coughingDecreases", descKey: "coughingDecreasesDesc" },
+  { time: 8760, titleKey: "riskHalved", descKey: "riskHalvedDesc" },
+  { time: 43800, titleKey: "lungCancerRiskHalved", descKey: "lungCancerRiskHalvedDesc" },
+  { time: 87600, titleKey: "riskNormalized", descKey: "riskNormalizedDesc" },
 ];
 
 interface HealthMilestonesProps {
@@ -25,18 +26,22 @@ interface HealthMilestonesProps {
 }
 
 const HealthMilestones = ({ hoursElapsed }: HealthMilestonesProps) => {
+  const { t } = useLanguage();
+
   return (
     <div className="space-y-3">
       <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4 px-1">
-        Health milestones
+        {t.healthMilestones}
       </p>
       <div className="space-y-2">
-        {MILESTONES.map((milestone, i) => {
+        {MILESTONE_KEYS.map((milestone, i) => {
           const achieved = hoursElapsed >= milestone.time;
           const progress = achieved ? 1 : Math.min(1, hoursElapsed / milestone.time);
+          const title = (t as any)[milestone.titleKey] as string;
+          const desc = (t as any)[milestone.descKey] as string;
           return (
             <motion.div
-              key={milestone.title}
+              key={milestone.titleKey}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05, duration: 0.4, ease: [0.2, 0, 0, 1] }}
@@ -52,9 +57,9 @@ const HealthMilestones = ({ hoursElapsed }: HealthMilestonesProps) => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm font-medium ${achieved ? "text-foreground" : "text-muted-foreground"}`}>
-                    {milestone.title}
+                    {title}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{milestone.description}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
                   {!achieved && (
                     <div className="mt-2 h-1 w-full rounded-full bg-secondary overflow-hidden">
                       <motion.div
