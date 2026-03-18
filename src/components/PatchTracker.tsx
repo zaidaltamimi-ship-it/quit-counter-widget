@@ -26,8 +26,15 @@ interface PatchState {
   notificationsEnabled: boolean;
 }
 
+function getStartingStep(): number {
+  const perDay = Number(localStorage.getItem("quit-per-day")) || 20;
+  if (perDay >= 20) return 1; // 21mg - heavy
+  if (perDay >= 10) return 2; // 14mg - moderate
+  return 3; // 7mg - light
+}
+
 function getDefaultState(): PatchState {
-  return { active: false, currentStep: 1, stepStartDate: new Date().toISOString(), notificationsEnabled: false };
+  return { active: false, currentStep: getStartingStep(), stepStartDate: new Date().toISOString(), notificationsEnabled: false };
 }
 
 function loadState(): PatchState {
@@ -81,7 +88,8 @@ const PatchTracker = () => {
   }, [now, state, t]);
 
   const handleActivate = () => {
-    setState(prev => ({ ...prev, active: true, currentStep: 1, stepStartDate: new Date().toISOString() }));
+    const startStep = getStartingStep();
+    setState(prev => ({ ...prev, active: true, currentStep: startStep, stepStartDate: new Date().toISOString() }));
   };
 
   const handleStepChange = (step: number) => {
