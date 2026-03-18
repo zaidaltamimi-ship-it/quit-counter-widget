@@ -14,12 +14,15 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("12:00");
   const [tobaccoType, setTobaccoType] = useState<TobaccoType>("cigarette");
+  const [perDay, setPerDay] = useState(20);
 
   const tobaccoOptions: { value: TobaccoType; label: string; emoji: string }[] = [
     { value: "cigarette", label: t.cigarette, emoji: "🚬" },
     { value: "vape", label: t.vape, emoji: "💨" },
     { value: "iqos", label: t.iqos, emoji: "🔥" },
   ];
+
+  const showPerDay = tobaccoType === "cigarette" || tobaccoType === "iqos";
 
   const handleSubmit = () => {
     if (!dateStr) return;
@@ -28,6 +31,9 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
     const date = new Date(year, month - 1, day, hours, minutes);
     if (date <= new Date()) {
       localStorage.setItem("quit-tobacco-type", tobaccoType);
+      if (showPerDay) {
+        localStorage.setItem("quit-per-day", String(perDay));
+      }
       onDateSet(date);
     }
   };
