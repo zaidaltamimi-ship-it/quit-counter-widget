@@ -8,6 +8,7 @@ export const translations = {
     cigarette: "Cigarette",
     vape: "Vape",
     iqos: "IQOS",
+    perDay: "Per day",
     startTracking: "Start Tracking",
 
     // LiveCounter
