@@ -75,6 +75,23 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
           ))}
         </div>
 
+        {/* Per day input */}
+        {showPerDay && (
+          <div className="mb-6">
+            <label className="block text-xs font-medium text-muted-foreground mb-2 text-left">
+              {tobaccoType === "cigarette" ? t.cigarettesAvoided.split(" ")[0] : t.sticksAvoided.split(" ")[0]} — {t.perDay}
+            </label>
+            <input
+              type="number"
+              min={1}
+              max={100}
+              value={perDay}
+              onChange={(e) => setPerDay(Math.max(1, Number(e.target.value)))}
+              className="w-full rounded-[16px] bg-secondary px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+            />
+          </div>
+        )}
+
         <div className="space-y-3 mb-8">
           <input
             type="date"
