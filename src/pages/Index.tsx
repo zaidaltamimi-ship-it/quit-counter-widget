@@ -24,6 +24,10 @@ const Index = () => {
     return (localStorage.getItem("quit-tobacco-type") as TobaccoType) || "cigarette";
   });
 
+  const [perDay, setPerDay] = useState(() => {
+    return Number(localStorage.getItem("quit-per-day")) || 20;
+  });
+
   const [hoursElapsed, setHoursElapsed] = useState(0);
   const [healthEntries, setHealthEntries] = useState<HealthEntry[]>(loadEntries);
 
