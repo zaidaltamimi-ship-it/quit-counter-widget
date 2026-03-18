@@ -105,6 +105,7 @@ export const translations = {
     cigarette: "Cigareta",
     vape: "Vape",
     iqos: "IQOS",
+    perDay: "Za den",
     startTracking: "Začít sledovat",
 
     // LiveCounter
