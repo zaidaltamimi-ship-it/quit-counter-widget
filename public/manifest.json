@@ -1,7 +1,7 @@
 {
-  "name": "Quit — Smoke-Free Tracker",
-  "short_name": "Quit",
-  "description": "Track your smoke-free journey",
+  "name": "MyAddiction — Track Your Journey",
+  "short_name": "MyAddiction",
+  "description": "Track your addiction-free journey",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F9FAFB",
