@@ -24,6 +24,10 @@ const Index = () => {
     return (localStorage.getItem("quit-tobacco-type") as TobaccoType) || "cigarette";
   });
 
+  const [perDay, setPerDay] = useState(() => {
+    return Number(localStorage.getItem("quit-per-day")) || 20;
+  });
+
   const [hoursElapsed, setHoursElapsed] = useState(0);
   const [healthEntries, setHealthEntries] = useState<HealthEntry[]>(loadEntries);
 
@@ -43,9 +47,11 @@ const Index = () => {
   const handleReset = () => {
     localStorage.removeItem(STORAGE_KEY);
     localStorage.removeItem("quit-tobacco-type");
+    localStorage.removeItem("quit-per-day");
     setQuitDate(null);
     setHoursElapsed(0);
     setTobaccoType("cigarette");
+    setPerDay(20);
   };
 
   if (!quitDate) {
@@ -69,7 +75,7 @@ const Index = () => {
         <div className="mb-6">
           <StatsBar
             hoursElapsed={hoursElapsed}
-            cigarettesPerDay={20}
+            cigarettesPerDay={perDay}
             pricePerPack={10}
             cigarettesPerPack={20}
             tobaccoType={tobaccoType}

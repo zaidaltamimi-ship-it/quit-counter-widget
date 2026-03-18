@@ -14,12 +14,15 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("12:00");
   const [tobaccoType, setTobaccoType] = useState<TobaccoType>("cigarette");
+  const [perDay, setPerDay] = useState(20);
 
   const tobaccoOptions: { value: TobaccoType; label: string; emoji: string }[] = [
     { value: "cigarette", label: t.cigarette, emoji: "🚬" },
     { value: "vape", label: t.vape, emoji: "💨" },
     { value: "iqos", label: t.iqos, emoji: "🔥" },
   ];
+
+  const showPerDay = tobaccoType === "cigarette" || tobaccoType === "iqos";
 
   const handleSubmit = () => {
     if (!dateStr) return;
@@ -28,6 +31,9 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
     const date = new Date(year, month - 1, day, hours, minutes);
     if (date <= new Date()) {
       localStorage.setItem("quit-tobacco-type", tobaccoType);
+      if (showPerDay) {
+        localStorage.setItem("quit-per-day", String(perDay));
+      }
       onDateSet(date);
     }
   };
@@ -68,6 +74,23 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
             </button>
           ))}
         </div>
+
+        {/* Per day input */}
+        {showPerDay && (
+          <div className="mb-6">
+            <label className="block text-xs font-medium text-muted-foreground mb-2 text-left">
+              {tobaccoType === "cigarette" ? t.cigarettesAvoided.split(" ")[0] : t.sticksAvoided.split(" ")[0]} — {t.perDay}
+            </label>
+            <input
+              type="number"
+              min={1}
+              max={100}
+              value={perDay}
+              onChange={(e) => setPerDay(Math.max(1, Number(e.target.value)))}
+              className="w-full rounded-[16px] bg-secondary px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+            />
+          </div>
+        )}
 
         <div className="space-y-3 mb-8">
           <input
