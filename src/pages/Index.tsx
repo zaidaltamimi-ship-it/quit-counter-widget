@@ -75,7 +75,7 @@ const Index = () => {
         <div className="mb-6">
           <StatsBar
             hoursElapsed={hoursElapsed}
-            cigarettesPerDay={20}
+            cigarettesPerDay={perDay}
             pricePerPack={10}
             cigarettesPerPack={20}
             tobaccoType={tobaccoType}
