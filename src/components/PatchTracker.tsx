@@ -88,7 +88,8 @@ const PatchTracker = () => {
   }, [now, state, t]);
 
   const handleActivate = () => {
-    setState(prev => ({ ...prev, active: true, currentStep: 1, stepStartDate: new Date().toISOString() }));
+    const startStep = getStartingStep();
+    setState(prev => ({ ...prev, active: true, currentStep: startStep, stepStartDate: new Date().toISOString() }));
   };
 
   const handleStepChange = (step: number) => {
