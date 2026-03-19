@@ -6,7 +6,7 @@ import { getAddictionConfig } from "@/config/addictions";
 import { useLanguage } from "@/i18n/LanguageContext";
 import LiveCounter from "@/components/LiveCounter";
 import HealthMilestones from "@/components/HealthMilestones";
-import HealthLogForm, { loadEntries as _, saveEntries as __ } from "@/components/HealthLogForm";
+import HealthLogForm from "@/components/HealthLogForm";
 import HealthCharts from "@/components/HealthCharts";
 import PatchTracker from "@/components/PatchTracker";
 import MoodLog from "@/components/MoodLog";
