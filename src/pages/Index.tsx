@@ -1,114 +1,71 @@
-import { useState, useEffect } from "react";
-import LiveCounter from "@/components/LiveCounter";
-import HealthMilestones from "@/components/HealthMilestones";
-import StatsBar from "@/components/StatsBar";
-import QuitDatePicker from "@/components/QuitDatePicker";
-import type { TobaccoType } from "@/components/QuitDatePicker";
-import ResetConfirmation from "@/components/ResetConfirmation";
-import PatchTracker from "@/components/PatchTracker";
-import HealthLogForm, { loadEntries, type HealthEntry } from "@/components/HealthLogForm";
-import HealthCharts from "@/components/HealthCharts";
+import { useState } from "react";
+import Dashboard from "@/components/Dashboard";
+import AddictionOnboarding from "@/components/AddictionOnboarding";
+import AddictionDetail from "@/components/AddictionDetail";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import { useLanguage } from "@/i18n/LanguageContext";
+import { useAddictions } from "@/hooks/useAddictions";
+import type { AddictionRecord } from "@/types/addiction";
 
-const STORAGE_KEY = "quit-smoking-date";
+type View = "dashboard" | "onboarding" | "detail";
 
 const Index = () => {
-  const { t } = useLanguage();
-  const [quitDate, setQuitDate] = useState<Date | null>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? new Date(stored) : null;
-  });
+  const { records, addRecord, updateRecord, removeRecord } = useAddictions();
+  const [view, setView] = useState<View>(records.length === 0 ? "onboarding" : "dashboard");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const [tobaccoType, setTobaccoType] = useState<TobaccoType>(() => {
-    return (localStorage.getItem("quit-tobacco-type") as TobaccoType) || "cigarette";
-  });
-
-  const [perDay, setPerDay] = useState(() => {
-    return Number(localStorage.getItem("quit-per-day")) || 20;
-  });
-
-  const [hoursElapsed, setHoursElapsed] = useState(0);
-  const [healthEntries, setHealthEntries] = useState<HealthEntry[]>(loadEntries);
-
-  useEffect(() => {
-    if (!quitDate) return;
-    const update = () => setHoursElapsed((Date.now() - quitDate.getTime()) / 3600000);
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
-  }, [quitDate]);
-
-  const handleDateSet = (date: Date) => {
-    localStorage.setItem(STORAGE_KEY, date.toISOString());
-    setQuitDate(date);
+  const handleSelect = (id: string) => {
+    setSelectedId(id);
+    setView("detail");
   };
 
-  const handleReset = () => {
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem("quit-tobacco-type");
-    localStorage.removeItem("quit-per-day");
-    setQuitDate(null);
-    setHoursElapsed(0);
-    setTobaccoType("cigarette");
-    setPerDay(20);
+  const handleAdd = () => setView("onboarding");
+
+  const handleOnboardingComplete = (record: AddictionRecord) => {
+    addRecord(record);
+    setSelectedId(record.id);
+    setView("detail");
   };
 
-  if (!quitDate) {
-    return <QuitDatePicker onDateSet={handleDateSet} />;
+  const handleBack = () => {
+    if (records.length === 0) return;
+    setView("dashboard");
+    setSelectedId(null);
+  };
+
+  const selectedRecord = selectedId ? records.find(r => r.id === selectedId) : null;
+
+  if (view === "onboarding") {
+    return (
+      <AddictionOnboarding
+        onComplete={handleOnboardingComplete}
+        onBack={handleBack}
+        existingTypes={records.map(r => r.type)}
+      />
+    );
+  }
+
+  if (view === "detail" && selectedRecord) {
+    return (
+      <AddictionDetail
+        record={selectedRecord}
+        onBack={() => { setView("dashboard"); setSelectedId(null); }}
+        onUpdate={(updates) => updateRecord(selectedRecord.id, updates)}
+      />
+    );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-md px-5 pb-12">
-        {/* Language Switcher */}
-        <div className="flex justify-end pt-4">
-          <LanguageSwitcher />
-        </div>
-
-        {/* Counter Section */}
-        <div className="flex flex-col items-center justify-center pt-8 pb-8">
-          <LiveCounter quitDate={quitDate} tobaccoType={tobaccoType} />
-        </div>
-
-        {/* Stats */}
-        <div className="mb-6">
-          <StatsBar
-            hoursElapsed={hoursElapsed}
-            cigarettesPerDay={perDay}
-            pricePerPack={10}
-            cigarettesPerPack={20}
-            tobaccoType={tobaccoType}
-          />
-        </div>
-
-        {/* Health Charts */}
-        <div className="mb-6">
-          <HealthCharts entries={healthEntries} quitDate={quitDate} />
-        </div>
-
-        {/* Health Log */}
-        <div className="card-elevated p-5 mb-6">
-          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-4">
-            {t.healthLog}
-          </p>
-          <HealthLogForm entries={healthEntries} onEntriesChange={setHealthEntries} />
-        </div>
-
-        {/* Patch Tracker */}
-        <div className="mb-6">
-          <PatchTracker />
-        </div>
-
-        {/* Health Milestones */}
-        <HealthMilestones hoursElapsed={hoursElapsed} />
-
-        {/* Reset */}
-        <div className="mt-10 pb-8">
-          <ResetConfirmation onReset={handleReset} />
-        </div>
+    <>
+      <div className="absolute top-4 right-6 z-10">
+        <LanguageSwitcher />
       </div>
-    </div>
+      <Dashboard
+        records={records}
+        onSelect={handleSelect}
+        onAdd={handleAdd}
+        onRemove={removeRecord}
+      />
+    </>
   );
 };
 

@@ -2,52 +2,112 @@ export type Locale = "en" | "cs";
 
 export const translations = {
   en: {
-    // QuitDatePicker
-    whenLastCigarette: "When was your last cigarette?",
-    setDateToStart: "Set the date and time to start tracking.",
+    // General
+    back: "Back",
+    cancel: "Cancel",
+    yesReset: "Yes, remove",
+    language: "Language",
+    recent: "Recent",
+    noteOptional: "Note (optional)",
+    saveEntry: "Save Entry",
+    log: "Log",
+    today: "Today",
+
+    // Dashboard
+    dashboardSubtitle: "Track your journey to freedom",
+    addAddiction: "Add addiction to track",
+    chooseWhatToTrack: "Choose what you want to quit or reduce.",
+    removeAddiction: "Remove this tracker?",
+
+    // Types
     cigarette: "Cigarette",
     vape: "Vape",
     iqos: "IQOS",
+    alcohol: "Alcohol",
+
+    // Onboarding
+    whenLastCigarette: "When did you last use?",
+    setDateToStart: "Set the date and time to start tracking.",
     perDay: "Per day",
     startTracking: "Start Tracking",
+    pricePerPack: "Price per pack ($)",
+    pricePerDrink: "Price per drink ($)",
+    reductionMode: "Reduction mode",
+    reductionModeDesc: "Track your weekly intake against a target instead of quitting cold turkey.",
+    weeklyTarget: "Weekly drink target",
 
     // LiveCounter
     timeSinceLastCigarette: "Time since last cigarette",
     timeSinceLastVape: "Time since last vape",
     timeSinceLastIqos: "Time since last IQOS",
+    timeSinceLastDrink: "Time since last drink",
     days: "days",
     hrs: "hrs",
     min: "min",
     sec: "sec",
 
-    // StatsBar
+    // Stats
     cigarettesAvoided: "Cigarettes avoided",
     sessionsAvoided: "Sessions avoided",
     sticksAvoided: "Sticks avoided",
+    drinksAvoided: "Drinks avoided",
     moneySaved: "Money saved",
+    caloriesSaved: "Calories saved",
 
-    // HealthMilestones
+    // Reduction
+    reductionProgress: "Reduction Progress",
+    drinksToday: "Drinks today",
+    weeklyGoal: "Weekly goal",
+    drinksPerWeek: "drinks/week",
+
+    // Mood
+    moodCravings: "Mood & Cravings",
+    logMoodToday: "Log how you feel today",
+    howAreYou: "How are you feeling?",
+    moodLabel: "Mood",
+    cravingLabel: "Craving intensity (high → low)",
+    cravingLevel: "Craving",
+
+    // Health milestones
     healthMilestones: "Health milestones",
-    heartRateDrops: "Heart rate drops",
-    heartRateDropsDesc: "Your heart rate begins to return to normal.",
-    oxygenNormalizes: "Oxygen normalizes",
-    oxygenNormalizesDesc: "Carbon monoxide levels in your blood drop by half.",
-    heartAttackRiskDrops: "Heart attack risk drops",
-    heartAttackRiskDropsDesc: "Your risk of heart attack begins to decrease.",
-    nerveEndingsRegrow: "Nerve endings regrow",
-    nerveEndingsRegrowDesc: "Your sense of taste and smell start to improve.",
-    breathingImproves: "Breathing improves",
-    breathingImprovesDesc: "Your bronchial tubes begin to relax. Lung capacity increases.",
-    circulationRestored: "Circulation restored",
-    circulationRestoredDesc: "Blood circulation has significantly improved.",
-    coughingDecreases: "Coughing decreases",
-    coughingDecreasesDesc: "Lung function increases up to 30%.",
-    riskHalved: "Risk halved",
-    riskHalvedDesc: "Heart disease risk is now half that of a smoker.",
-    lungCancerRiskHalved: "Lung cancer risk halved",
-    lungCancerRiskHalvedDesc: "Risk of lung cancer drops to half that of a smoker.",
-    riskNormalized: "Risk normalized",
-    riskNormalizedDesc: "Heart disease risk is now the same as a non-smoker.",
+    // Tobacco milestones
+    m_heartRateDrops: "Heart rate drops",
+    m_heartRateDropsDesc: "Your heart rate begins to return to normal.",
+    m_oxygenNormalizes: "Oxygen normalizes",
+    m_oxygenNormalizesDesc: "Carbon monoxide levels in your blood drop by half.",
+    m_heartAttackRiskDrops: "Heart attack risk drops",
+    m_heartAttackRiskDropsDesc: "Your risk of heart attack begins to decrease.",
+    m_nerveEndingsRegrow: "Nerve endings regrow",
+    m_nerveEndingsRegrowDesc: "Your sense of taste and smell start to improve.",
+    m_breathingImproves: "Breathing improves",
+    m_breathingImprovesDesc: "Your bronchial tubes begin to relax. Lung capacity increases.",
+    m_circulationRestored: "Circulation restored",
+    m_circulationRestoredDesc: "Blood circulation has significantly improved.",
+    m_coughingDecreases: "Coughing decreases",
+    m_coughingDecreasesDesc: "Lung function increases up to 30%.",
+    m_riskHalved: "Risk halved",
+    m_riskHalvedDesc: "Heart disease risk is now half that of a smoker.",
+    m_lungCancerRiskHalved: "Lung cancer risk halved",
+    m_lungCancerRiskHalvedDesc: "Risk of lung cancer drops to half that of a smoker.",
+    m_riskNormalized: "Risk normalized",
+    m_riskNormalizedDesc: "Heart disease risk is now the same as a non-smoker.",
+    // Alcohol milestones
+    m_alcoholSugarStabilizes: "Blood sugar stabilizes",
+    m_alcoholSugarStabilizesDesc: "Your blood sugar levels begin to normalize.",
+    m_alcoholWithdrawalPeaks: "Withdrawal peaks",
+    m_alcoholWithdrawalPeaksDesc: "The hardest part — withdrawal symptoms are at their worst.",
+    m_alcoholDetoxComplete: "Detox complete",
+    m_alcoholDetoxCompleteDesc: "Your body has cleared all alcohol. Cells start repairing.",
+    m_alcoholSleepImproves: "Sleep improves",
+    m_alcoholSleepImprovesDesc: "Your sleep cycles begin to normalize. More REM sleep.",
+    m_alcoholSkinImproves: "Skin improves",
+    m_alcoholSkinImprovesDesc: "Better hydration improves skin elasticity and tone.",
+    m_alcoholBPNormalizes: "Blood pressure normalizes",
+    m_alcoholBPNormalizesDesc: "Risk of alcohol-related high blood pressure decreases significantly.",
+    m_alcoholLiverFat: "Liver fat reduces",
+    m_alcoholLiverFatDesc: "Liver fat can reduce by up to 15%. Liver enzymes normalize.",
+    m_alcoholLiverRecovery: "Liver recovery",
+    m_alcoholLiverRecoveryDesc: "The liver has significantly regenerated. Cirrhosis risk drops.",
 
     // HealthLogForm
     healthLog: "Health Log",
@@ -58,9 +118,6 @@ export const translations = {
     systolicBP: "Systolic BP",
     diastolicBP: "Diastolic BP",
     peakFlowLung: "Peak flow (lung capacity)",
-    noteOptional: "Note (optional)",
-    saveEntry: "Save Entry",
-    recent: "Recent",
 
     // HealthCharts
     healthProgress: "Health Progress",
@@ -89,62 +146,115 @@ export const translations = {
     stepDownReminders: "Step-down reminders",
     stopPatchTracking: "Stop patch tracking",
 
-    // ResetConfirmation
+    // ResetConfirmation (kept for compat)
     resetCounter: "Reset counter",
     areYouSure: "Are you sure?",
-    cancel: "Cancel",
-    yesReset: "Yes, reset",
-
-    // Language
-    language: "Language",
   },
   cs: {
-    // QuitDatePicker
-    whenLastCigarette: "Kdy byla vaše poslední cigareta?",
-    setDateToStart: "Nastavte datum a čas pro začátek sledování.",
+    // General
+    back: "Zpět",
+    cancel: "Zrušit",
+    yesReset: "Ano, odstranit",
+    language: "Jazyk",
+    recent: "Nedávné",
+    noteOptional: "Poznámka (volitelné)",
+    saveEntry: "Uložit záznam",
+    log: "Zaznamenat",
+    today: "Dnes",
+
+    // Dashboard
+    dashboardSubtitle: "Sledujte svou cestu ke svobodě",
+    addAddiction: "Přidat závislost ke sledování",
+    chooseWhatToTrack: "Vyberte, co chcete přestat nebo omezit.",
+    removeAddiction: "Odebrat tento tracker?",
+
+    // Types
     cigarette: "Cigareta",
     vape: "Vape",
     iqos: "IQOS",
+    alcohol: "Alkohol",
+
+    // Onboarding
+    whenLastCigarette: "Kdy jste naposledy užil/a?",
+    setDateToStart: "Nastavte datum a čas pro začátek sledování.",
     perDay: "Za den",
     startTracking: "Začít sledovat",
+    pricePerPack: "Cena za balení (Kč)",
+    pricePerDrink: "Cena za drink (Kč)",
+    reductionMode: "Režim snižování",
+    reductionModeDesc: "Sledujte svůj týdenní příjem oproti cíli místo náhlého přestání.",
+    weeklyTarget: "Týdenní cíl drinků",
 
     // LiveCounter
     timeSinceLastCigarette: "Čas od poslední cigarety",
     timeSinceLastVape: "Čas od posledního vapování",
     timeSinceLastIqos: "Čas od posledního IQOS",
+    timeSinceLastDrink: "Čas od posledního drinku",
     days: "dny",
     hrs: "hod",
     min: "min",
     sec: "sek",
 
-    // StatsBar
+    // Stats
     cigarettesAvoided: "Vynechaných cigaret",
     sessionsAvoided: "Vynechaných sezení",
     sticksAvoided: "Vynechaných náplní",
+    drinksAvoided: "Vynechaných drinků",
     moneySaved: "Ušetřeno",
+    caloriesSaved: "Kalorií ušetřeno",
 
-    // HealthMilestones
+    // Reduction
+    reductionProgress: "Pokrok ve snižování",
+    drinksToday: "Drinky dnes",
+    weeklyGoal: "Týdenní cíl",
+    drinksPerWeek: "drinků/týden",
+
+    // Mood
+    moodCravings: "Nálada a chutě",
+    logMoodToday: "Zaznamenat jak se dnes cítíte",
+    howAreYou: "Jak se cítíte?",
+    moodLabel: "Nálada",
+    cravingLabel: "Intenzita chuti (vysoká → nízká)",
+    cravingLevel: "Chuť",
+
+    // Health milestones
     healthMilestones: "Zdravotní milníky",
-    heartRateDrops: "Tepová frekvence klesá",
-    heartRateDropsDesc: "Vaše tepová frekvence se začíná vracet do normálu.",
-    oxygenNormalizes: "Kyslík se normalizuje",
-    oxygenNormalizesDesc: "Hladina oxidu uhelnatého v krvi klesne na polovinu.",
-    heartAttackRiskDrops: "Riziko infarktu klesá",
-    heartAttackRiskDropsDesc: "Vaše riziko infarktu se začíná snižovat.",
-    nerveEndingsRegrow: "Nervová zakončení dorůstají",
-    nerveEndingsRegrowDesc: "Váš smysl pro chuť a čich se začíná zlepšovat.",
-    breathingImproves: "Dýchání se zlepšuje",
-    breathingImprovesDesc: "Vaše průdušky se začínají uvolňovat. Kapacita plic se zvyšuje.",
-    circulationRestored: "Krevní oběh obnoven",
-    circulationRestoredDesc: "Krevní oběh se výrazně zlepšil.",
-    coughingDecreases: "Kašel ustupuje",
-    coughingDecreasesDesc: "Funkce plic se zvyšuje až o 30 %.",
-    riskHalved: "Riziko sníženo na polovinu",
-    riskHalvedDesc: "Riziko srdečního onemocnění je nyní poloviční oproti kuřákovi.",
-    lungCancerRiskHalved: "Riziko rakoviny plic sníženo",
-    lungCancerRiskHalvedDesc: "Riziko rakoviny plic klesá na polovinu oproti kuřákovi.",
-    riskNormalized: "Riziko normalizováno",
-    riskNormalizedDesc: "Riziko srdečního onemocnění je stejné jako u nekuřáka.",
+    m_heartRateDrops: "Tepová frekvence klesá",
+    m_heartRateDropsDesc: "Vaše tepová frekvence se začíná vracet do normálu.",
+    m_oxygenNormalizes: "Kyslík se normalizuje",
+    m_oxygenNormalizesDesc: "Hladina oxidu uhelnatého v krvi klesne na polovinu.",
+    m_heartAttackRiskDrops: "Riziko infarktu klesá",
+    m_heartAttackRiskDropsDesc: "Vaše riziko infarktu se začíná snižovat.",
+    m_nerveEndingsRegrow: "Nervová zakončení dorůstají",
+    m_nerveEndingsRegrowDesc: "Váš smysl pro chuť a čich se začíná zlepšovat.",
+    m_breathingImproves: "Dýchání se zlepšuje",
+    m_breathingImprovesDesc: "Vaše průdušky se začínají uvolňovat. Kapacita plic se zvyšuje.",
+    m_circulationRestored: "Krevní oběh obnoven",
+    m_circulationRestoredDesc: "Krevní oběh se výrazně zlepšil.",
+    m_coughingDecreases: "Kašel ustupuje",
+    m_coughingDecreasesDesc: "Funkce plic se zvyšuje až o 30 %.",
+    m_riskHalved: "Riziko sníženo na polovinu",
+    m_riskHalvedDesc: "Riziko srdečního onemocnění je nyní poloviční oproti kuřákovi.",
+    m_lungCancerRiskHalved: "Riziko rakoviny plic sníženo",
+    m_lungCancerRiskHalvedDesc: "Riziko rakoviny plic klesá na polovinu oproti kuřákovi.",
+    m_riskNormalized: "Riziko normalizováno",
+    m_riskNormalizedDesc: "Riziko srdečního onemocnění je stejné jako u nekuřáka.",
+    m_alcoholSugarStabilizes: "Hladina cukru se stabilizuje",
+    m_alcoholSugarStabilizesDesc: "Hladina cukru v krvi se začíná normalizovat.",
+    m_alcoholWithdrawalPeaks: "Vrchol abstinenčních příznaků",
+    m_alcoholWithdrawalPeaksDesc: "Nejtěžší část — abstinenční příznaky jsou nejhorší.",
+    m_alcoholDetoxComplete: "Detox dokončen",
+    m_alcoholDetoxCompleteDesc: "Vaše tělo vyloučilo veškerý alkohol. Buňky se začínají opravovat.",
+    m_alcoholSleepImproves: "Spánek se zlepšuje",
+    m_alcoholSleepImprovesDesc: "Vaše spánkové cykly se začínají normalizovat. Více REM spánku.",
+    m_alcoholSkinImproves: "Pleť se zlepšuje",
+    m_alcoholSkinImprovesDesc: "Lepší hydratace zlepšuje elasticitu a tón pleti.",
+    m_alcoholBPNormalizes: "Krevní tlak se normalizuje",
+    m_alcoholBPNormalizesDesc: "Riziko vysokého krevního tlaku spojeného s alkoholem se výrazně snižuje.",
+    m_alcoholLiverFat: "Tuk v játrech se snižuje",
+    m_alcoholLiverFatDesc: "Tuk v játrech se může snížit až o 15 %. Jaterní enzymy se normalizují.",
+    m_alcoholLiverRecovery: "Regenerace jater",
+    m_alcoholLiverRecoveryDesc: "Játra se výrazně zregenerovala. Riziko cirhózy klesá.",
 
     // HealthLogForm
     healthLog: "Zdravotní deník",
@@ -155,9 +265,6 @@ export const translations = {
     systolicBP: "Systolický TK",
     diastolicBP: "Diastolický TK",
     peakFlowLung: "Výdechový průtok (kapacita plic)",
-    noteOptional: "Poznámka (volitelné)",
-    saveEntry: "Uložit záznam",
-    recent: "Nedávné",
 
     // HealthCharts
     healthProgress: "Zdravotní pokrok",
@@ -189,11 +296,6 @@ export const translations = {
     // ResetConfirmation
     resetCounter: "Resetovat počítadlo",
     areYouSure: "Jste si jisti?",
-    cancel: "Zrušit",
-    yesReset: "Ano, resetovat",
-
-    // Language
-    language: "Jazyk",
   },
 } as const;
 

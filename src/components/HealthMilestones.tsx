@@ -1,31 +1,14 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
-
-interface Milestone {
-  time: number;
-  titleKey: string;
-  descKey: string;
-}
-
-const MILESTONE_KEYS: Milestone[] = [
-  { time: 0.33, titleKey: "heartRateDrops", descKey: "heartRateDropsDesc" },
-  { time: 8, titleKey: "oxygenNormalizes", descKey: "oxygenNormalizesDesc" },
-  { time: 24, titleKey: "heartAttackRiskDrops", descKey: "heartAttackRiskDropsDesc" },
-  { time: 48, titleKey: "nerveEndingsRegrow", descKey: "nerveEndingsRegrowDesc" },
-  { time: 72, titleKey: "breathingImproves", descKey: "breathingImprovesDesc" },
-  { time: 336, titleKey: "circulationRestored", descKey: "circulationRestoredDesc" },
-  { time: 2160, titleKey: "coughingDecreases", descKey: "coughingDecreasesDesc" },
-  { time: 8760, titleKey: "riskHalved", descKey: "riskHalvedDesc" },
-  { time: 43800, titleKey: "lungCancerRiskHalved", descKey: "lungCancerRiskHalvedDesc" },
-  { time: 87600, titleKey: "riskNormalized", descKey: "riskNormalizedDesc" },
-];
+import type { MilestoneConfig } from "@/types/addiction";
 
 interface HealthMilestonesProps {
   hoursElapsed: number;
+  milestones: MilestoneConfig[];
 }
 
-const HealthMilestones = ({ hoursElapsed }: HealthMilestonesProps) => {
+const HealthMilestones = ({ hoursElapsed, milestones }: HealthMilestonesProps) => {
   const { t } = useLanguage();
 
   return (
@@ -34,7 +17,7 @@ const HealthMilestones = ({ hoursElapsed }: HealthMilestonesProps) => {
         {t.healthMilestones}
       </p>
       <div className="space-y-2">
-        {MILESTONE_KEYS.map((milestone, i) => {
+        {milestones.map((milestone, i) => {
           const achieved = hoursElapsed >= milestone.time;
           const progress = achieved ? 1 : Math.min(1, hoursElapsed / milestone.time);
           const title = (t as any)[milestone.titleKey] as string;

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import type { TobaccoType } from "@/components/QuitDatePicker";
+import type { AddictionTypeId } from "@/types/addiction";
+import { getAddictionConfig } from "@/config/addictions";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface LiveCounterProps {
   quitDate: Date;
-  tobaccoType: TobaccoType;
+  typeId: AddictionTypeId;
 }
 
 interface TimeElapsed {
@@ -17,25 +18,21 @@ interface TimeElapsed {
 
 function calcElapsed(quitDate: Date): TimeElapsed {
   const diff = Math.max(0, Date.now() - quitDate.getTime());
-  const seconds = Math.floor(diff / 1000) % 60;
-  const minutes = Math.floor(diff / 60000) % 60;
-  const hours = Math.floor(diff / 3600000) % 24;
-  const days = Math.floor(diff / 86400000);
-  return { days, hours, minutes, seconds };
+  return {
+    seconds: Math.floor(diff / 1000) % 60,
+    minutes: Math.floor(diff / 60000) % 60,
+    hours: Math.floor(diff / 3600000) % 24,
+    days: Math.floor(diff / 86400000),
+  };
 }
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const LiveCounter = ({ quitDate, tobaccoType }: LiveCounterProps) => {
+const LiveCounter = ({ quitDate, typeId }: LiveCounterProps) => {
   const { t } = useLanguage();
   const [elapsed, setElapsed] = useState<TimeElapsed>(calcElapsed(quitDate));
   const [pulse, setPulse] = useState(false);
-
-  const tobaccoLabels: Record<TobaccoType, string> = {
-    cigarette: t.timeSinceLastCigarette,
-    vape: t.timeSinceLastVape,
-    iqos: t.timeSinceLastIqos,
-  };
+  const config = getAddictionConfig(typeId);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,10 +46,12 @@ const LiveCounter = ({ quitDate, tobaccoType }: LiveCounterProps) => {
     return () => clearInterval(interval);
   }, [quitDate]);
 
+  const label = (t as any)[config.counterLabelKey] || config.counterLabelKey;
+
   return (
     <div className="text-center">
       <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-3">
-        {tobaccoLabels[tobaccoType]}
+        {label}
       </p>
       <div className="flex items-baseline justify-center gap-1">
         <CounterUnit value={elapsed.days} label={t.days} />
