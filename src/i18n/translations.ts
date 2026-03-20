@@ -149,6 +149,20 @@ export const translations = {
     // ResetConfirmation (kept for compat)
     resetCounter: "Reset counter",
     areYouSure: "Are you sure?",
+
+    // Auth
+    email: "Email",
+    password: "Password",
+    displayName: "Display name",
+    logIn: "Log in",
+    signUp: "Sign up",
+    loginSubtitle: "Log in to track your journey",
+    signupSubtitle: "Create an account to get started",
+    noAccount: "Don't have an account?",
+    haveAccount: "Already have an account?",
+    checkEmail: "Check your email",
+    confirmEmailSent: "We sent you a confirmation link. Please check your inbox.",
+    backToLogin: "Back to login",
   },
   cs: {
     // General
@@ -296,6 +310,20 @@ export const translations = {
     // ResetConfirmation
     resetCounter: "Resetovat počítadlo",
     areYouSure: "Jste si jisti?",
+
+    // Auth
+    email: "E-mail",
+    password: "Heslo",
+    displayName: "Zobrazované jméno",
+    logIn: "Přihlásit se",
+    signUp: "Registrovat se",
+    loginSubtitle: "Přihlaste se a sledujte svou cestu",
+    signupSubtitle: "Vytvořte si účet a začněte",
+    noAccount: "Nemáte účet?",
+    haveAccount: "Již máte účet?",
+    checkEmail: "Zkontrolujte svůj e-mail",
+    confirmEmailSent: "Poslali jsme vám potvrzovací odkaz. Zkontrolujte svou schránku.",
+    backToLogin: "Zpět na přihlášení",
   },
 } as const;
 
