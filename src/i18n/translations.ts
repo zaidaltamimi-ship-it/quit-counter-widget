@@ -310,6 +310,20 @@ export const translations = {
     // ResetConfirmation
     resetCounter: "Resetovat počítadlo",
     areYouSure: "Jste si jisti?",
+
+    // Auth
+    email: "E-mail",
+    password: "Heslo",
+    displayName: "Zobrazované jméno",
+    logIn: "Přihlásit se",
+    signUp: "Registrovat se",
+    loginSubtitle: "Přihlaste se a sledujte svou cestu",
+    signupSubtitle: "Vytvořte si účet a začněte",
+    noAccount: "Nemáte účet?",
+    haveAccount: "Již máte účet?",
+    checkEmail: "Zkontrolujte svůj e-mail",
+    confirmEmailSent: "Poslali jsme vám potvrzovací odkaz. Zkontrolujte svou schránku.",
+    backToLogin: "Zpět na přihlášení",
   },
 } as const;
 
