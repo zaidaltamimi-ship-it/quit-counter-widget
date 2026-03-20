@@ -14,7 +14,198 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      addictions: {
+        Row: {
+          created_at: string
+          id: string
+          per_day: number
+          price_per_unit: number
+          quit_date: string
+          reduction_mode: boolean
+          type: string
+          units_per_pack: number
+          updated_at: string
+          user_id: string
+          weekly_target: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          per_day?: number
+          price_per_unit?: number
+          quit_date: string
+          reduction_mode?: boolean
+          type: string
+          units_per_pack?: number
+          updated_at?: string
+          user_id: string
+          weekly_target?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          per_day?: number
+          price_per_unit?: number
+          quit_date?: string
+          reduction_mode?: boolean
+          type?: string
+          units_per_pack?: number
+          updated_at?: string
+          user_id?: string
+          weekly_target?: number | null
+        }
+        Relationships: []
+      }
+      health_entries: {
+        Row: {
+          addiction_id: string
+          created_at: string
+          date: string
+          diastolic: number | null
+          heart_rate: number | null
+          id: string
+          note: string | null
+          peak_flow: number | null
+          systolic: number | null
+          user_id: string
+          weight: number | null
+        }
+        Insert: {
+          addiction_id: string
+          created_at?: string
+          date: string
+          diastolic?: number | null
+          heart_rate?: number | null
+          id?: string
+          note?: string | null
+          peak_flow?: number | null
+          systolic?: number | null
+          user_id: string
+          weight?: number | null
+        }
+        Update: {
+          addiction_id?: string
+          created_at?: string
+          date?: string
+          diastolic?: number | null
+          heart_rate?: number | null
+          id?: string
+          note?: string | null
+          peak_flow?: number | null
+          systolic?: number | null
+          user_id?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_entries_addiction_id_fkey"
+            columns: ["addiction_id"]
+            isOneToOne: false
+            referencedRelation: "addictions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mood_entries: {
+        Row: {
+          addiction_id: string
+          craving: number
+          created_at: string
+          date: string
+          id: string
+          mood: number
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          addiction_id: string
+          craving: number
+          created_at?: string
+          date: string
+          id?: string
+          mood: number
+          note?: string | null
+          user_id: string
+        }
+        Update: {
+          addiction_id?: string
+          craving?: number
+          created_at?: string
+          date?: string
+          id?: string
+          mood?: number
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mood_entries_addiction_id_fkey"
+            columns: ["addiction_id"]
+            isOneToOne: false
+            referencedRelation: "addictions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      weekly_logs: {
+        Row: {
+          actual: number
+          addiction_id: string
+          created_at: string
+          id: string
+          user_id: string
+          week: string
+        }
+        Insert: {
+          actual?: number
+          addiction_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+          week: string
+        }
+        Update: {
+          actual?: number
+          addiction_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+          week?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weekly_logs_addiction_id_fkey"
+            columns: ["addiction_id"]
+            isOneToOne: false
+            referencedRelation: "addictions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
