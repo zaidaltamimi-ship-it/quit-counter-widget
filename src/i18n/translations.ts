@@ -163,6 +163,9 @@ export const translations = {
     checkEmail: "Check your email",
     confirmEmailSent: "We sent you a confirmation link. Please check your inbox.",
     backToLogin: "Back to login",
+    continueWithGoogle: "Continue with Google",
+    continueWithApple: "Continue with Apple",
+    or: "or",
   },
   cs: {
     // General
@@ -324,6 +327,9 @@ export const translations = {
     checkEmail: "Zkontrolujte svůj e-mail",
     confirmEmailSent: "Poslali jsme vám potvrzovací odkaz. Zkontrolujte svou schránku.",
     backToLogin: "Zpět na přihlášení",
+    continueWithGoogle: "Pokračovat přes Google",
+    continueWithApple: "Pokračovat přes Apple",
+    or: "nebo",
   },
 } as const;
 
