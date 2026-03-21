@@ -327,6 +327,9 @@ export const translations = {
     checkEmail: "Zkontrolujte svůj e-mail",
     confirmEmailSent: "Poslali jsme vám potvrzovací odkaz. Zkontrolujte svou schránku.",
     backToLogin: "Zpět na přihlášení",
+    continueWithGoogle: "Pokračovat přes Google",
+    continueWithApple: "Pokračovat přes Apple",
+    or: "nebo",
   },
 } as const;
 
