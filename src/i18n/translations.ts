@@ -163,6 +163,9 @@ export const translations = {
     checkEmail: "Check your email",
     confirmEmailSent: "We sent you a confirmation link. Please check your inbox.",
     backToLogin: "Back to login",
+    continueWithGoogle: "Continue with Google",
+    continueWithApple: "Continue with Apple",
+    or: "or",
   },
   cs: {
     // General
