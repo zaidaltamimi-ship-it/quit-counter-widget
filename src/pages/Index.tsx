@@ -1,23 +1,28 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import Dashboard from "@/components/Dashboard";
 import AddictionOnboarding from "@/components/AddictionOnboarding";
 import AddictionDetail from "@/components/AddictionDetail";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import FriendsTab from "@/components/FriendsTab";
 import Auth from "@/pages/Auth";
 import { useAddictions } from "@/hooks/useAddictions";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/i18n/LanguageContext";
 import type { AddictionRecord } from "@/types/addiction";
-import { LogOut } from "lucide-react";
+import { LogOut, LayoutDashboard, Users } from "lucide-react";
 
 type View = "dashboard" | "onboarding" | "detail";
+type Tab = "home" | "friends";
 
 const Index = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { records, loading: dataLoading, addRecord, updateRecord, removeRecord } = useAddictions();
+  const { t } = useLanguage();
   const [view, setView] = useState<View>("dashboard");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [tab, setTab] = useState<Tab>("home");
 
-  // Show loading spinner while auth is resolving
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -26,7 +31,6 @@ const Index = () => {
     );
   }
 
-  // Not logged in — show auth
   if (!user) {
     return <Auth />;
   }
@@ -73,7 +77,8 @@ const Index = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
+      {/* Top bar */}
       <div className="absolute top-4 right-6 z-10 flex items-center gap-2">
         <LanguageSwitcher />
         <button
@@ -83,13 +88,43 @@ const Index = () => {
           <LogOut className="h-3.5 w-3.5" />
         </button>
       </div>
-      <Dashboard
-        records={records}
-        onSelect={handleSelect}
-        onAdd={handleAdd}
-        onRemove={removeRecord}
-      />
-    </>
+
+      {/* Content */}
+      <div className="flex-1 pb-16">
+        {tab === "home" && (
+          <Dashboard
+            records={records}
+            onSelect={handleSelect}
+            onAdd={handleAdd}
+            onRemove={removeRecord}
+          />
+        )}
+        {tab === "friends" && <FriendsTab />}
+      </div>
+
+      {/* Bottom nav */}
+      <nav className="fixed bottom-0 left-0 right-0 z-20 border-t border-border bg-card/95 backdrop-blur-md">
+        <div className="mx-auto max-w-md flex">
+          {([
+            { key: "home" as Tab, icon: LayoutDashboard, label: "MyAddiction" },
+            { key: "friends" as Tab, icon: Users, label: t.friends },
+          ]).map(({ key, icon: Icon, label }) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium transition-colors ${
+                tab === key
+                  ? "text-primary"
+                  : "text-muted-foreground"
+              }`}
+            >
+              <Icon className="h-5 w-5" />
+              {label}
+            </button>
+          ))}
+        </div>
+      </nav>
+    </div>
   );
 };
 
