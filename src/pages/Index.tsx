@@ -17,7 +17,7 @@ type Tab = "home" | "friends";
 
 const Index = () => {
   const { user, loading: authLoading, signOut } = useAuth();
-  const { records, loading: dataLoading, addRecord, updateRecord, removeRecord } = useAddictions();
+  const { records, addRecord, updateRecord, removeRecord } = useAddictions();
   const { t } = useLanguage();
   const [view, setView] = useState<View>("dashboard");
   const [selectedId, setSelectedId] = useState<string | null>(null);
