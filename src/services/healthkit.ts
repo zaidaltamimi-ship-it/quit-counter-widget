@@ -21,8 +21,8 @@ let healthKitAvailable = false;
 export async function initHealthKit(): Promise<boolean> {
   try {
     // Check if we're running in a Capacitor native context
-    const { Capacitor } = await import('@capacitor/core');
-    if (!Capacitor.isNativePlatform()) {
+    const capacitorCore = await import('@capacitor/core').catch(() => null);
+    if (!capacitorCore || !capacitorCore.Capacitor.isNativePlatform()) {
       console.log('HealthKit: Not a native platform, using manual logging.');
       return false;
     }
