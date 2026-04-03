@@ -166,6 +166,17 @@ export const translations = {
     continueWithGoogle: "Continue with Google",
     continueWithApple: "Continue with Apple",
     or: "or",
+
+    // Friends & Social
+    friends: "Friends",
+    friendsSubtitle: "Support each other on the journey",
+    inviteFriend: "Invite a friend by email",
+    inviteSent: "Invite sent!",
+    pendingInvites: "Pending invites",
+    wantsToConnect: "wants to connect",
+    noFriendsYet: "No friends yet. Send an invite to get started!",
+    startConversation: "Start a conversation!",
+    typeMessage: "Type a message...",
   },
   cs: {
     // General
