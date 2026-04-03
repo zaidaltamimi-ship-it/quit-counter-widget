@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+
 import Dashboard from "@/components/Dashboard";
 import AddictionOnboarding from "@/components/AddictionOnboarding";
 import AddictionDetail from "@/components/AddictionDetail";
