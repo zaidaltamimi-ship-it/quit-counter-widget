@@ -341,6 +341,17 @@ export const translations = {
     continueWithGoogle: "Pokračovat přes Google",
     continueWithApple: "Pokračovat přes Apple",
     or: "nebo",
+
+    // Friends & Social
+    friends: "Přátelé",
+    friendsSubtitle: "Podpořte se navzájem na cestě",
+    inviteFriend: "Pozvat přítele e-mailem",
+    inviteSent: "Pozvánka odeslána!",
+    pendingInvites: "Čekající pozvánky",
+    wantsToConnect: "se chce spojit",
+    noFriendsYet: "Zatím žádní přátelé. Pošlete pozvánku!",
+    startConversation: "Začněte konverzaci!",
+    typeMessage: "Napište zprávu...",
   },
 } as const;
 

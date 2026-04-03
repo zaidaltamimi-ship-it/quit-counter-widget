@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import ChatView from "@/components/ChatView";
 
-const ENCOURAGEMENTS = ["💪", "🔥", "⭐", "❤️", "🎉", "👏"];
+
 
 function calcDays(quitDate: string) {
   return Math.floor(Math.max(0, Date.now() - new Date(quitDate).getTime()) / 86400000);
