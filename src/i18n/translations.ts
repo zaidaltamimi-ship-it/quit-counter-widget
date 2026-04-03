@@ -166,6 +166,17 @@ export const translations = {
     continueWithGoogle: "Continue with Google",
     continueWithApple: "Continue with Apple",
     or: "or",
+
+    // Friends & Social
+    friends: "Friends",
+    friendsSubtitle: "Support each other on the journey",
+    inviteFriend: "Invite a friend by email",
+    inviteSent: "Invite sent!",
+    pendingInvites: "Pending invites",
+    wantsToConnect: "wants to connect",
+    noFriendsYet: "No friends yet. Send an invite to get started!",
+    startConversation: "Start a conversation!",
+    typeMessage: "Type a message...",
   },
   cs: {
     // General
@@ -330,6 +341,17 @@ export const translations = {
     continueWithGoogle: "Pokračovat přes Google",
     continueWithApple: "Pokračovat přes Apple",
     or: "nebo",
+
+    // Friends & Social
+    friends: "Přátelé",
+    friendsSubtitle: "Podpořte se navzájem na cestě",
+    inviteFriend: "Pozvat přítele e-mailem",
+    inviteSent: "Pozvánka odeslána!",
+    pendingInvites: "Čekající pozvánky",
+    wantsToConnect: "se chce spojit",
+    noFriendsYet: "Zatím žádní přátelé. Pošlete pozvánku!",
+    startConversation: "Začněte konverzaci!",
+    typeMessage: "Napište zprávu...",
   },
 } as const;
 
