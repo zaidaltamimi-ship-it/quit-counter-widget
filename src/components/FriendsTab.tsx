@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserPlus, ChevronRight, Check, X, Trash2, MessageCircle } from "lucide-react";
+import { UserPlus, Check, X, Trash2, MessageCircle } from "lucide-react";
 import { useFriends, type Friend } from "@/hooks/useFriends";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Input } from "@/components/ui/input";
