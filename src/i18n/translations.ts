@@ -206,6 +206,8 @@ export const translations = {
     cigarette: "Cigareta",
     vape: "Vape",
     iqos: "IQOS",
+    nicotineGum: "Nikotinová žvýkačka",
+    nicotineSpray: "Nikotinový sprej",
     alcohol: "Alkohol",
 
     // Onboarding
