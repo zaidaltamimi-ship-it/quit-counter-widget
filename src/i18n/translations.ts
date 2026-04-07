@@ -23,6 +23,8 @@ export const translations = {
     cigarette: "Cigarette",
     vape: "Vape",
     iqos: "IQOS",
+    nicotineGum: "Nicotine Gum",
+    nicotineSpray: "Nicotine Spray",
     alcohol: "Alcohol",
 
     // Onboarding
@@ -41,6 +43,8 @@ export const translations = {
     timeSinceLastVape: "Time since last vape",
     timeSinceLastIqos: "Time since last IQOS",
     timeSinceLastDrink: "Time since last drink",
+    timeSinceLastGum: "Time since last nicotine gum",
+    timeSinceLastSpray: "Time since last nicotine spray",
     days: "days",
     hrs: "hrs",
     min: "min",
@@ -51,6 +55,8 @@ export const translations = {
     sessionsAvoided: "Sessions avoided",
     sticksAvoided: "Sticks avoided",
     drinksAvoided: "Drinks avoided",
+    gumsAvoided: "Gums avoided",
+    spraysAvoided: "Sprays avoided",
     moneySaved: "Money saved",
     caloriesSaved: "Calories saved",
 
@@ -200,6 +206,8 @@ export const translations = {
     cigarette: "Cigareta",
     vape: "Vape",
     iqos: "IQOS",
+    nicotineGum: "Nikotinová žvýkačka",
+    nicotineSpray: "Nikotinový sprej",
     alcohol: "Alkohol",
 
     // Onboarding
@@ -218,6 +226,8 @@ export const translations = {
     timeSinceLastVape: "Čas od posledního vapování",
     timeSinceLastIqos: "Čas od posledního IQOS",
     timeSinceLastDrink: "Čas od posledního drinku",
+    timeSinceLastGum: "Čas od poslední nikotinové žvýkačky",
+    timeSinceLastSpray: "Čas od posledního nikotinového spreje",
     days: "dny",
     hrs: "hod",
     min: "min",
@@ -228,6 +238,8 @@ export const translations = {
     sessionsAvoided: "Vynechaných sezení",
     sticksAvoided: "Vynechaných náplní",
     drinksAvoided: "Vynechaných drinků",
+    gumsAvoided: "Vynechaných žvýkaček",
+    spraysAvoided: "Vynechaných sprejů",
     moneySaved: "Ušetřeno",
     caloriesSaved: "Kalorií ušetřeno",
 
