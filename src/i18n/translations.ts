@@ -55,6 +55,8 @@ export const translations = {
     sessionsAvoided: "Sessions avoided",
     sticksAvoided: "Sticks avoided",
     drinksAvoided: "Drinks avoided",
+    gumsAvoided: "Gums avoided",
+    spraysAvoided: "Sprays avoided",
     moneySaved: "Money saved",
     caloriesSaved: "Calories saved",
 
