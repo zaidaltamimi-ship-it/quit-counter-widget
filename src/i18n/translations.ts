@@ -226,6 +226,8 @@ export const translations = {
     timeSinceLastVape: "Čas od posledního vapování",
     timeSinceLastIqos: "Čas od posledního IQOS",
     timeSinceLastDrink: "Čas od posledního drinku",
+    timeSinceLastGum: "Čas od poslední nikotinové žvýkačky",
+    timeSinceLastSpray: "Čas od posledního nikotinového spreje",
     days: "dny",
     hrs: "hod",
     min: "min",
