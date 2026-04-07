@@ -238,6 +238,8 @@ export const translations = {
     sessionsAvoided: "Vynechaných sezení",
     sticksAvoided: "Vynechaných náplní",
     drinksAvoided: "Vynechaných drinků",
+    gumsAvoided: "Vynechaných žvýkaček",
+    spraysAvoided: "Vynechaných sprejů",
     moneySaved: "Ušetřeno",
     caloriesSaved: "Kalorií ušetřeno",
 
