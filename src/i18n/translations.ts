@@ -183,6 +183,18 @@ export const translations = {
     noFriendsYet: "No friends yet. Send an invite to get started!",
     startConversation: "Start a conversation!",
     typeMessage: "Type a message...",
+
+    // Premium
+    premium: "Premium",
+    premiumTitle: "MyAddiction Premium",
+    premiumSubtitle: "Unlock social features",
+    premiumFeature1: "Connect with friends",
+    premiumFeature2: "Chat & encouragements",
+    premiumFeature3: "Share your progress",
+    premiumPrice: "€4.99/month",
+    upgradeToPremium: "Upgrade to Premium",
+    manageSubscription: "Manage Subscription",
+    youArePremium: "You're Premium! ⭐",
   },
   cs: {
     // General
@@ -364,6 +376,18 @@ export const translations = {
     noFriendsYet: "Zatím žádní přátelé. Pošlete pozvánku!",
     startConversation: "Začněte konverzaci!",
     typeMessage: "Napište zprávu...",
+
+    // Premium
+    premium: "Premium",
+    premiumTitle: "MyAddiction Premium",
+    premiumSubtitle: "Odemkněte sociální funkce",
+    premiumFeature1: "Spojte se s přáteli",
+    premiumFeature2: "Chat a povzbuzení",
+    premiumFeature3: "Sdílejte svůj pokrok",
+    premiumPrice: "4,99 €/měsíc",
+    upgradeToPremium: "Přejít na Premium",
+    manageSubscription: "Spravovat předplatné",
+    youArePremium: "Jste Premium! ⭐",
   },
 } as const;
 
