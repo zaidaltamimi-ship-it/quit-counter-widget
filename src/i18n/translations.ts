@@ -43,6 +43,8 @@ export const translations = {
     timeSinceLastVape: "Time since last vape",
     timeSinceLastIqos: "Time since last IQOS",
     timeSinceLastDrink: "Time since last drink",
+    timeSinceLastGum: "Time since last nicotine gum",
+    timeSinceLastSpray: "Time since last nicotine spray",
     days: "days",
     hrs: "hrs",
     min: "min",
