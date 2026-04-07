@@ -1,6 +1,6 @@
 export type AddictionCategory = "tobacco" | "alcohol" | "other";
 
-export type AddictionTypeId = "cigarette" | "vape" | "iqos" | "alcohol";
+export type AddictionTypeId = "cigarette" | "vape" | "iqos" | "nicotine_gum" | "nicotine_spray" | "alcohol";
 
 export interface MilestoneConfig {
   time: number; // hours
