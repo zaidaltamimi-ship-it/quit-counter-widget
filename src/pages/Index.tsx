@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Dashboard from "@/components/Dashboard";
-import AddictionSurvey from "@/components/AddictionSurvey";
+import AddictionSurvey, { type SurveyAnswers } from "@/components/AddictionSurvey";
 import AddictionOnboarding from "@/components/AddictionOnboarding";
 import AddictionDetail from "@/components/AddictionDetail";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -26,6 +26,7 @@ const Index = () => {
   const [view, setView] = useState<View>("dashboard");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>("home");
+  const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers | null>(null);
 
   if (authLoading) {
     return (
@@ -63,7 +64,10 @@ const Index = () => {
   if (view === "survey") {
     return (
       <AddictionSurvey
-        onComplete={() => setView("onboarding")}
+        onComplete={(answers) => {
+          setSurveyAnswers(answers);
+          setView("onboarding");
+        }}
         onBack={handleBack}
       />
     );
@@ -75,6 +79,7 @@ const Index = () => {
         onComplete={handleOnboardingComplete}
         onBack={() => setView("survey")}
         existingTypes={records.map(r => r.type)}
+        surveyAnswers={surveyAnswers}
       />
     );
   }
