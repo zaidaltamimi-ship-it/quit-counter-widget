@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import Dashboard from "@/components/Dashboard";
+import AddictionSurvey from "@/components/AddictionSurvey";
 import AddictionOnboarding from "@/components/AddictionOnboarding";
 import AddictionDetail from "@/components/AddictionDetail";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -14,7 +15,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import type { AddictionRecord } from "@/types/addiction";
 import { LogOut, LayoutDashboard, Users, Crown } from "lucide-react";
 
-type View = "dashboard" | "onboarding" | "detail";
+type View = "dashboard" | "survey" | "onboarding" | "detail";
 type Tab = "home" | "friends";
 
 const Index = () => {
@@ -43,7 +44,7 @@ const Index = () => {
     setView("detail");
   };
 
-  const handleAdd = () => setView("onboarding");
+  const handleAdd = () => setView("survey");
 
   const handleOnboardingComplete = async (record: AddictionRecord) => {
     await addRecord(record);
@@ -59,11 +60,20 @@ const Index = () => {
 
   const selectedRecord = selectedId ? records.find(r => r.id === selectedId) : null;
 
+  if (view === "survey") {
+    return (
+      <AddictionSurvey
+        onComplete={() => setView("onboarding")}
+        onBack={handleBack}
+      />
+    );
+  }
+
   if (view === "onboarding") {
     return (
       <AddictionOnboarding
         onComplete={handleOnboardingComplete}
-        onBack={handleBack}
+        onBack={() => setView("survey")}
         existingTypes={records.map(r => r.type)}
       />
     );
