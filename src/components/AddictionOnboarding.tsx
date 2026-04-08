@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { ADDICTION_TYPES } from "@/config/addictions";
 import type { AddictionRecord, AddictionTypeId } from "@/types/addiction";
 import { useLanguage } from "@/i18n/LanguageContext";
+import type { SurveyAnswers } from "@/components/AddictionSurvey";
 
 interface AddictionOnboardingProps {
   onComplete: (record: AddictionRecord) => void;
   onBack: () => void;
   existingTypes: AddictionTypeId[];
+  surveyAnswers?: SurveyAnswers | null;
 }
 
-const AddictionOnboarding = ({ onComplete, onBack, existingTypes }: AddictionOnboardingProps) => {
+const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers }: AddictionOnboardingProps) => {
   const { t } = useLanguage();
   const [selectedType, setSelectedType] = useState<AddictionTypeId | null>(null);
   const [dateStr, setDateStr] = useState("");
