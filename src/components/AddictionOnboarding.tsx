@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { ADDICTION_TYPES } from "@/config/addictions";
 import type { AddictionRecord, AddictionTypeId } from "@/types/addiction";
 import { useLanguage } from "@/i18n/LanguageContext";
+import type { SurveyAnswers } from "@/components/AddictionSurvey";
 
 interface AddictionOnboardingProps {
   onComplete: (record: AddictionRecord) => void;
   onBack: () => void;
   existingTypes: AddictionTypeId[];
+  surveyAnswers?: SurveyAnswers | null;
 }
 
-const AddictionOnboarding = ({ onComplete, onBack, existingTypes }: AddictionOnboardingProps) => {
+const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers }: AddictionOnboardingProps) => {
   const { t } = useLanguage();
   const [selectedType, setSelectedType] = useState<AddictionTypeId | null>(null);
   const [dateStr, setDateStr] = useState("");
@@ -21,6 +23,18 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes }: AddictionOnb
   const [reductionMode, setReductionMode] = useState(false);
   const [weeklyTarget, setWeeklyTarget] = useState("7");
 
+  // Apply survey defaults on mount
+  useEffect(() => {
+    if (surveyAnswers) {
+      if (surveyAnswers.quitMethod === "reduction") {
+        setReductionMode(true);
+      }
+      if (surveyAnswers.usageLevel === "light") setPerDay(5);
+      else if (surveyAnswers.usageLevel === "moderate") setPerDay(15);
+      else if (surveyAnswers.usageLevel === "heavy") setPerDay(25);
+    }
+  }, [surveyAnswers]);
+
   const availableTypes = ADDICTION_TYPES.filter(a => !existingTypes.includes(a.id));
   const config = selectedType ? ADDICTION_TYPES.find(a => a.id === selectedType) : null;
 
@@ -28,8 +42,12 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes }: AddictionOnb
   const handleTypeSelect = (typeId: AddictionTypeId) => {
     const cfg = ADDICTION_TYPES.find(a => a.id === typeId)!;
     setSelectedType(typeId);
-    setPerDay(cfg.defaultPerDay);
-    setReductionMode(false);
+    // Use survey-derived perDay if available, otherwise config default
+    if (surveyAnswers?.usageLevel === "light") setPerDay(Math.min(cfg.defaultPerDay, 5));
+    else if (surveyAnswers?.usageLevel === "moderate") setPerDay(Math.min(cfg.defaultPerDay, 15));
+    else if (surveyAnswers?.usageLevel === "heavy") setPerDay(Math.max(cfg.defaultPerDay, 20));
+    else setPerDay(cfg.defaultPerDay);
+    setReductionMode(surveyAnswers?.quitMethod === "reduction");
   };
 
   const handleSubmit = () => {
