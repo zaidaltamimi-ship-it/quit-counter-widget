@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/i18n/LanguageContext";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index.tsx";
 import Landing from "./pages/Landing.tsx";
+import Survey from "./pages/Survey.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Landing />} />
+              <Route path="/survey" element={<Survey />} />
               <Route path="/app" element={<Index />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

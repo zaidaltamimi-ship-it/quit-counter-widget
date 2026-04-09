@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Dashboard from "@/components/Dashboard";
 import AddictionSurvey, { type SurveyAnswers } from "@/components/AddictionSurvey";
@@ -27,6 +27,24 @@ const Index = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>("home");
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers | null>(null);
+
+  // Check for pre-auth survey answers in localStorage
+  useEffect(() => {
+    if (user && records.length === 0) {
+      const stored = localStorage.getItem("myaddiction_survey");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored) as SurveyAnswers;
+          setSurveyAnswers(parsed);
+          // Go straight to onboarding with the type pre-selected
+          setView("onboarding");
+          localStorage.removeItem("myaddiction_survey");
+        } catch {
+          localStorage.removeItem("myaddiction_survey");
+        }
+      }
+    }
+  }, [user, records.length]);
 
   if (authLoading) {
     return (

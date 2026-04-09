@@ -15,7 +15,8 @@ interface AddictionOnboardingProps {
 
 const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers }: AddictionOnboardingProps) => {
   const { t } = useLanguage();
-  const [selectedType, setSelectedType] = useState<AddictionTypeId | null>(null);
+  const preselected = surveyAnswers?.addictionType || null;
+  const [selectedType, setSelectedType] = useState<AddictionTypeId | null>(preselected);
   const [dateStr, setDateStr] = useState("");
   const [timeStr, setTimeStr] = useState("12:00");
   const [perDay, setPerDay] = useState(0);
@@ -23,12 +24,10 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
   const [reductionMode, setReductionMode] = useState(false);
   const [weeklyTarget, setWeeklyTarget] = useState("7");
 
-  // Apply survey defaults on mount
+  // Apply survey defaults
   useEffect(() => {
     if (surveyAnswers) {
-      if (surveyAnswers.quitMethod === "reduction") {
-        setReductionMode(true);
-      }
+      if (surveyAnswers.quitMethod === "reduction") setReductionMode(true);
       if (surveyAnswers.usageLevel === "light") setPerDay(5);
       else if (surveyAnswers.usageLevel === "moderate") setPerDay(15);
       else if (surveyAnswers.usageLevel === "heavy") setPerDay(25);
@@ -38,17 +37,22 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
   const availableTypes = ADDICTION_TYPES.filter(a => !existingTypes.includes(a.id));
   const config = selectedType ? ADDICTION_TYPES.find(a => a.id === selectedType) : null;
 
-  // Set defaults when type changes
   const handleTypeSelect = (typeId: AddictionTypeId) => {
     const cfg = ADDICTION_TYPES.find(a => a.id === typeId)!;
     setSelectedType(typeId);
-    // Use survey-derived perDay if available, otherwise config default
     if (surveyAnswers?.usageLevel === "light") setPerDay(Math.min(cfg.defaultPerDay, 5));
     else if (surveyAnswers?.usageLevel === "moderate") setPerDay(Math.min(cfg.defaultPerDay, 15));
     else if (surveyAnswers?.usageLevel === "heavy") setPerDay(Math.max(cfg.defaultPerDay, 20));
     else setPerDay(cfg.defaultPerDay);
     setReductionMode(surveyAnswers?.quitMethod === "reduction");
   };
+
+  // Auto-apply config when preselected
+  useEffect(() => {
+    if (preselected && !config) {
+      handleTypeSelect(preselected);
+    }
+  }, [preselected]);
 
   const handleSubmit = () => {
     if (!selectedType || !dateStr || !config) return;
@@ -57,13 +61,14 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
     const date = new Date(year, month - 1, day, hours, minutes);
     if (date > new Date()) return;
 
+    const isTobacco = config.category === "tobacco";
     const record: AddictionRecord = {
       id: crypto.randomUUID(),
       type: selectedType,
       quitDate: date.toISOString(),
       perDay,
-      pricePerUnit: Number(pricePerUnit) / (config.category === "tobacco" ? 20 : 1),
-      unitsPerPack: config.category === "tobacco" ? 20 : 1,
+      pricePerUnit: Number(pricePerUnit) / (isTobacco ? 20 : 1),
+      unitsPerPack: isTobacco ? 20 : 1,
       createdAt: new Date().toISOString(),
       healthEntries: [],
       moodEntries: [],
@@ -74,14 +79,21 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
     onComplete(record);
   };
 
+  const getPriceLabel = () => {
+    if (!config) return t.pricePerUnit;
+    if (config.category === "tobacco") return t.pricePerPack;
+    if (config.id === "alcohol") return t.pricePerDrink;
+    return t.pricePerUnit;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.2, 0, 0, 1] }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="flex min-h-screen flex-col items-center justify-center px-6"
     >
-      <div className="card-elevated p-8 w-full max-w-sm">
+      <div className="card-elevated p-6 sm:p-8 w-full max-w-sm">
         <button onClick={onBack} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="h-3.5 w-3.5" />
           {t.back}
@@ -91,19 +103,19 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
         <p className="text-sm text-muted-foreground mb-6 text-center">{t.chooseWhatToTrack}</p>
 
         {/* Type selector */}
-        <div className="grid grid-cols-2 gap-2 mb-6">
+        <div className="grid grid-cols-3 gap-1.5 mb-6 max-h-[30vh] overflow-y-auto">
           {availableTypes.map((opt) => (
             <button
               key={opt.id}
               type="button"
               onClick={() => handleTypeSelect(opt.id)}
-              className={`rounded-2xl px-3 py-3 text-xs font-medium transition-all ${
+              className={`rounded-xl px-2 py-2.5 text-[11px] font-medium transition-all ${
                 selectedType === opt.id
                   ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
                   : "bg-secondary text-muted-foreground hover:bg-accent"
               }`}
             >
-              <span className="block text-lg mb-0.5">{opt.emoji}</span>
+              <span className="block text-base mb-0.5">{opt.emoji}</span>
               {(t as any)[opt.labelKey] || opt.labelKey}
             </button>
           ))}
@@ -132,22 +144,24 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
               </div>
             )}
 
-            {/* Price */}
-            <div>
-              <label className="block text-xs font-medium text-muted-foreground mb-2">
-                {config.category === "tobacco" ? t.pricePerPack : t.pricePerDrink}
-              </label>
-              <input
-                type="number"
-                min={0}
-                step={0.5}
-                value={pricePerUnit}
-                onChange={(e) => setPricePerUnit(e.target.value)}
-                className="w-full rounded-2xl bg-secondary px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
-              />
-            </div>
+            {/* Price — only for types that track money */}
+            {config.statKeys.includes("moneySaved") && (
+              <div>
+                <label className="block text-xs font-medium text-muted-foreground mb-2">
+                  {getPriceLabel()}
+                </label>
+                <input
+                  type="number"
+                  min={0}
+                  step={0.5}
+                  value={pricePerUnit}
+                  onChange={(e) => setPricePerUnit(e.target.value)}
+                  className="w-full rounded-2xl bg-secondary px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+            )}
 
-            {/* Reduction mode for alcohol */}
+            {/* Reduction mode */}
             {config.showReductionMode && (
               <div className="rounded-2xl bg-secondary p-4 space-y-3">
                 <label className="flex items-center justify-between">
