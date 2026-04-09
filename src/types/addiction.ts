@@ -1,6 +1,10 @@
-export type AddictionCategory = "tobacco" | "alcohol" | "other";
+export type AddictionCategory = "tobacco" | "alcohol" | "substance" | "behavioral";
 
-export type AddictionTypeId = "cigarette" | "vape" | "iqos" | "nicotine_gum" | "nicotine_spray" | "alcohol";
+export type AddictionTypeId =
+  | "cigarette" | "vape" | "iqos" | "snus" | "nicotine_gum" | "nicotine_spray"
+  | "alcohol"
+  | "cannabis" | "caffeine"
+  | "gambling" | "social_media" | "gaming" | "pornography" | "shopping";
 
 export interface MilestoneConfig {
   time: number; // hours
@@ -53,7 +57,7 @@ export interface AddictionRecord {
   createdAt: string;
   healthEntries: HealthEntry[];
   moodEntries: MoodEntry[];
-  // Alcohol reduction mode
+  // Reduction mode
   reductionMode?: boolean;
   weeklyTarget?: number;
   weeklyLog?: { week: string; actual: number }[];
