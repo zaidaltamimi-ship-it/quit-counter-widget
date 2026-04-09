@@ -92,7 +92,7 @@ const Landing = () => {
         >
           <Button
             size="lg"
-            onClick={() => navigate("/app")}
+            onClick={() => navigate("/survey")}
             className="rounded-2xl px-8 text-base font-semibold gap-2"
           >
             Start Your Journey
@@ -231,7 +231,7 @@ const Landing = () => {
           </p>
           <Button
             size="lg"
-            onClick={() => navigate("/app")}
+            onClick={() => navigate("/survey")}
             className="rounded-2xl px-8 text-base font-semibold gap-2"
           >
             Begin Now
