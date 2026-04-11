@@ -10,15 +10,21 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
 const STORAGE_KEY = "quit-counter-locale";
+const SUPPORTED_LOCALES: Locale[] = ["en", "cs", "de", "es", "sk", "it"];
+
+function detectLocale(): Locale {
+  const stored = localStorage.getItem(STORAGE_KEY) as Locale;
+  if (stored && SUPPORTED_LOCALES.includes(stored)) return stored;
+
+  const browserLang = navigator.language.toLowerCase();
+  for (const loc of SUPPORTED_LOCALES) {
+    if (browserLang.startsWith(loc)) return loc;
+  }
+  return "en";
+}
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Locale;
-    if (stored && (stored === "en" || stored === "cs")) return stored;
-    // Auto-detect Czech
-    if (navigator.language.startsWith("cs")) return "cs";
-    return "en";
-  });
+  const [locale, setLocaleState] = useState<Locale>(detectLocale);
 
   const setLocale = useCallback((l: Locale) => {
     localStorage.setItem(STORAGE_KEY, l);
