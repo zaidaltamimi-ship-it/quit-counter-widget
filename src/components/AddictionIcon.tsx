@@ -1,5 +1,5 @@
 import {
-  Cigarette, Wind, Flame, Package, Droplets, Spray,
+  Cigarette, Wind, Flame, Package, Droplets, SprayCan,
   Beer, Leaf, Coffee, Dices, Smartphone, Gamepad2,
   Ban, ShoppingBag
 } from "lucide-react";
