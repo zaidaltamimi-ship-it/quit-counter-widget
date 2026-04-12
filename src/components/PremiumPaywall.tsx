@@ -57,6 +57,9 @@ const PremiumPaywall = () => {
 
         <div className="text-center mb-4">
           <span className="text-3xl font-bold text-foreground">{t.premiumPrice}</span>
+          <p className="text-xs text-muted-foreground mt-1">
+            {t.trialInfo || "Start with a free 7-day trial"}
+          </p>
         </div>
 
         <Button
@@ -65,7 +68,7 @@ const PremiumPaywall = () => {
           className="w-full h-12 text-base font-medium"
         >
           <Crown className="h-4 w-4 mr-2" />
-          {t.upgradeToPremium}
+          {t.startFreeTrial || "Start Free Trial"}
         </Button>
       </motion.div>
     </div>
