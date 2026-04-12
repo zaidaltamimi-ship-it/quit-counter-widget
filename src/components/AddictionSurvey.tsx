@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles, Ban, TrendingDown, Muscle, Brain, Bandage, Droplets, SprayCan, Frown, Beer, Moon, RefreshCw, Heart, PartyPopper } from "lucide-react";
+import { AddictionIcon } from "@/components/AddictionIcon";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { ADDICTION_TYPES } from "@/config/addictions";
 import type { AddictionTypeId, AddictionCategory } from "@/types/addiction";

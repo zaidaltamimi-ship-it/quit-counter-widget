@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, ChevronRight, Trash2 } from "lucide-react";
+import { AddictionIcon } from "@/components/AddictionIcon";
 import type { AddictionRecord } from "@/types/addiction";
 import { getAddictionConfig } from "@/config/addictions";
 import { useLanguage } from "@/i18n/LanguageContext";

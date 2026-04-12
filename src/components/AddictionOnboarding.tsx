@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
+import { AddictionIcon } from "@/components/AddictionIcon";
 import { ADDICTION_TYPES } from "@/config/addictions";
 import type { AddictionRecord, AddictionTypeId } from "@/types/addiction";
 import { useLanguage } from "@/i18n/LanguageContext";
