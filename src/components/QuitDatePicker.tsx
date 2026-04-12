@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { AddictionIcon } from "@/components/AddictionIcon";
 
 interface QuitDatePickerProps {
   onDateSet: (date: Date) => void;
@@ -16,10 +17,10 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
   const [tobaccoType, setTobaccoType] = useState<TobaccoType>("cigarette");
   const [perDay, setPerDay] = useState(20);
 
-  const tobaccoOptions: { value: TobaccoType; label: string; emoji: string }[] = [
-    { value: "cigarette", label: t.cigarette, emoji: "🚬" },
-    { value: "vape", label: t.vape, emoji: "💨" },
-    { value: "iqos", label: t.iqos, emoji: "🔥" },
+  const tobaccoOptions: { value: TobaccoType; label: string; icon: string }[] = [
+    { value: "cigarette", label: t.cigarette, icon: "cigarette" },
+    { value: "vape", label: t.vape, icon: "vape" },
+    { value: "iqos", label: t.iqos, icon: "iqos" },
   ];
 
   const showPerDay = tobaccoType === "cigarette" || tobaccoType === "iqos";
@@ -69,7 +70,7 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
                   : "bg-secondary text-muted-foreground hover:bg-accent"
               }`}
             >
-              <span className="block text-lg mb-0.5">{opt.emoji}</span>
+              <AddictionIcon typeId={opt.icon} size="sm" className="mx-auto mb-0.5" />
               {opt.label}
             </button>
           ))}
