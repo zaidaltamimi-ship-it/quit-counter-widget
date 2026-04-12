@@ -11,7 +11,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   iqos: Flame,
   snus: Package,
   nicotine_gum: Droplets,
-  nicotine_spray: Spray,
+  nicotine_spray: SprayCan,
   alcohol: Beer,
   cannabis: Leaf,
   caffeine: Coffee,

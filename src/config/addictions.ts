@@ -55,7 +55,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "cigarette",
     category: "tobacco",
-    emoji: "🚬",
+    icon: "cigarette",
     labelKey: "cigarette",
     counterLabelKey: "timeSinceLastCigarette",
     unitLabelKey: "cigarettesAvoided",
@@ -70,7 +70,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "vape",
     category: "tobacco",
-    emoji: "💨",
+    icon: "vape",
     labelKey: "vape",
     counterLabelKey: "timeSinceLastVape",
     unitLabelKey: "sessionsAvoided",
@@ -85,7 +85,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "iqos",
     category: "tobacco",
-    emoji: "🔥",
+    icon: "iqos",
     labelKey: "iqos",
     counterLabelKey: "timeSinceLastIqos",
     unitLabelKey: "sticksAvoided",
@@ -100,7 +100,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "snus",
     category: "tobacco",
-    emoji: "🫙",
+    icon: "snus",
     labelKey: "snus",
     counterLabelKey: "timeSinceLastSnus",
     unitLabelKey: "pouchesAvoided",
@@ -115,7 +115,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "nicotine_gum",
     category: "tobacco",
-    emoji: "🫧",
+    icon: "nicotine_gum",
     labelKey: "nicotineGum",
     counterLabelKey: "timeSinceLastGum",
     unitLabelKey: "gumsAvoided",
@@ -130,7 +130,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "nicotine_spray",
     category: "tobacco",
-    emoji: "💧",
+    icon: "nicotine_spray",
     labelKey: "nicotineSpray",
     counterLabelKey: "timeSinceLastSpray",
     unitLabelKey: "spraysAvoided",
@@ -146,7 +146,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "alcohol",
     category: "alcohol",
-    emoji: "🍺",
+    icon: "alcohol",
     labelKey: "alcohol",
     counterLabelKey: "timeSinceLastDrink",
     unitLabelKey: "drinksAvoided",
@@ -162,7 +162,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "cannabis",
     category: "substance",
-    emoji: "🌿",
+    icon: "cannabis",
     labelKey: "cannabis",
     counterLabelKey: "timeSinceLastCannabis",
     unitLabelKey: "sessionsAvoidedCannabis",
@@ -177,7 +177,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "caffeine",
     category: "substance",
-    emoji: "☕",
+    icon: "caffeine",
     labelKey: "caffeine",
     counterLabelKey: "timeSinceLastCaffeine",
     unitLabelKey: "cupsAvoided",
@@ -193,7 +193,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "gambling",
     category: "behavioral",
-    emoji: "🎰",
+    icon: "gambling",
     labelKey: "gambling",
     counterLabelKey: "timeSinceLastGamble",
     unitLabelKey: "sessionsAvoidedGambling",
@@ -208,7 +208,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "social_media",
     category: "behavioral",
-    emoji: "📱",
+    icon: "social_media",
     labelKey: "socialMedia",
     counterLabelKey: "timeSinceLastScroll",
     unitLabelKey: "hoursReclaimed",
@@ -223,7 +223,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "gaming",
     category: "behavioral",
-    emoji: "🎮",
+    icon: "gaming",
     labelKey: "gaming",
     counterLabelKey: "timeSinceLastGame",
     unitLabelKey: "hoursReclaimedGaming",
@@ -238,7 +238,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "pornography",
     category: "behavioral",
-    emoji: "🔞",
+    icon: "pornography",
     labelKey: "pornography",
     counterLabelKey: "timeSinceLastPorn",
     unitLabelKey: "sessionsAvoidedPorn",
@@ -253,7 +253,7 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   {
     id: "shopping",
     category: "behavioral",
-    emoji: "🛍️",
+    icon: "shopping",
     labelKey: "shopping",
     counterLabelKey: "timeSinceLastShopping",
     unitLabelKey: "impulsesPrevented",
