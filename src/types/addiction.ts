@@ -15,7 +15,7 @@ export interface MilestoneConfig {
 export interface AddictionTypeConfig {
   id: AddictionTypeId;
   category: AddictionCategory;
-  emoji: string;
+  icon: string;
   labelKey: string;
   counterLabelKey: string;
   unitLabelKey: string;
