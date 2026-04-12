@@ -69,8 +69,8 @@ const Dashboard = ({ records, onSelect, onAdd, onRemove }: DashboardProps) => {
                     className="flex w-full items-center justify-between p-5 text-left"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-xl">
-                        {config.emoji}
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent">
+                        <AddictionIcon typeId={config.id} size="lg" className="text-accent-foreground" />
                       </div>
                       <div>
                         <p className="text-sm font-medium text-foreground">

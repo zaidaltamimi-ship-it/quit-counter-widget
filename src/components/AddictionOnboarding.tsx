@@ -115,7 +115,7 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
                   : "bg-secondary text-muted-foreground hover:bg-accent"
               }`}
             >
-              <span className="block text-base mb-0.5">{opt.emoji}</span>
+              <AddictionIcon typeId={opt.id} size="sm" className="mx-auto mb-0.5" />
               {(t as any)[opt.labelKey] || opt.labelKey}
             </button>
           ))}
