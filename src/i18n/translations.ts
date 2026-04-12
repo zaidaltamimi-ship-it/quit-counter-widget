@@ -256,6 +256,8 @@ export const translations = {
     premiumFeature3: "Share your progress",
     premiumPrice: "€4.99/month",
     upgradeToPremium: "Upgrade to Premium",
+    startFreeTrial: "Start Free 7-Day Trial",
+    trialInfo: "Start with a free 7-day trial",
     manageSubscription: "Manage Subscription",
     youArePremium: "You're Premium! ⭐",
 
@@ -587,6 +589,8 @@ export const translations = {
     premiumFeature3: "Sdílejte svůj pokrok",
     premiumPrice: "4,99 €/měsíc",
     upgradeToPremium: "Přejít na Premium",
+    startFreeTrial: "Začít 7denní zkušební verzi zdarma",
+    trialInfo: "Začněte se 7denní bezplatnou zkušební verzí",
     manageSubscription: "Spravovat předplatné",
     youArePremium: "Jste Premium! ⭐",
 
@@ -918,6 +922,8 @@ export const translations = {
     premiumFeature3: "Fortschritt teilen",
     premiumPrice: "4,99 €/Monat",
     upgradeToPremium: "Auf Premium upgraden",
+    startFreeTrial: "7-Tage-Testversion starten",
+    trialInfo: "Starte mit einer kostenlosen 7-Tage-Testversion",
     manageSubscription: "Abo verwalten",
     youArePremium: "Du bist Premium! ⭐",
 
@@ -1249,6 +1255,8 @@ export const translations = {
     premiumFeature3: "Comparte tu progreso",
     premiumPrice: "4,99 €/mes",
     upgradeToPremium: "Mejorar a Premium",
+    startFreeTrial: "Iniciar prueba gratuita de 7 días",
+    trialInfo: "Comienza con una prueba gratuita de 7 días",
     manageSubscription: "Gestionar suscripción",
     youArePremium: "¡Eres Premium! ⭐",
 
@@ -1580,6 +1588,8 @@ export const translations = {
     premiumFeature3: "Zdieľajte svoj pokrok",
     premiumPrice: "4,99 €/mesiac",
     upgradeToPremium: "Prejsť na Premium",
+    startFreeTrial: "Začať 7-dňovú skúšobnú verziu zadarmo",
+    trialInfo: "Začnite so 7-dňovou bezplatnou skúšobnou verziou",
     manageSubscription: "Spravovať predplatné",
     youArePremium: "Ste Premium! ⭐",
 
@@ -1911,6 +1921,8 @@ export const translations = {
     premiumFeature3: "Condividi i tuoi progressi",
     premiumPrice: "4,99 €/mese",
     upgradeToPremium: "Passa a Premium",
+    startFreeTrial: "Inizia la prova gratuita di 7 giorni",
+    trialInfo: "Inizia con una prova gratuita di 7 giorni",
     manageSubscription: "Gestisci abbonamento",
     youArePremium: "Sei Premium! ⭐",
 
