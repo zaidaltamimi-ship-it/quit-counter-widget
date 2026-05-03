@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Heart, Shield, TrendingDown, Users, BarChart3, Brain, ArrowRight, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/i18n/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -12,44 +14,32 @@ const fadeUp = {
   }),
 };
 
-const features = [
-  {
-    icon: TrendingDown,
-    title: "Track Your Progress",
-    desc: "Watch your streak grow day by day. See exactly how far you've come — in time, money saved, and health recovered.",
-  },
-  {
-    icon: Brain,
-    title: "Personalized Approach",
-    desc: "Quit cold turkey or reduce gradually — your journey, your pace. We tailor the experience to what works for you.",
-  },
-  {
-    icon: BarChart3,
-    title: "Health Insights",
-    desc: "Log mood, cravings, and vitals. Visualize how your body and mind heal over time with simple, clear charts.",
-  },
-  {
-    icon: Users,
-    title: "Support Network",
-    desc: "Connect with friends on the same path. Encourage each other and celebrate milestones together.",
-  },
-  {
-    icon: Shield,
-    title: "Completely Private",
-    desc: "Your data belongs to you. We never share your information. This is a safe, judgement-free space.",
-  },
-  {
-    icon: Leaf,
-    title: "Multiple Addictions",
-    desc: "Cigarettes, vaping, alcohol, and more. Track everything in one place, each on its own timeline.",
-  },
-];
-
 const Landing = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const features = [
+    { icon: TrendingDown, title: t.landingFeatureTracking, desc: t.landingFeatureTrackingDesc },
+    { icon: Brain, title: t.landingFeaturePersonalized, desc: t.landingFeaturePersonalizedDesc },
+    { icon: BarChart3, title: t.landingFeatureHealth, desc: t.landingFeatureHealthDesc },
+    { icon: Users, title: t.landingFeatureSocial, desc: t.landingFeatureSocialDesc },
+    { icon: Shield, title: t.landingFeaturePrivacy, desc: t.landingFeaturePrivacyDesc },
+    { icon: Leaf, title: t.landingFeatureMulti, desc: t.landingFeatureMultiDesc },
+  ];
+
+  const steps = [
+    { num: "1", title: t.landingStep1, desc: t.landingStep1Desc },
+    { num: "2", title: t.landingStep2, desc: t.landingStep2Desc },
+    { num: "3", title: t.landingStep3, desc: t.landingStep3Desc },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {/* Top bar with language switcher */}
+      <div className="absolute top-4 right-4 z-10">
+        <LanguageSwitcher />
+      </div>
+
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center px-6 pt-20 pb-16 text-center">
         <motion.div
@@ -69,8 +59,8 @@ const Landing = () => {
           transition={{ delay: 0.15, duration: 0.5 }}
           className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl max-w-2xl"
         >
-          Every journey starts{" "}
-          <span className="text-primary">with one step</span>
+          {t.landingHeroLine1}{" "}
+          <span className="text-primary">{t.landingHeroLine2}</span>
         </motion.h1>
 
         <motion.p
@@ -79,9 +69,7 @@ const Landing = () => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="mt-5 max-w-lg text-base sm:text-lg text-muted-foreground leading-relaxed"
         >
-          MyAddiction is your private, gentle companion for quitting — or
-          reducing — the habits that hold you back. No pressure, no judgement.
-          Just you, moving forward at your own pace.
+          {t.landingHeroSubtitle}
         </motion.p>
 
         <motion.div
@@ -95,7 +83,7 @@ const Landing = () => {
             onClick={() => navigate("/survey")}
             className="rounded-2xl px-8 text-base font-semibold gap-2"
           >
-            Start Your Journey
+            {t.landingCTA}
             <ArrowRight className="h-4 w-4" />
           </Button>
           <Button
@@ -106,11 +94,10 @@ const Landing = () => {
             }}
             className="rounded-2xl px-8 text-base"
           >
-            Learn More
+            {t.landingLearnMore}
           </Button>
         </motion.div>
 
-        {/* Soft gradient glow */}
         <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[500px] w-[600px] rounded-full bg-primary/5 blur-3xl" />
       </section>
 
@@ -123,8 +110,7 @@ const Landing = () => {
         className="mx-auto max-w-2xl px-6 pb-12 text-center"
       >
         <p className="rounded-2xl border border-border bg-card/60 px-6 py-4 text-sm text-muted-foreground leading-relaxed">
-          🤍 You don't need to be "ready." You just need to be curious enough to try.
-          This app is built for real people — with real struggles and real courage.
+          {t.landingTrustBanner}
         </p>
       </motion.section>
 
@@ -137,7 +123,7 @@ const Landing = () => {
           transition={{ duration: 0.5 }}
           className="text-center text-2xl font-bold sm:text-3xl mb-3"
         >
-          Built around <span className="text-primary">you</span>
+          {t.landingBuiltAround1} <span className="text-primary">{t.landingBuiltAround2}</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -146,8 +132,7 @@ const Landing = () => {
           transition={{ delay: 0.1, duration: 0.5 }}
           className="text-center text-muted-foreground mb-12 max-w-md mx-auto"
         >
-          Tools that adapt to your journey — whether you're quitting today or
-          taking it one step at a time.
+          {t.landingBuiltAroundDesc}
         </motion.p>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -165,9 +150,7 @@ const Landing = () => {
                 <f.icon className="h-5 w-5" />
               </div>
               <h3 className="text-base font-semibold mb-1.5">{f.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {f.desc}
-              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -181,15 +164,11 @@ const Landing = () => {
           viewport={{ once: true }}
           className="text-center text-2xl font-bold sm:text-3xl mb-12"
         >
-          Simple as <span className="text-primary">1 – 2 – 3</span>
+          {t.landingSimpleAs1} <span className="text-primary">{t.landingSimpleAs2}</span>
         </motion.h2>
 
         <div className="space-y-8">
-          {[
-            { num: "1", title: "Tell us about yourself", desc: "A short, friendly survey helps us understand your habits and goals — no medical forms, just honest questions." },
-            { num: "2", title: "Set your pace", desc: "Choose to quit cold turkey, use patches or gum, or reduce gradually. We'll set everything up for you." },
-            { num: "3", title: "Watch yourself grow", desc: "Track your streak, log your mood, celebrate milestones, and see the money you're saving — all in real time." },
-          ].map((step, i) => (
+          {steps.map((step, i) => (
             <motion.div
               key={step.num}
               custom={i}
@@ -204,9 +183,7 @@ const Landing = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-base mb-1">{step.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {step.desc}
-                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
               </div>
             </motion.div>
           ))}
@@ -222,19 +199,14 @@ const Landing = () => {
           transition={{ duration: 0.5 }}
           className="mx-auto max-w-xl rounded-3xl bg-primary/5 border border-primary/10 p-8 sm:p-12 text-center"
         >
-          <h2 className="text-2xl font-bold sm:text-3xl mb-3">
-            You deserve this
-          </h2>
-          <p className="text-muted-foreground mb-6 leading-relaxed">
-            It's free to start, completely private, and you can go at your own
-            speed. There's nothing to lose — and everything to gain.
-          </p>
+          <h2 className="text-2xl font-bold sm:text-3xl mb-3">{t.landingFinalTitle}</h2>
+          <p className="text-muted-foreground mb-6 leading-relaxed">{t.landingFinalDesc}</p>
           <Button
             size="lg"
             onClick={() => navigate("/survey")}
             className="rounded-2xl px-8 text-base font-semibold gap-2"
           >
-            Begin Now
+            {t.landingBeginNow}
             <ArrowRight className="h-4 w-4" />
           </Button>
         </motion.div>
@@ -242,7 +214,7 @@ const Landing = () => {
 
       {/* Footer */}
       <footer className="border-t border-border px-6 py-8 text-center text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} MyAddiction. Built with care, for people who care.</p>
+        <p>© {new Date().getFullYear()} MyAddiction. {t.landingFooter}</p>
       </footer>
     </div>
   );
