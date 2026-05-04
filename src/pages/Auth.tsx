@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { lovable } from "@/integrations/lovable/index";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 
 const Auth = () => {
   const { signIn, signUp } = useAuth();
@@ -76,9 +76,6 @@ const Auth = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center px-6">
-      <div className="absolute top-4 right-6 z-10">
-        <LanguageSwitcher />
-      </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

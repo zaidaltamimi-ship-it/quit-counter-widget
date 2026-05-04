@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 import { AddictionIcon } from "@/components/AddictionIcon";
 
 interface QuitDatePickerProps {
@@ -46,9 +46,6 @@ const QuitDatePicker = ({ onDateSet }: QuitDatePickerProps) => {
       transition={{ duration: 0.5, ease: [0.2, 0, 0, 1] }}
       className="flex min-h-screen flex-col items-center justify-center px-6"
     >
-      <div className="absolute top-4 right-6">
-        <LanguageSwitcher />
-      </div>
       <div className="card-elevated p-8 w-full max-w-sm text-center">
         <h1 className="text-2xl font-semibold text-foreground mb-2">
           {t.whenLastCigarette}

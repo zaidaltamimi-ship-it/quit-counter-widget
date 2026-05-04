@@ -10,7 +10,7 @@ import HealthLogForm from "@/components/HealthLogForm";
 import HealthCharts from "@/components/HealthCharts";
 import PatchTracker from "@/components/PatchTracker";
 import MoodLog from "@/components/MoodLog";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 
 interface AddictionDetailProps {
   record: AddictionRecord;
@@ -45,7 +45,6 @@ const AddictionDetail = ({ record, onBack, onUpdate }: AddictionDetailProps) => 
             <ArrowLeft className="h-3.5 w-3.5" />
             {t.back}
           </button>
-          <LanguageSwitcher />
         </div>
 
         {/* Counter */}
