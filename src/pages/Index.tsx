@@ -4,7 +4,7 @@ import Dashboard from "@/components/Dashboard";
 import AddictionSurvey, { type SurveyAnswers } from "@/components/AddictionSurvey";
 import AddictionOnboarding from "@/components/AddictionOnboarding";
 import AddictionDetail from "@/components/AddictionDetail";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 import FriendsTab from "@/components/FriendsTab";
 import PremiumPaywall from "@/components/PremiumPaywall";
 import Auth from "@/pages/Auth";
@@ -125,7 +125,7 @@ const Index = () => {
             Premium
           </button>
         )}
-        <LanguageSwitcher />
+        
         <button
           onClick={signOut}
           className="flex items-center gap-1 rounded-xl bg-secondary px-3 py-2 text-xs text-muted-foreground hover:text-foreground transition-colors"

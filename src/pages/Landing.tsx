@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Heart, Shield, TrendingDown, Users, BarChart3, Brain, ArrowRight, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -35,11 +34,6 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* Top bar with language switcher */}
-      <div className="absolute top-4 right-4 z-10">
-        <LanguageSwitcher />
-      </div>
-
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center px-6 pt-20 pb-16 text-center">
         <motion.div
