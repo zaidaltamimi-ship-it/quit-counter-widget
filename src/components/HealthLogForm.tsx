@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Heart, Loader2 } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import {
+  initHealthKit,
+  fetchHealthData,
+  aggregateDaily,
+  isHealthKitSupported,
+} from "@/services/healthkit";
+import { toast } from "sonner";
 
 const STORAGE_KEY = "health-metrics-log";
 
@@ -43,6 +50,67 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
   const [weight, setWeight] = useState("");
   const [peakFlow, setPeakFlow] = useState("");
   const [note, setNote] = useState("");
+  const [healthSupported, setHealthSupported] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+
+  useEffect(() => {
+    isHealthKitSupported().then(setHealthSupported);
+  }, []);
+
+  const handleSyncHealth = async () => {
+    setSyncing(true);
+    try {
+      const ok = await initHealthKit();
+      if (!ok) {
+        toast.error((t as any).healthSyncUnavailable || "Apple Health not available");
+        return;
+      }
+      const start = new Date();
+      start.setDate(start.getDate() - 30);
+      const data = await fetchHealthData(start);
+      if (!data) {
+        toast.error((t as any).healthSyncUnavailable || "Apple Health not available");
+        return;
+      }
+      const daily = aggregateDaily(data);
+      if (daily.length === 0) {
+        toast.message((t as any).healthSyncEmpty || "No new health data found");
+        return;
+      }
+      // Merge: skip days already logged
+      const existingDays = new Set(entries.map((e) => e.date.slice(0, 10)));
+      const newOnes: HealthEntry[] = daily
+        .filter((d) => !existingDays.has(d.date.slice(0, 10)))
+        .map((d) => ({
+          id: crypto.randomUUID(),
+          date: d.date,
+          ...(d.heartRate !== undefined && { heartRate: d.heartRate }),
+          ...(d.systolic !== undefined && { systolic: d.systolic }),
+          ...(d.diastolic !== undefined && { diastolic: d.diastolic }),
+          ...(d.weight !== undefined && { weight: d.weight }),
+          ...(d.peakFlow !== undefined && { peakFlow: d.peakFlow }),
+          note: (t as any).healthSyncNote || "Synced from Apple Health",
+        }));
+      if (newOnes.length === 0) {
+        toast.message((t as any).healthSyncUpToDate || "Already up to date");
+        return;
+      }
+      const updated = [...entries, ...newOnes];
+      saveEntries(updated);
+      onEntriesChange(updated);
+      toast.success(
+        ((t as any).healthSyncSuccess || "Synced {n} entries").replace(
+          "{n}",
+          String(newOnes.length)
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      toast.error((t as any).healthSyncFailed || "Health sync failed");
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const handleSubmit = () => {
     const entry: HealthEntry = {
@@ -82,6 +150,20 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
 
   return (
     <div className="space-y-3">
+      {healthSupported && (
+        <button
+          onClick={handleSyncHealth}
+          disabled={syncing}
+          className="flex w-full items-center justify-center gap-2 rounded-[16px] bg-primary/10 py-3 text-sm font-medium text-primary transition-opacity hover:opacity-90 disabled:opacity-50"
+        >
+          {syncing ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Heart className="h-4 w-4" />
+          )}
+          {(t as any).syncFromHealth || "Sync from Apple Health"}
+        </button>
+      )}
       <AnimatePresence mode="wait">
         {!showForm ? (
           <motion.button
