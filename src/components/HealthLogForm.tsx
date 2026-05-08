@@ -150,6 +150,20 @@ const HealthLogForm = ({ onEntriesChange, entries }: HealthLogFormProps) => {
 
   return (
     <div className="space-y-3">
+      {healthSupported && (
+        <button
+          onClick={handleSyncHealth}
+          disabled={syncing}
+          className="flex w-full items-center justify-center gap-2 rounded-[16px] bg-primary/10 py-3 text-sm font-medium text-primary transition-opacity hover:opacity-90 disabled:opacity-50"
+        >
+          {syncing ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <Heart className="h-4 w-4" />
+          )}
+          {(t as any).syncFromHealth || "Sync from Apple Health"}
+        </button>
+      )}
       <AnimatePresence mode="wait">
         {!showForm ? (
           <motion.button
