@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, X } from "lucide-react";
+import { Plus, X, Heart, Loader2 } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import {
+  initHealthKit,
+  fetchHealthData,
+  aggregateDaily,
+  isHealthKitSupported,
+} from "@/services/healthkit";
+import { toast } from "sonner";
 
 const STORAGE_KEY = "health-metrics-log";
 
