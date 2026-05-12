@@ -674,8 +674,8 @@ export const translations = {
     landingStep1: "Vyplňte rychlý dotazník",
     landingStep1Desc: "Řekněte nám o svém zvyku, abychom vám přizpůsobili zážitek.",
     landingStep2: "Nastavte si tempo",
-    landingStep2Desc: "Vyberte si okamžité přestání, postupné snižování nebo náhradní terapii.",
-    landingStep3: "Sledujte a rostěte",
+    landingStep2Desc: "Vyberte si, jak chcete přestat.",
+    landingStep3: "Sledujte a rosťte",
     landingStep3Desc: "Sledujte, jak se vaše zdraví zlepšuje a úspory den za dnem rostou.",
     landingTrustTitle: "Je v pořádku začít",
     landingTrustSubtitle: "Žádný tlak, žádné hodnocení. Jen nástroj, který je tu, když budete připraveni.",
@@ -689,9 +689,9 @@ export const translations = {
     landingSimpleAs1: "Jednoduché jako",
     landingSimpleAs2: "1 – 2 – 3",
     landingFinalTitle: "Zasloužíte si to",
-    landingFinalDesc: "Začít je zdarma, zcela soukromé a můžete jít vlastním tempem. Nemáte co ztratit — a vše můžete získat.",
+    landingFinalDesc: "Začít je zdarma, zcela soukromé a můžete jít vlastním tempem. Nemáte co ztratit — a můžete jen získat.",
     landingBeginNow: "Začít teď",
-    landingFooter: "Vytvořeno s péčí, pro lidi, kterým záleží.",
+    landingFooter: "Vytvořeno s péčí, pro lidi, kterým záleží na druhých.",
   },
   de: {
     // General
