@@ -69,7 +69,7 @@ export default function Admin() {
     setUsers((data?.users ?? []) as AdminUser[]);
   }
 
-  async function grant(userId: string) {
+  async function grantPremium(userId: string) {
     const sel = duration[userId] ?? "1m";
     const cfg = DURATIONS.find((d) => d.value === sel)!;
     const expires_at = cfg.days
@@ -222,7 +222,7 @@ export default function Admin() {
                       </SelectContent>
                     </Select>
                     <Button
-                      onClick={() => grant(u.id)}
+                      onClick={() => grantPremium(u.id)}
                       disabled={busyId === u.id}
                       size="sm"
                     >
