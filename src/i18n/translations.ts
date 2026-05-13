@@ -106,7 +106,7 @@ export const translations = {
     daysFreeSelfHarm: "Days free",
     moneySaved: "Money saved",
     caloriesSaved: "Calories saved",
-    monthlySpend: "Average monthly spend ($)",
+    monthlySpend: "Average monthly spend",
     moneyKept: "Money kept",
     daysFreePorn: "Days free",
     streakOnlyNote: "We'll just count the time. No numbers, no money — only your streak and how you feel.",
