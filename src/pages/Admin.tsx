@@ -36,6 +36,15 @@ type AdminUser = {
   grant: { expires_at: string | null; reason: string | null } | null;
 };
 
+type AdminIdea = {
+  id: string;
+  title: string;
+  description: string | null;
+  upvotes: number;
+  status: string;
+  created_at: string;
+};
+
 const DURATIONS = [
   { value: "1m", label: "1 měsíc", days: 30 },
   { value: "3m", label: "3 měsíce", days: 90 },
