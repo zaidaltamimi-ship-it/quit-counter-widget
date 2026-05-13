@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import type { AddictionRecord } from "@/types/addiction";
 import { getAddictionConfig } from "@/config/addictions";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { formatMoney } from "@/hooks/useCurrency";
 import LiveCounter from "@/components/LiveCounter";
 import HealthMilestones from "@/components/HealthMilestones";
 import HealthLogForm from "@/components/HealthLogForm";
@@ -85,7 +86,7 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
     },
     moneySaved: {
       label: t.moneySaved,
-      value: `$${(daysElapsed * record.perDay * record.pricePerUnit).toFixed(2)}`,
+      value: formatMoney(daysElapsed * record.perDay * record.pricePerUnit),
     },
     caloriesSaved: {
       label: t.caloriesSaved,
@@ -99,13 +100,13 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
     moneyEstimate: {
       label: (t as any).moneyKept || t.moneySaved,
       // pricePerUnit holds monthly avg spend for perMonth pricing
-      value: `$${Math.max(0, monthsElapsed * record.pricePerUnit).toFixed(2)}`,
+      value: formatMoney(Math.max(0, monthsElapsed * record.pricePerUnit)),
     },
   };
 
   const visibleStats = config.statKeys
     .map(k => statValues[k])
-    .filter(s => s && s.value !== "0" && s.value !== "$0.00");
+    .filter(s => s && s.value !== "0" && !s.value.match(/^[$£€]0\.00$/));
 
   return (
     <div className="min-h-screen bg-background">
