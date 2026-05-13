@@ -209,7 +209,7 @@ const PatchTracker = () => {
                             {Math.max(0, daysRemaining)} / {currentPatchStep.durationWeeks * 7} × {currentPatchStep.mg}mg
                           </span>
                           <span className="text-[0.65rem] uppercase tracking-widest text-muted-foreground">
-                            {(t as any).patchesLabel}
+                            {state.currentStep === 4 ? (t as any).lozengesLabel : (t as any).patchesLabel}
                           </span>
                         </div>
                         <div className="h-1.5 w-full rounded-full bg-background overflow-hidden">
