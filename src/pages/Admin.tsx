@@ -141,6 +141,31 @@ export default function Admin() {
     await loadUsers();
   }
 
+  async function loadIdeas() {
+    setIdeasLoading(true);
+    const { data, error } = await supabase
+      .from("ideas")
+      .select("id, title, description, upvotes, status, created_at")
+      .order("upvotes", { ascending: false })
+      .order("created_at", { ascending: false });
+    setIdeasLoading(false);
+    if (error) {
+      toast({ title: "Chyba", description: error.message, variant: "destructive" });
+      return;
+    }
+    setIdeas((data ?? []) as AdminIdea[]);
+  }
+
+  async function updateIdeaStatus(ideaId: string, status: string) {
+    const { error } = await supabase.from("ideas").update({ status }).eq("id", ideaId);
+    if (error) {
+      toast({ title: "Chyba", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Status aktualizován" });
+    await loadIdeas();
+  }
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     if (!q) return users;
