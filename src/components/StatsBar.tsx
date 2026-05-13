@@ -33,7 +33,7 @@ const StatsBar = ({
     <div className="card-elevated p-5">
       <div className="grid grid-cols-2 gap-4">
         <StatItem label={unitLabels[tobaccoType]} value={cigarettesAvoided.toLocaleString()} />
-        <StatItem label={t.moneySaved} value={`$${moneySaved.toFixed(2)}`} />
+        <StatItem label={t.moneySaved} value={formatMoney(moneySaved)} />
       </div>
     </div>
   );
