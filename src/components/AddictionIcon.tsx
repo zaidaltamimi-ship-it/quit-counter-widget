@@ -1,6 +1,7 @@
 import {
   Cigarette, Wind, Flame, Package, Droplets, SprayCan,
-  Beer, Leaf, Coffee, Dices, Smartphone, Gamepad2,
+  Beer, Wine, FlaskConical, Martini,
+  Leaf, Coffee, Dices, Smartphone, Gamepad2,
   Ban, ShoppingBag, Heart
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,10 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   nicotine_gum: Droplets,
   nicotine_spray: SprayCan,
   alcohol: Beer,
+  beer: Beer,
+  wine: Wine,
+  spirits: FlaskConical,
+  cocktails: Martini,
   cannabis: Leaf,
   caffeine: Coffee,
   gambling: Dices,
