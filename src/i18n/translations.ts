@@ -365,6 +365,17 @@ export const translations = {
     landingFinalDesc: "It's free to start, completely private, and you can go at your own speed. There's nothing to lose — and everything to gain.",
     landingBeginNow: "Begin Now",
     landingFooter: "Built with care, for people who care.",
+    pause: "Pause",
+    resume: "Resume",
+    pausedNotice: "Paused — your progress is safe",
+    hadASlip: "Had a slip",
+    slipsLogged: "Slips logged",
+    slipsKindMessage: "Every day you choose again is a win.",
+    slipDialogTitle: "It's okay. You're human.",
+    slipDialogDesc: "A slip isn't a failure — it's information. Choose what feels right for you, with no judgment.",
+    slipNotePlaceholder: "Optional: what triggered it?",
+    slipKeepGoing: "I'm okay — keep my streak",
+    slipStartFresh: "Start fresh from today",
   },
   cs: {
     // General
