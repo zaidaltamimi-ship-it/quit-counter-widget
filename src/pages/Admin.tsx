@@ -62,6 +62,8 @@ export default function Admin() {
   const [search, setSearch] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
   const [duration, setDuration] = useState<Record<string, string>>({});
+  const [ideas, setIdeas] = useState<AdminIdea[]>([]);
+  const [ideasLoading, setIdeasLoading] = useState(false);
 
   useEffect(() => {
     if (loading) return;
