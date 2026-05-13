@@ -7,7 +7,8 @@ import { lovable } from "@/integrations/lovable/index";
 
 
 const Auth = () => {
-  const { signIn, signUp } = useAuth();
+  const navigate = useNavigate();
+  const { signIn, signUp, user } = useAuth();
   const { t } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -17,6 +18,12 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [ssoLoading, setSsoLoading] = useState<string | null>(null);
   const [confirmEmail, setConfirmEmail] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/app");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
