@@ -20,6 +20,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   gaming: Gamepad2,
   pornography: Ban,
   shopping: ShoppingBag,
+  self_harm: Heart,
 };
 
 interface AddictionIconProps {
