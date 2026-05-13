@@ -49,11 +49,11 @@ const IdeasTab = () => {
     const trimmedTitle = title.trim();
     const trimmedDesc = description.trim();
     if (!trimmedTitle || trimmedTitle.length > 120) {
-      toast({ title: t.ideasTitleInvalid, variant: "destructive" });
+      toast({ title: (t.ideasTitleInvalid || "Title is required (max 120 chars)"), variant: "destructive" });
       return;
     }
     if (trimmedDesc.length > 1000) {
-      toast({ title: t.ideasDescTooLong, variant: "destructive" });
+      toast({ title: (t.ideasDescTooLong || "Description too long (max 1000 chars)"), variant: "destructive" });
       return;
     }
     setSubmitting(true);
@@ -64,13 +64,13 @@ const IdeasTab = () => {
     });
     setSubmitting(false);
     if (error) {
-      toast({ title: t.ideasSubmitError, description: error.message, variant: "destructive" });
+      toast({ title: (t.ideasSubmitError || "Couldn't submit idea"), description: error.message, variant: "destructive" });
       return;
     }
     setTitle("");
     setDescription("");
     setShowForm(false);
-    toast({ title: t.ideasSubmitted });
+    toast({ title: (t.ideasSubmitted || "Idea submitted") });
     load();
   };
 
@@ -94,7 +94,7 @@ const IdeasTab = () => {
     if (error) {
       // revert
       load();
-      toast({ title: t.ideasVoteError, variant: "destructive" });
+      toast({ title: (t.ideasVoteError || "Couldn't update vote"), variant: "destructive" });
     }
   };
 
@@ -102,7 +102,7 @@ const IdeasTab = () => {
     if (!user) return;
     const { error } = await supabase.from("ideas").delete().eq("id", id);
     if (error) {
-      toast({ title: t.ideasDeleteError, variant: "destructive" });
+      toast({ title: (t.ideasDeleteError || "Couldn't delete"), variant: "destructive" });
       return;
     }
     setIdeas((prev) => prev.filter((i) => i.id !== id));
@@ -112,8 +112,8 @@ const IdeasTab = () => {
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-md px-5 pb-12">
         <div className="pt-10 pb-4 text-center">
-          <h1 className="text-2xl font-semibold text-foreground tracking-tight">{t.ideasTitle}</h1>
-          <p className="text-sm text-muted-foreground mt-1">{t.ideasSubtitle}</p>
+          <h1 className="text-2xl font-semibold text-foreground tracking-tight">{(t.ideasTitle || "Ideas")}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{(t.ideasSubtitle || "Suggest improvements and vote")}</p>
         </div>
 
         {!showForm ? (
@@ -122,7 +122,7 @@ const IdeasTab = () => {
             className="w-full flex items-center justify-center gap-2 rounded-2xl bg-primary py-3 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity mb-5"
           >
             <Plus className="h-4 w-4" />
-            {t.ideasAddNew}
+            {(t.ideasAddNew || "Submit an idea")}
           </button>
         ) : (
           <motion.form
@@ -135,7 +135,7 @@ const IdeasTab = () => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder={t.ideasTitlePlaceholder}
+              placeholder={(t.ideasTitlePlaceholder || "Short title")}
               maxLength={120}
               required
               className="w-full rounded-xl bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -143,7 +143,7 @@ const IdeasTab = () => {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t.ideasDescPlaceholder}
+              placeholder={(t.ideasDescPlaceholder || "Describe your idea (optional)")}
               maxLength={1000}
               rows={3}
               className="w-full rounded-xl bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
@@ -162,7 +162,7 @@ const IdeasTab = () => {
                 className="flex-1 rounded-xl bg-primary py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {submitting && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
-                {t.ideasSubmit}
+                {(t.ideasSubmit || "Submit")}
               </button>
             </div>
           </motion.form>
@@ -175,7 +175,7 @@ const IdeasTab = () => {
         ) : ideas.length === 0 ? (
           <div className="card-elevated p-8 text-center">
             <Lightbulb className="h-8 w-8 mx-auto text-muted-foreground mb-3" />
-            <p className="text-sm text-muted-foreground">{t.ideasEmpty}</p>
+            <p className="text-sm text-muted-foreground">{(t.ideasEmpty || "No ideas yet. Be the first!")}</p>
           </div>
         ) : (
           <div className="space-y-2">
@@ -199,7 +199,7 @@ const IdeasTab = () => {
                           ? "bg-primary text-primary-foreground"
                           : "bg-secondary text-muted-foreground hover:text-foreground"
                       }`}
-                      aria-label={voted ? t.ideasUnvote : t.ideasVote}
+                      aria-label={voted ? (t.ideasUnvote || "Remove vote") : (t.ideasVote || "Vote")}
                     >
                       <ArrowUp className="h-4 w-4" />
                       <span className="font-mono-tabular text-xs font-semibold mt-0.5">{idea.upvotes}</span>
