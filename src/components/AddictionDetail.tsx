@@ -74,6 +74,11 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
     setSlipOpen(false);
   };
 
+  const daysElapsed = hoursElapsed / 24;
+  const unitsAvoided = Math.floor(daysElapsed * record.perDay);
+  const moneySaved = daysElapsed * record.perDay * record.pricePerUnit;
+  const caloriesSaved = unitsAvoided * config.caloriesPerUnit;
+
   return (
     <div className="min-h-screen bg-background">
       <div className="mx-auto max-w-md px-5 pb-12">
