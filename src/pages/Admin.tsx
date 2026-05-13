@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { Crown, Loader2, Search, ShieldCheck, X, Trash2 } from "lucide-react";
+import { Crown, Loader2, Search, ShieldCheck, X, Trash2, Lightbulb, ThumbsUp } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,6 +36,15 @@ type AdminUser = {
   grant: { expires_at: string | null; reason: string | null } | null;
 };
 
+type AdminIdea = {
+  id: string;
+  title: string;
+  description: string | null;
+  upvotes: number;
+  status: string;
+  created_at: string;
+};
+
 const DURATIONS = [
   { value: "1m", label: "1 měsíc", days: 30 },
   { value: "3m", label: "3 měsíce", days: 90 },
@@ -53,6 +62,8 @@ export default function Admin() {
   const [search, setSearch] = useState("");
   const [busyId, setBusyId] = useState<string | null>(null);
   const [duration, setDuration] = useState<Record<string, string>>({});
+  const [ideas, setIdeas] = useState<AdminIdea[]>([]);
+  const [ideasLoading, setIdeasLoading] = useState(false);
 
   useEffect(() => {
     if (loading) return;
@@ -67,7 +78,10 @@ export default function Admin() {
       });
       setIsAdmin(!!data);
       setChecking(false);
-      if (data) await loadUsers();
+      if (data) {
+        await loadUsers();
+        await loadIdeas();
+      }
     })();
   }, [user, loading]);
 
@@ -125,6 +139,31 @@ export default function Admin() {
     }
     toast({ title: "Uživatel smazán" });
     await loadUsers();
+  }
+
+  async function loadIdeas() {
+    setIdeasLoading(true);
+    const { data, error } = await supabase
+      .from("ideas")
+      .select("id, title, description, upvotes, status, created_at")
+      .order("upvotes", { ascending: false })
+      .order("created_at", { ascending: false });
+    setIdeasLoading(false);
+    if (error) {
+      toast({ title: "Chyba", description: error.message, variant: "destructive" });
+      return;
+    }
+    setIdeas((data ?? []) as AdminIdea[]);
+  }
+
+  async function updateIdeaStatus(ideaId: string, status: string) {
+    const { error } = await supabase.from("ideas").update({ status }).eq("id", ideaId);
+    if (error) {
+      toast({ title: "Chyba", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Status aktualizován" });
+    await loadIdeas();
   }
 
   const filtered = useMemo(() => {
@@ -310,6 +349,84 @@ export default function Admin() {
             <p className="text-center text-sm text-muted-foreground py-8">
               Žádní uživatelé.
             </p>
+          )}
+        </div>
+
+        {/* Nápady */}
+        <div className="space-y-4 pt-6 border-t">
+          <div>
+            <h2 className="text-xl font-semibold flex items-center gap-2">
+              <Lightbulb className="h-5 w-5 text-primary" />
+              Nápady od uživatelů
+            </h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Seřazeno podle počtu hlasů.
+            </p>
+          </div>
+
+          {ideasLoading ? (
+            <div className="flex justify-center py-8">
+              <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+            </div>
+          ) : (
+            <div className="grid gap-3">
+              {ideas.map((idea) => (
+                <Card key={idea.id}>
+                  <CardContent className="p-4 flex flex-col md:flex-row md:items-start gap-4">
+                    <div className="flex-1 min-w-0 space-y-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-medium">{idea.title}</span>
+                        <Badge variant={
+                          idea.status === "done"
+                            ? "default"
+                            : idea.status === "in_progress"
+                            ? "secondary"
+                            : idea.status === "planned"
+                            ? "outline"
+                            : "destructive"
+                        }>
+                          {idea.status === "new" && "Nový"}
+                          {idea.status === "planned" && "Plánováno"}
+                          {idea.status === "in_progress" && "Ve vývoji"}
+                          {idea.status === "done" && "Hotovo"}
+                          {!["new", "planned", "in_progress", "done"].includes(idea.status) && idea.status}
+                        </Badge>
+                      </div>
+                      {idea.description && (
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {idea.description}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <ThumbsUp className="h-4 w-4" />
+                        {idea.upvotes}
+                      </div>
+                      <Select
+                        value={idea.status}
+                        onValueChange={(v) => updateIdeaStatus(idea.id, v)}
+                      >
+                        <SelectTrigger className="w-[150px]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="new">Nový</SelectItem>
+                          <SelectItem value="planned">Plánováno</SelectItem>
+                          <SelectItem value="in_progress">Ve vývoji</SelectItem>
+                          <SelectItem value="done">Hotovo</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              {ideas.length === 0 && (
+                <p className="text-center text-sm text-muted-foreground py-8">
+                  Zatím žádné nápady.
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>
