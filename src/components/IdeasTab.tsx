@@ -18,7 +18,8 @@ interface Idea {
 
 const IdeasTab = () => {
   const { user } = useAuth();
-  const { t } = useLanguage();
+  const { t: tRaw } = useLanguage();
+  const t = tRaw as any;
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [votedIds, setVotedIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
