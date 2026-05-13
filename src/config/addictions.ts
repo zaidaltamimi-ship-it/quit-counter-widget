@@ -50,6 +50,16 @@ export const BEHAVIORAL_MILESTONES = [
   { time: 8760, titleKey: "m_behavioralOneYear", descKey: "m_behavioralOneYearDesc" },
 ];
 
+// Gentle, mental-health framed milestones for self-harm. No "cravings", no shame.
+export const SELF_HARM_MILESTONES = [
+  { time: 24, titleKey: "m_shFirstDay", descKey: "m_shFirstDayDesc" },
+  { time: 72, titleKey: "m_shThreeDays", descKey: "m_shThreeDaysDesc" },
+  { time: 168, titleKey: "m_shOneWeek", descKey: "m_shOneWeekDesc" },
+  { time: 720, titleKey: "m_shOneMonth", descKey: "m_shOneMonthDesc" },
+  { time: 2160, titleKey: "m_shThreeMonths", descKey: "m_shThreeMonthsDesc" },
+  { time: 8760, titleKey: "m_shOneYear", descKey: "m_shOneYearDesc" },
+];
+
 export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   // Tobacco
   {
@@ -249,23 +259,26 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
     milestones: CAFFEINE_MILESTONES,
     statKeys: ["unitsAvoided", "moneySaved"],
   },
-  // Behavioral
+  // Behavioral — each tuned to its own reality
   {
+    // Gambling: no "per day count" — track money lost on average per month instead.
     id: "gambling",
     category: "behavioral",
     icon: "gambling",
     labelKey: "gambling",
     counterLabelKey: "timeSinceLastGamble",
-    unitLabelKey: "sessionsAvoidedGambling",
-    defaultPerDay: 1,
+    unitLabelKey: "moneyKept",
+    defaultPerDay: 0,
     caloriesPerUnit: 0,
     showPerDay: false,
     showPatchTracker: false,
     showReductionMode: false,
+    pricePeriod: "perMonth",
     milestones: BEHAVIORAL_MILESTONES,
-    statKeys: ["moneySaved"],
+    statKeys: ["moneyEstimate"],
   },
   {
+    // Social media: time is the unit. Hours per day = hours reclaimed.
     id: "social_media",
     category: "behavioral",
     icon: "social_media",
@@ -278,9 +291,10 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
     showPatchTracker: false,
     showReductionMode: true,
     milestones: BEHAVIORAL_MILESTONES,
-    statKeys: ["unitsAvoided"],
+    statKeys: ["hoursReclaimed"],
   },
   {
+    // Gaming: time is the unit. Hours per day = hours reclaimed.
     id: "gaming",
     category: "behavioral",
     icon: "gaming",
@@ -293,52 +307,58 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
     showPatchTracker: false,
     showReductionMode: true,
     milestones: BEHAVIORAL_MILESTONES,
-    statKeys: ["unitsAvoided"],
+    statKeys: ["hoursReclaimed"],
   },
   {
+    // Pornography: pure streak. Quantifying "sessions" feels clinical and shame-y.
     id: "pornography",
     category: "behavioral",
     icon: "pornography",
     labelKey: "pornography",
     counterLabelKey: "timeSinceLastPorn",
-    unitLabelKey: "sessionsAvoidedPorn",
-    defaultPerDay: 1,
+    unitLabelKey: "daysFreePorn",
+    defaultPerDay: 0,
     caloriesPerUnit: 0,
     showPerDay: false,
     showPatchTracker: false,
     showReductionMode: false,
+    streakOnly: true,
     milestones: BEHAVIORAL_MILESTONES,
-    statKeys: ["unitsAvoided"],
+    statKeys: [],
   },
   {
+    // Shopping: track average monthly spend prevented, not "impulses per day".
     id: "shopping",
     category: "behavioral",
     icon: "shopping",
     labelKey: "shopping",
     counterLabelKey: "timeSinceLastShopping",
-    unitLabelKey: "impulsesPrevented",
-    defaultPerDay: 1,
+    unitLabelKey: "moneyKept",
+    defaultPerDay: 0,
     caloriesPerUnit: 0,
     showPerDay: false,
     showPatchTracker: false,
     showReductionMode: false,
+    pricePeriod: "perMonth",
     milestones: BEHAVIORAL_MILESTONES,
-    statKeys: ["moneySaved"],
+    statKeys: ["moneyEstimate"],
   },
   {
+    // Self-harm: pure streak. No counts, no money, no calories. Gentle milestones.
     id: "self_harm",
     category: "behavioral",
     icon: "self_harm",
     labelKey: "selfHarm",
     counterLabelKey: "timeSinceLastSelfHarm",
     unitLabelKey: "daysFreeSelfHarm",
-    defaultPerDay: 1,
+    defaultPerDay: 0,
     caloriesPerUnit: 0,
     showPerDay: false,
     showPatchTracker: false,
     showReductionMode: false,
-    milestones: BEHAVIORAL_MILESTONES,
-    statKeys: ["unitsAvoided"],
+    streakOnly: true,
+    milestones: SELF_HARM_MILESTONES,
+    statKeys: [],
   },
 ];
 
