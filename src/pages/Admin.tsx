@@ -113,6 +113,20 @@ export default function Admin() {
     await loadUsers();
   }
 
+  async function deleteUser(userId: string) {
+    setBusyId(userId);
+    const { error } = await supabase.functions.invoke("admin-delete-user", {
+      body: { user_id: userId },
+    });
+    setBusyId(null);
+    if (error) {
+      toast({ title: "Chyba", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Uživatel smazán" });
+    await loadUsers();
+  }
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     if (!q) return users;
