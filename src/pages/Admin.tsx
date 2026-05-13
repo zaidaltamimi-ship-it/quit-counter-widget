@@ -78,7 +78,10 @@ export default function Admin() {
       });
       setIsAdmin(!!data);
       setChecking(false);
-      if (data) await loadUsers();
+      if (data) {
+        await loadUsers();
+        await loadIdeas();
+      }
     })();
   }, [user, loading]);
 
