@@ -67,8 +67,8 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
       id: crypto.randomUUID(),
       type: selectedType,
       quitDate: date.toISOString(),
-      perDay,
-      pricePerUnit: Number(pricePerUnit) / (isTobacco ? 20 : 1),
+      perDay: config.streakOnly ? 0 : perDay,
+      pricePerUnit: config.streakOnly ? 0 : Number(pricePerUnit) / (isTobacco ? 20 : 1),
       unitsPerPack: isTobacco ? 20 : 1,
       createdAt: new Date().toISOString(),
       healthEntries: [],
@@ -82,6 +82,7 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
 
   const getPriceLabel = () => {
     if (!config) return t.pricePerUnit;
+    if (config.pricePeriod === "perMonth") return (t as any).monthlySpend || t.pricePerUnit;
     if (config.category === "tobacco") return t.pricePerPack;
     if (config.id === "alcohol") return t.pricePerDrink;
     return t.pricePerUnit;
