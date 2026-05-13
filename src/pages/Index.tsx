@@ -165,8 +165,8 @@ const Index = () => {
       </div>
 
       {/* Bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 z-20 border-t border-border bg-card/95 backdrop-blur-md">
-        <div className="mx-auto max-w-md flex">
+      <nav className="fixed bottom-0 left-0 right-0 z-20 border-t border-border bg-card/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)]">
+        <div className="mx-auto max-w-md flex py-2">
           {([
             { key: "home" as Tab, icon: LayoutDashboard, label: "MyAddiction" },
             { key: "ideas" as Tab, icon: Lightbulb, label: (t as any).ideas || "Ideas" },
@@ -175,7 +175,7 @@ const Index = () => {
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium transition-colors ${
+              className={`flex-1 flex flex-col items-center gap-0.5 py-2 text-[10px] font-medium transition-colors ${
                 tab === key
                   ? "text-primary"
                   : "text-muted-foreground"
