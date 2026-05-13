@@ -1,7 +1,7 @@
 import {
   Cigarette, Wind, Flame, Package, Droplets, SprayCan,
   Beer, Leaf, Coffee, Dices, Smartphone, Gamepad2,
-  Ban, ShoppingBag
+  Ban, ShoppingBag, Heart
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +20,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   gaming: Gamepad2,
   pornography: Ban,
   shopping: ShoppingBag,
+  self_harm: Heart,
 };
 
 interface AddictionIconProps {
