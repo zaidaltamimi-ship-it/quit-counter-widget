@@ -265,6 +265,21 @@ export const ADDICTION_TYPES: AddictionTypeConfig[] = [
     milestones: BEHAVIORAL_MILESTONES,
     statKeys: ["moneySaved"],
   },
+  {
+    id: "self_harm",
+    category: "behavioral",
+    icon: "self_harm",
+    labelKey: "selfHarm",
+    counterLabelKey: "timeSinceLastSelfHarm",
+    unitLabelKey: "daysFreeSelfHarm",
+    defaultPerDay: 1,
+    caloriesPerUnit: 0,
+    showPerDay: false,
+    showPatchTracker: false,
+    showReductionMode: false,
+    milestones: BEHAVIORAL_MILESTONES,
+    statKeys: ["unitsAvoided"],
+  },
 ];
 
 export function getAddictionConfig(typeId: string): AddictionTypeConfig {
