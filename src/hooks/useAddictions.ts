@@ -25,10 +25,11 @@ export function useAddictions() {
 
     const mapped: AddictionRecord[] = await Promise.all(
       addictions.map(async (a) => {
-        const [{ data: health }, { data: mood }, { data: weekly }] = await Promise.all([
+        const [{ data: health }, { data: mood }, { data: weekly }, { data: slips }] = await Promise.all([
           supabase.from("health_entries").select("*").eq("addiction_id", a.id),
           supabase.from("mood_entries").select("*").eq("addiction_id", a.id),
           supabase.from("weekly_logs").select("*").eq("addiction_id", a.id),
+          supabase.from("slips").select("*").eq("addiction_id", a.id).order("occurred_at", { ascending: false }),
         ]);
 
         return {
@@ -59,6 +60,14 @@ export function useAddictions() {
           reductionMode: a.reduction_mode,
           weeklyTarget: a.weekly_target ?? undefined,
           weeklyLog: (weekly || []).map((w) => ({ week: w.week, actual: w.actual })),
+          pausedAt: (a as any).paused_at ?? null,
+          totalPausedMs: Number((a as any).total_paused_ms ?? 0),
+          slips: (slips || []).map((s: any) => ({
+            id: s.id,
+            occurredAt: s.occurred_at,
+            kind: s.kind,
+            note: s.note ?? undefined,
+          })),
         };
       })
     );
@@ -182,6 +191,8 @@ export function useAddictions() {
     if (updates.pricePerUnit !== undefined) dbUpdates.price_per_unit = updates.pricePerUnit;
     if (updates.reductionMode !== undefined) dbUpdates.reduction_mode = updates.reductionMode;
     if (updates.weeklyTarget !== undefined) dbUpdates.weekly_target = updates.weeklyTarget;
+    if (updates.pausedAt !== undefined) dbUpdates.paused_at = updates.pausedAt;
+    if (updates.totalPausedMs !== undefined) dbUpdates.total_paused_ms = updates.totalPausedMs;
 
     if (Object.keys(dbUpdates).length > 0) {
       await supabase.from("addictions").update(dbUpdates).eq("id", id);
@@ -250,5 +261,32 @@ export function useAddictions() {
     setRecords((prev) => prev.filter((r) => r.id !== id));
   }, [user]);
 
-  return { records, loading, addRecord, updateRecord, removeRecord };
+  const addSlip = useCallback(async (
+    addictionId: string,
+    kind: "continue" | "reset",
+    note?: string,
+  ) => {
+    if (!user) return;
+    const occurredAt = new Date().toISOString();
+    const { data } = await supabase
+      .from("slips")
+      .insert({
+        addiction_id: addictionId,
+        user_id: user.id,
+        kind,
+        note: note ?? null,
+        occurred_at: occurredAt,
+      })
+      .select("id")
+      .single();
+    if (!data) return;
+    const slip = { id: data.id, occurredAt, kind, note };
+    setRecords((prev) =>
+      prev.map((r) =>
+        r.id === addictionId ? { ...r, slips: [slip, ...(r.slips || [])] } : r,
+      ),
+    );
+  }, [user]);
+
+  return { records, loading, addRecord, updateRecord, removeRecord, addSlip };
 }

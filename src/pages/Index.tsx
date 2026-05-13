@@ -20,7 +20,7 @@ type Tab = "home" | "friends";
 
 const Index = () => {
   const { user, loading: authLoading, signOut } = useAuth();
-  const { records, addRecord, updateRecord, removeRecord } = useAddictions();
+  const { records, addRecord, updateRecord, removeRecord, addSlip } = useAddictions();
   const { isPremium, loading: subLoading, openPortal } = useSubscription();
   const { t } = useLanguage();
   const [view, setView] = useState<View>("dashboard");
@@ -108,6 +108,7 @@ const Index = () => {
         record={selectedRecord}
         onBack={() => { setView("dashboard"); setSelectedId(null); }}
         onUpdate={(updates) => updateRecord(selectedRecord.id, updates)}
+        onAddSlip={(kind, note) => addSlip(selectedRecord.id, kind, note)}
       />
     );
   }

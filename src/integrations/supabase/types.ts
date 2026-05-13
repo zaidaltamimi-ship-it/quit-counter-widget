@@ -18,10 +18,12 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          paused_at: string | null
           per_day: number
           price_per_unit: number
           quit_date: string
           reduction_mode: boolean
+          total_paused_ms: number
           type: string
           units_per_pack: number
           updated_at: string
@@ -31,10 +33,12 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          paused_at?: string | null
           per_day?: number
           price_per_unit?: number
           quit_date: string
           reduction_mode?: boolean
+          total_paused_ms?: number
           type: string
           units_per_pack?: number
           updated_at?: string
@@ -44,10 +48,12 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          paused_at?: string | null
           per_day?: number
           price_per_unit?: number
           quit_date?: string
           reduction_mode?: boolean
+          total_paused_ms?: number
           type?: string
           units_per_pack?: number
           updated_at?: string
@@ -259,6 +265,44 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      slips: {
+        Row: {
+          addiction_id: string
+          created_at: string
+          id: string
+          kind: string
+          note: string | null
+          occurred_at: string
+          user_id: string
+        }
+        Insert: {
+          addiction_id: string
+          created_at?: string
+          id?: string
+          kind?: string
+          note?: string | null
+          occurred_at?: string
+          user_id: string
+        }
+        Update: {
+          addiction_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          note?: string | null
+          occurred_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slips_addiction_id_fkey"
+            columns: ["addiction_id"]
+            isOneToOne: false
+            referencedRelation: "addictions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       weekly_logs: {
         Row: {
