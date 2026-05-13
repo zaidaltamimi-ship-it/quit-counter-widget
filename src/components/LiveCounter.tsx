@@ -7,6 +7,8 @@ import { useLanguage } from "@/i18n/LanguageContext";
 interface LiveCounterProps {
   quitDate: Date;
   typeId: AddictionTypeId;
+  pausedAt?: Date | null;
+  totalPausedMs?: number;
 }
 
 interface TimeElapsed {
@@ -16,8 +18,9 @@ interface TimeElapsed {
   seconds: number;
 }
 
-function calcElapsed(quitDate: Date): TimeElapsed {
-  const diff = Math.max(0, Date.now() - quitDate.getTime());
+function calcElapsed(quitDate: Date, pausedAt: Date | null | undefined, totalPausedMs: number): TimeElapsed {
+  const end = pausedAt ? pausedAt.getTime() : Date.now();
+  const diff = Math.max(0, end - quitDate.getTime() - totalPausedMs);
   return {
     seconds: Math.floor(diff / 1000) % 60,
     minutes: Math.floor(diff / 60000) % 60,
@@ -28,23 +31,26 @@ function calcElapsed(quitDate: Date): TimeElapsed {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const LiveCounter = ({ quitDate, typeId }: LiveCounterProps) => {
+const LiveCounter = ({ quitDate, typeId, pausedAt = null, totalPausedMs = 0 }: LiveCounterProps) => {
   const { t } = useLanguage();
-  const [elapsed, setElapsed] = useState<TimeElapsed>(calcElapsed(quitDate));
+  const [elapsed, setElapsed] = useState<TimeElapsed>(calcElapsed(quitDate, pausedAt, totalPausedMs));
   const [pulse, setPulse] = useState(false);
   const config = getAddictionConfig(typeId);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const next = calcElapsed(quitDate);
+    const tick = () => {
+      const next = calcElapsed(quitDate, pausedAt, totalPausedMs);
       setElapsed(next);
       if (next.seconds === 0) {
         setPulse(true);
         setTimeout(() => setPulse(false), 1000);
       }
-    }, 1000);
+    };
+    tick();
+    if (pausedAt) return; // freeze when paused
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-  }, [quitDate]);
+  }, [quitDate, pausedAt, totalPausedMs]);
 
   const label = (t as any)[config.counterLabelKey] || config.counterLabelKey;
 
