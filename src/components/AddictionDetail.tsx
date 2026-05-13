@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import type { AddictionRecord } from "@/types/addiction";
 import { getAddictionConfig } from "@/config/addictions";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useCurrency, formatMoney } from "@/hooks/useCurrency";
 import LiveCounter from "@/components/LiveCounter";
 import HealthMilestones from "@/components/HealthMilestones";
 import HealthLogForm from "@/components/HealthLogForm";
