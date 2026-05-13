@@ -2,7 +2,7 @@ export type AddictionCategory = "tobacco" | "alcohol" | "substance" | "behaviora
 
 export type AddictionTypeId =
   | "cigarette" | "vape" | "iqos" | "snus" | "nicotine_gum" | "nicotine_spray"
-  | "alcohol"
+  | "beer" | "wine" | "spirits" | "cocktails"
   | "cannabis" | "caffeine"
   | "gambling" | "social_media" | "gaming" | "pornography" | "shopping" | "self_harm";
 

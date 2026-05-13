@@ -1,6 +1,7 @@
 import {
   Cigarette, Wind, Flame, Package, Droplets, SprayCan,
-  Beer, Leaf, Coffee, Dices, Smartphone, Gamepad2,
+  Beer, Wine, FlaskConical, Martini,
+  Leaf, Coffee, Dices, Smartphone, Gamepad2,
   Ban, ShoppingBag, Heart
 } from "lucide-react";
 import { cn } from "@/lib/utils";
