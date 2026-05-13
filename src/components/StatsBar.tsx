@@ -1,5 +1,6 @@
 import type { TobaccoType } from "@/components/QuitDatePicker";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { formatMoney } from "@/hooks/useCurrency";
 
 interface StatsBarProps {
   hoursElapsed: number;
