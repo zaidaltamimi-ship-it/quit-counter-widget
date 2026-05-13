@@ -741,6 +741,17 @@ export const translations = {
     landingFinalDesc: "Začít je zdarma, zcela soukromé a můžete jít vlastním tempem. Nemáte co ztratit — a můžete jen získat.",
     landingBeginNow: "Začít teď",
     landingFooter: "Vytvořeno s péčí, pro lidi, kterým záleží na druhých.",
+    pause: "Pauza",
+    resume: "Pokračovat",
+    pausedNotice: "Pauza — váš pokrok je v bezpečí",
+    hadASlip: "Selhal jsem",
+    slipsLogged: "Zaznamenaná zaškobrtnutí",
+    slipsKindMessage: "Každý den, kdy se rozhodnete znovu, je vítězství.",
+    slipDialogTitle: "To je v pořádku. Jste člověk.",
+    slipDialogDesc: "Selhání není prohra — je to informace. Vyberte si, co vám sedí, bez výčitek.",
+    slipNotePlaceholder: "Volitelně: co bylo spouštěčem?",
+    slipKeepGoing: "Jsem v pohodě — pokračovat",
+    slipStartFresh: "Začít znovu od dneška",
   },
   de: {
     // General
