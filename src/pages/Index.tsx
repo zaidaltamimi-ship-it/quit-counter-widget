@@ -6,6 +6,7 @@ import AddictionOnboarding from "@/components/AddictionOnboarding";
 import AddictionDetail from "@/components/AddictionDetail";
 
 import FriendsTab from "@/components/FriendsTab";
+import IdeasTab from "@/components/IdeasTab";
 import PremiumPaywall from "@/components/PremiumPaywall";
 import Auth from "@/pages/Auth";
 import { useAddictions } from "@/hooks/useAddictions";
@@ -13,10 +14,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { AddictionRecord } from "@/types/addiction";
-import { LogOut, LayoutDashboard, Users, Crown } from "lucide-react";
+import { LogOut, LayoutDashboard, Users, Crown, Lightbulb } from "lucide-react";
 
 type View = "dashboard" | "survey" | "onboarding" | "detail";
-type Tab = "home" | "friends";
+type Tab = "home" | "friends" | "ideas";
 
 const Index = () => {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -146,6 +147,7 @@ const Index = () => {
           />
         )}
         {tab === "friends" && (isPremium ? <FriendsTab /> : <PremiumPaywall />)}
+        {tab === "ideas" && <IdeasTab />}
       </div>
 
       {/* Bottom nav */}
@@ -153,6 +155,7 @@ const Index = () => {
         <div className="mx-auto max-w-md flex">
           {([
             { key: "home" as Tab, icon: LayoutDashboard, label: "MyAddiction" },
+            { key: "ideas" as Tab, icon: Lightbulb, label: (t as any).ideas || "Ideas" },
             { key: "friends" as Tab, icon: Users, label: t.friends, premium: true },
           ]).map(({ key, icon: Icon, label, premium }) => (
             <button
