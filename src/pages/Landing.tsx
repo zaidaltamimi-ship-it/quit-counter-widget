@@ -92,6 +92,21 @@ const Landing = () => {
           </Button>
         </motion.div>
 
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="mt-4 text-sm text-muted-foreground"
+        >
+          {t.haveAccount}{" "}
+          <button
+            onClick={() => navigate("/auth")}
+            className="text-primary hover:underline font-medium"
+          >
+            {t.logIn}
+          </button>
+        </motion.p>
+
         <div className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 h-[500px] w-[600px] rounded-full bg-primary/5 blur-3xl" />
       </section>
 
