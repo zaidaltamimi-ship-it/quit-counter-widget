@@ -17,6 +17,7 @@ const PATCH_STEPS: PatchStep[] = [
   { step: 1, labelKey: "step1", mg: 21, durationWeeks: 6, descKey: "fullStrength" },
   { step: 2, labelKey: "step2", mg: 14, durationWeeks: 2, descKey: "reducedStrength" },
   { step: 3, labelKey: "step3", mg: 7, durationWeeks: 2, descKey: "lowStrength" },
+  { step: 4, labelKey: "step4", mg: 4, durationWeeks: 2, descKey: "lozenges" },
 ];
 
 interface PatchState {
@@ -71,7 +72,7 @@ const PatchTracker = () => {
     const stepEnd = stepStart + currentPatchStep.durationWeeks * 7 * 24 * 3600000;
     const oneDayBefore = stepEnd - 24 * 3600000;
 
-    if (now >= oneDayBefore && now < stepEnd && state.currentStep < 3) {
+    if (now >= oneDayBefore && now < stepEnd && state.currentStep < 4) {
       const nextStep = PATCH_STEPS.find(s => s.step === state.currentStep + 1);
       if (nextStep && Notification.permission === "granted") {
         const notifKey = `patch-notif-step-${state.currentStep}`;
@@ -93,7 +94,7 @@ const PatchTracker = () => {
   };
 
   const handleStepChange = (step: number) => {
-    for (let i = 1; i <= 3; i++) localStorage.removeItem(`patch-notif-step-${i}`);
+    for (let i = 1; i <= 4; i++) localStorage.removeItem(`patch-notif-step-${i}`);
     setState(prev => ({ ...prev, currentStep: step, stepStartDate: new Date().toISOString() }));
   };
 
@@ -111,7 +112,7 @@ const PatchTracker = () => {
   }, [state.notificationsEnabled]);
 
   const handleDeactivate = () => {
-    for (let i = 1; i <= 3; i++) localStorage.removeItem(`patch-notif-step-${i}`);
+    for (let i = 1; i <= 4; i++) localStorage.removeItem(`patch-notif-step-${i}`);
     setState(getDefaultState());
   };
 
@@ -208,7 +209,7 @@ const PatchTracker = () => {
                             {Math.max(0, daysRemaining)} / {currentPatchStep.durationWeeks * 7} × {currentPatchStep.mg}mg
                           </span>
                           <span className="text-[0.65rem] uppercase tracking-widest text-muted-foreground">
-                            {(t as any).patchesLabel}
+                            {state.currentStep === 4 ? (t as any).lozengesLabel : (t as any).patchesLabel}
                           </span>
                         </div>
                         <div className="h-1.5 w-full rounded-full bg-background overflow-hidden">
@@ -220,7 +221,7 @@ const PatchTracker = () => {
                         </div>
                       </div>
 
-                      {stepComplete && state.currentStep < 3 && (
+                      {stepComplete && state.currentStep < 4 && (
                         <motion.div
                           initial={{ opacity: 0, y: 4 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -231,7 +232,7 @@ const PatchTracker = () => {
                           </p>
                         </motion.div>
                       )}
-                      {stepComplete && state.currentStep === 3 && (
+                      {stepComplete && state.currentStep === 4 && (
                         <motion.div
                           initial={{ opacity: 0, y: 4 }}
                           animate={{ opacity: 1, y: 0 }}
