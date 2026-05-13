@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Pause, Play, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import type { AddictionRecord } from "@/types/addiction";
 import { getAddictionConfig } from "@/config/addictions";
@@ -10,31 +10,69 @@ import HealthLogForm from "@/components/HealthLogForm";
 import HealthCharts from "@/components/HealthCharts";
 import PatchTracker from "@/components/PatchTracker";
 import MoodLog from "@/components/MoodLog";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 
 interface AddictionDetailProps {
   record: AddictionRecord;
   onBack: () => void;
   onUpdate: (updates: Partial<AddictionRecord>) => void;
+  onAddSlip?: (kind: "continue" | "reset", note?: string) => void;
 }
 
-const AddictionDetail = ({ record, onBack, onUpdate }: AddictionDetailProps) => {
+const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetailProps) => {
   const { t } = useLanguage();
   const config = getAddictionConfig(record.type);
   const [hoursElapsed, setHoursElapsed] = useState(0);
+  const [slipOpen, setSlipOpen] = useState(false);
+  const [slipNote, setSlipNote] = useState("");
+
+  const isPaused = !!record.pausedAt;
+  const totalPaused = record.totalPausedMs || 0;
 
   useEffect(() => {
-    const quitDate = new Date(record.quitDate);
-    const update = () => setHoursElapsed((Date.now() - quitDate.getTime()) / 3600000);
+    const quitDate = new Date(record.quitDate).getTime();
+    const update = () => {
+      const end = isPaused ? new Date(record.pausedAt!).getTime() : Date.now();
+      setHoursElapsed(Math.max(0, (end - quitDate - totalPaused) / 3600000));
+    };
     update();
     const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
-  }, [record.quitDate]);
+  }, [record.quitDate, record.pausedAt, totalPaused, isPaused]);
 
-  const daysElapsed = hoursElapsed / 24;
-  const unitsAvoided = Math.floor(daysElapsed * record.perDay);
-  const moneySaved = daysElapsed * record.perDay * record.pricePerUnit;
-  const caloriesSaved = unitsAvoided * config.caloriesPerUnit;
+  const handlePauseToggle = () => {
+    if (isPaused) {
+      // Resume: add pause duration to total
+      const pauseElapsed = Date.now() - new Date(record.pausedAt!).getTime();
+      onUpdate({
+        pausedAt: null,
+        totalPausedMs: totalPaused + pauseElapsed,
+      });
+    } else {
+      onUpdate({ pausedAt: new Date().toISOString() });
+    }
+  };
+
+  const handleSlipContinue = () => {
+    onAddSlip?.("continue", slipNote.trim() || undefined);
+    setSlipNote("");
+    setSlipOpen(false);
+  };
+
+  const handleSlipReset = () => {
+    onAddSlip?.("reset", slipNote.trim() || undefined);
+    onUpdate({
+      quitDate: new Date().toISOString(),
+      pausedAt: null,
+      totalPausedMs: 0,
+    });
+    setSlipNote("");
+    setSlipOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -48,8 +86,36 @@ const AddictionDetail = ({ record, onBack, onUpdate }: AddictionDetailProps) => 
         </div>
 
         {/* Counter */}
-        <div className="flex flex-col items-center justify-center pt-8 pb-8">
-          <LiveCounter quitDate={new Date(record.quitDate)} typeId={record.type} />
+        <div className="flex flex-col items-center justify-center pt-8 pb-4">
+          <LiveCounter
+            quitDate={new Date(record.quitDate)}
+            typeId={record.type}
+            pausedAt={record.pausedAt ? new Date(record.pausedAt) : null}
+            totalPausedMs={totalPaused}
+          />
+          {isPaused && (
+            <p className="mt-3 text-[0.7rem] uppercase tracking-widest text-muted-foreground">
+              {(t as any).pausedNotice || "Paused — your progress is safe"}
+            </p>
+          )}
+        </div>
+
+        {/* Pause / Slip actions */}
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={handlePauseToggle}
+            className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-secondary px-3 py-2.5 text-sm font-medium text-foreground hover:bg-secondary/80 transition-colors"
+          >
+            {isPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
+            {isPaused ? ((t as any).resume || "Resume") : ((t as any).pause || "Pause")}
+          </button>
+          <button
+            onClick={() => setSlipOpen(true)}
+            className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-secondary px-3 py-2.5 text-sm font-medium text-foreground hover:bg-secondary/80 transition-colors"
+          >
+            <Heart className="h-4 w-4" />
+            {(t as any).hadASlip || "Had a slip"}
+          </button>
         </div>
 
         {/* Stats */}
