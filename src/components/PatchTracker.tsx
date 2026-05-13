@@ -17,6 +17,7 @@ const PATCH_STEPS: PatchStep[] = [
   { step: 1, labelKey: "step1", mg: 21, durationWeeks: 6, descKey: "fullStrength" },
   { step: 2, labelKey: "step2", mg: 14, durationWeeks: 2, descKey: "reducedStrength" },
   { step: 3, labelKey: "step3", mg: 7, durationWeeks: 2, descKey: "lowStrength" },
+  { step: 4, labelKey: "step4", mg: 4, durationWeeks: 2, descKey: "lozenges" },
 ];
 
 interface PatchState {
