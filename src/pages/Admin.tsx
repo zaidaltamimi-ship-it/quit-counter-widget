@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { Crown, Loader2, Search, ShieldCheck, X, Trash2 } from "lucide-react";
+import { Crown, Loader2, Search, ShieldCheck, X, Trash2, Lightbulb, ThumbsUp } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
