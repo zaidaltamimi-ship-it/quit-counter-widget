@@ -72,7 +72,7 @@ const PatchTracker = () => {
     const stepEnd = stepStart + currentPatchStep.durationWeeks * 7 * 24 * 3600000;
     const oneDayBefore = stepEnd - 24 * 3600000;
 
-    if (now >= oneDayBefore && now < stepEnd && state.currentStep < 3) {
+    if (now >= oneDayBefore && now < stepEnd && state.currentStep < 4) {
       const nextStep = PATCH_STEPS.find(s => s.step === state.currentStep + 1);
       if (nextStep && Notification.permission === "granted") {
         const notifKey = `patch-notif-step-${state.currentStep}`;
