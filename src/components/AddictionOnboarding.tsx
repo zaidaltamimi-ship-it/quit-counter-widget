@@ -5,6 +5,7 @@ import { AddictionIcon } from "@/components/AddictionIcon";
 import { ADDICTION_TYPES } from "@/config/addictions";
 import type { AddictionRecord, AddictionTypeId } from "@/types/addiction";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { getCurrencySymbol } from "@/hooks/useCurrency";
 import type { SurveyAnswers } from "@/components/AddictionSurvey";
 
 interface AddictionOnboardingProps {
