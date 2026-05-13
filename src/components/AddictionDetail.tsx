@@ -75,9 +75,37 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
   };
 
   const daysElapsed = hoursElapsed / 24;
-  const unitsAvoided = Math.floor(daysElapsed * record.perDay);
-  const moneySaved = daysElapsed * record.perDay * record.pricePerUnit;
-  const caloriesSaved = unitsAvoided * config.caloriesPerUnit;
+  const monthsElapsed = daysElapsed / 30.4375;
+
+  // Compute every possible stat — render only those declared in config.statKeys.
+  const statValues: Record<string, { label: string; value: string }> = {
+    unitsAvoided: {
+      label: (t as any)[config.unitLabelKey] || "Avoided",
+      value: Math.floor(daysElapsed * record.perDay).toLocaleString(),
+    },
+    moneySaved: {
+      label: t.moneySaved,
+      value: `$${(daysElapsed * record.perDay * record.pricePerUnit).toFixed(2)}`,
+    },
+    caloriesSaved: {
+      label: t.caloriesSaved,
+      value: Math.floor(daysElapsed * record.perDay * config.caloriesPerUnit).toLocaleString(),
+    },
+    hoursReclaimed: {
+      label: (t as any)[config.unitLabelKey] || "Hours reclaimed",
+      // perDay is hours/day for time-based behaviors
+      value: Math.floor(daysElapsed * record.perDay).toLocaleString(),
+    },
+    moneyEstimate: {
+      label: (t as any).moneyKept || t.moneySaved,
+      // pricePerUnit holds monthly avg spend for perMonth pricing
+      value: `$${Math.max(0, monthsElapsed * record.pricePerUnit).toFixed(2)}`,
+    },
+  };
+
+  const visibleStats = config.statKeys
+    .map(k => statValues[k])
+    .filter(s => s && s.value !== "0" && s.value !== "$0.00");
 
   return (
     <div className="min-h-screen bg-background">
@@ -103,6 +131,11 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
               {(t as any).pausedNotice || "Paused — your progress is safe"}
             </p>
           )}
+          {config.streakOnly && !isPaused && (
+            <p className="mt-3 text-[0.7rem] uppercase tracking-widest text-muted-foreground text-center max-w-[260px]">
+              {(t as any).streakOnlyCaption || "One moment at a time. You're doing this."}
+            </p>
+          )}
         </div>
 
         {/* Pause / Slip actions */}
@@ -123,16 +156,16 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
           </button>
         </div>
 
-        {/* Stats */}
-        <div className="card-elevated p-5 mb-6">
-          <div className={`grid ${caloriesSaved > 0 ? "grid-cols-3" : "grid-cols-2"} gap-4`}>
-            <StatItem label={(t as any)[config.unitLabelKey] || "Avoided"} value={unitsAvoided.toLocaleString()} />
-            <StatItem label={t.moneySaved} value={`$${moneySaved.toFixed(2)}`} />
-            {caloriesSaved > 0 && (
-              <StatItem label={t.caloriesSaved} value={caloriesSaved.toLocaleString()} />
-            )}
+        {/* Stats — only render when there are stats to show */}
+        {visibleStats.length > 0 && (
+          <div className="card-elevated p-5 mb-6">
+            <div className={`grid gap-4 ${visibleStats.length === 1 ? "grid-cols-1" : visibleStats.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
+              {visibleStats.map((s, i) => (
+                <StatItem key={i} label={s.label} value={s.value} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Health Charts */}
         {record.healthEntries.length > 0 && (
