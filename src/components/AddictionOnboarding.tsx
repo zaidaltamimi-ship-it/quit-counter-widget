@@ -129,8 +129,8 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
             animate={{ opacity: 1, height: "auto" }}
             className="space-y-4 overflow-hidden"
           >
-            {/* Per day input */}
-            {config.showPerDay && (
+            {/* Per day input — hidden for streak-only and money-only addictions */}
+            {config.showPerDay && !config.streakOnly && (
               <div>
                 <label className="block text-xs font-medium text-muted-foreground mb-2">
                   {(t as any)[config.unitLabelKey]?.split(" ")[0] || "Units"} — {t.perDay}
@@ -146,20 +146,31 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
               </div>
             )}
 
-            {/* Price — only for types that track money */}
-            {config.statKeys.includes("moneySaved") && (
-              <div>
-                <label className="block text-xs font-medium text-muted-foreground mb-2">
-                  {getPriceLabel()}
-                </label>
-                <input
-                  type="number"
-                  min={0}
-                  step={0.5}
-                  value={pricePerUnit}
-                  onChange={(e) => setPricePerUnit(e.target.value)}
-                  className="w-full rounded-2xl bg-secondary px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
-                />
+            {/* Price — for any addiction that tracks money (per-unit or per-month estimate) */}
+            {!config.streakOnly &&
+              (config.statKeys.includes("moneySaved") || config.statKeys.includes("moneyEstimate")) && (
+                <div>
+                  <label className="block text-xs font-medium text-muted-foreground mb-2">
+                    {getPriceLabel()}
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={0.5}
+                    value={pricePerUnit}
+                    onChange={(e) => setPricePerUnit(e.target.value)}
+                    className="w-full rounded-2xl bg-secondary px-4 py-3 text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30"
+                  />
+                </div>
+              )}
+
+            {/* Streak-only gentle note */}
+            {config.streakOnly && (
+              <div className="rounded-2xl bg-secondary/60 p-4">
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {(t as any).streakOnlyNote ||
+                    "We'll just count the time. No numbers, no money — only your streak and how you feel."}
+                </p>
               </div>
             )}
 
