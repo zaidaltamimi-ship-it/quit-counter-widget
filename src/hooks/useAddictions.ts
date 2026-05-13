@@ -261,5 +261,32 @@ export function useAddictions() {
     setRecords((prev) => prev.filter((r) => r.id !== id));
   }, [user]);
 
-  return { records, loading, addRecord, updateRecord, removeRecord };
+  const addSlip = useCallback(async (
+    addictionId: string,
+    kind: "continue" | "reset",
+    note?: string,
+  ) => {
+    if (!user) return;
+    const occurredAt = new Date().toISOString();
+    const { data } = await supabase
+      .from("slips")
+      .insert({
+        addiction_id: addictionId,
+        user_id: user.id,
+        kind,
+        note: note ?? null,
+        occurred_at: occurredAt,
+      })
+      .select("id")
+      .single();
+    if (!data) return;
+    const slip = { id: data.id, occurredAt, kind, note };
+    setRecords((prev) =>
+      prev.map((r) =>
+        r.id === addictionId ? { ...r, slips: [slip, ...(r.slips || [])] } : r,
+      ),
+    );
+  }, [user]);
+
+  return { records, loading, addRecord, updateRecord, removeRecord, addSlip };
 }
