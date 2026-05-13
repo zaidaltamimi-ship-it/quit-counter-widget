@@ -106,7 +106,7 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
 
   const visibleStats = config.statKeys
     .map(k => statValues[k])
-    .filter(s => s && s.value !== "0" && s.value !== "$0.00");
+    .filter(s => s && s.value !== "0" && !s.value.match(/^[$£€]0\.00$/));
 
   return (
     <div className="min-h-screen bg-background">
