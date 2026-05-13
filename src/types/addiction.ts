@@ -4,7 +4,7 @@ export type AddictionTypeId =
   | "cigarette" | "vape" | "iqos" | "snus" | "nicotine_gum" | "nicotine_spray"
   | "alcohol"
   | "cannabis" | "caffeine"
-  | "gambling" | "social_media" | "gaming" | "pornography" | "shopping";
+  | "gambling" | "social_media" | "gaming" | "pornography" | "shopping" | "self_harm";
 
 export interface MilestoneConfig {
   time: number; // hours
