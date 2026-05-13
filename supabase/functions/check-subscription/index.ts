@@ -19,9 +19,6 @@ serve(async (req) => {
   );
 
   try {
-    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
-
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header");
 
@@ -30,6 +27,36 @@ serve(async (req) => {
     if (userError) throw new Error(`Auth error: ${userError.message}`);
     const user = userData.user;
     if (!user?.email) throw new Error("User not authenticated");
+
+    // 1. Check admin-granted premium first (free premium)
+    const { data: grant } = await supabaseClient
+      .from("premium_grants")
+      .select("expires_at")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (grant) {
+      const stillValid = !grant.expires_at || new Date(grant.expires_at) > new Date();
+      if (stillValid) {
+        return new Response(JSON.stringify({
+          subscribed: true,
+          subscription_end: grant.expires_at,
+          source: "grant",
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
+    }
+
+    // 2. Otherwise check Stripe
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+    if (!stripeKey) {
+      return new Response(JSON.stringify({ subscribed: false }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      });
+    }
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
@@ -58,12 +85,13 @@ serve(async (req) => {
     return new Response(JSON.stringify({
       subscribed: hasActiveSub,
       subscription_end: subscriptionEnd,
+      source: hasActiveSub ? "stripe" : null,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : String(error) }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
