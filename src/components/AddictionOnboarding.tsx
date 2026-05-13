@@ -81,12 +81,14 @@ const AddictionOnboarding = ({ onComplete, onBack, existingTypes, surveyAnswers 
     onComplete(record);
   };
 
+  const currencySymbol = getCurrencySymbol();
+
   const getPriceLabel = () => {
-    if (!config) return t.pricePerUnit;
-    if (config.pricePeriod === "perMonth") return (t as any).monthlySpend || t.pricePerUnit;
-    if (config.category === "tobacco") return t.pricePerPack;
-    if (config.id === "alcohol") return t.pricePerDrink;
-    return t.pricePerUnit;
+    if (!config) return `${t.pricePerUnit} (${currencySymbol})`;
+    if (config.pricePeriod === "perMonth") return `${(t as any).monthlySpend || t.pricePerUnit} (${currencySymbol})`;
+    if (config.category === "tobacco") return `${t.pricePerPack} (${currencySymbol})`;
+    if (config.id === "alcohol") return `${t.pricePerDrink} (${currencySymbol})`;
+    return `${t.pricePerUnit} (${currencySymbol})`;
   };
 
   return (
