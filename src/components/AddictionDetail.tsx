@@ -172,9 +172,56 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
           <ReductionTracker record={record} onUpdate={onUpdate} />
         )}
 
+        {/* Slips summary */}
+        {record.slips && record.slips.length > 0 && (
+          <div className="card-elevated p-4 mb-6">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
+              {(t as any).slipsLogged || "Slips logged"}
+            </p>
+            <p className="text-sm text-foreground">
+              {record.slips.length} ·{" "}
+              <span className="text-muted-foreground">
+                {(t as any).slipsKindMessage || "Every day you choose again is a win."}
+              </span>
+            </p>
+          </div>
+        )}
+
         {/* Health Milestones */}
         <HealthMilestones hoursElapsed={hoursElapsed} milestones={config.milestones} />
       </div>
+
+      <Dialog open={slipOpen} onOpenChange={setSlipOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{(t as any).slipDialogTitle || "It's okay. You're human."}</DialogTitle>
+            <DialogDescription>
+              {(t as any).slipDialogDesc ||
+                "A slip isn't a failure — it's information. Choose what feels right for you."}
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            value={slipNote}
+            onChange={(e) => setSlipNote(e.target.value)}
+            placeholder={(t as any).slipNotePlaceholder || "Optional: what triggered it?"}
+            className="min-h-[80px]"
+          />
+          <DialogFooter className="flex flex-col sm:flex-col gap-2">
+            <button
+              onClick={handleSlipContinue}
+              className="w-full rounded-xl bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+            >
+              {(t as any).slipKeepGoing || "I'm okay — keep my streak"}
+            </button>
+            <button
+              onClick={handleSlipReset}
+              className="w-full rounded-xl bg-secondary px-4 py-2.5 text-sm font-medium text-foreground hover:bg-secondary/80 transition-colors"
+            >
+              {(t as any).slipStartFresh || "Start fresh from today"}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
