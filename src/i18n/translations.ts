@@ -2072,7 +2072,7 @@ export const translations = {
     daysFreeSelfHarm: "Giorni liberi",
     moneySaved: "Soldi risparmiati",
     caloriesSaved: "Calorie risparmiate",
-    monthlySpend: "Spesa media mensile (€)",
+    monthlySpend: "Spesa media mensile",
     moneyKept: "Denaro risparmiato",
     daysFreePorn: "Giorni liberi",
     streakOnlyNote: "Conteremo solo il tempo. Niente numeri, niente soldi — solo la tua sequenza e come ti senti.",
