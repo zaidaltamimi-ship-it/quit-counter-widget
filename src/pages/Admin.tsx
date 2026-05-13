@@ -14,7 +14,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { Crown, Loader2, Search, ShieldCheck, X } from "lucide-react";
+import { Crown, Loader2, Search, ShieldCheck, X, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type AdminUser = {
   id: string;
@@ -99,6 +110,20 @@ export default function Admin() {
       return;
     }
     toast({ title: "Premium odebráno" });
+    await loadUsers();
+  }
+
+  async function deleteUser(userId: string) {
+    setBusyId(userId);
+    const { error } = await supabase.functions.invoke("admin-delete-user", {
+      body: { user_id: userId },
+    });
+    setBusyId(null);
+    if (error) {
+      toast({ title: "Chyba", description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "Uživatel smazán" });
     await loadUsers();
   }
 
@@ -244,6 +269,37 @@ export default function Admin() {
                       >
                         <X className="h-4 w-4" />
                       </Button>
+                    )}
+                    {!u.is_admin && (
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            disabled={busyId === u.id}
+                            className="text-destructive hover:text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Smazat uživatele?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Trvale smaže uživatele <b>{u.email}</b> a všechna jeho data. Tuto akci nelze vrátit.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Zrušit</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => deleteUser(u.id)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Smazat
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     )}
                   </div>
                 </CardContent>
