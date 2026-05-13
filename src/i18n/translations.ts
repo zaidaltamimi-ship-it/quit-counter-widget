@@ -1678,7 +1678,7 @@ export const translations = {
     daysFreeSelfHarm: "Dní bez sebapoškodenia",
     moneySaved: "Ušetrené",
     caloriesSaved: "Kalórií ušetrených",
-    monthlySpend: "Priemerné mesačné výdavky (€)",
+    monthlySpend: "Priemerné mesačné výdavky",
     moneyKept: "Ušetrené peniaze",
     daysFreePorn: "Dní bez",
     streakOnlyNote: "Budeme len počítať čas. Žiadne čísla, žiadne peniaze — iba vaša séria a ako sa cítite.",
