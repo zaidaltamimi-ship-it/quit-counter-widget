@@ -61,4 +61,16 @@ export interface AddictionRecord {
   reductionMode?: boolean;
   weeklyTarget?: number;
   weeklyLog?: { week: string; actual: number }[];
+  // Pause support
+  pausedAt?: string | null;
+  totalPausedMs?: number;
+  // Slip log
+  slips?: SlipEntry[];
+}
+
+export interface SlipEntry {
+  id: string;
+  occurredAt: string;
+  kind: "continue" | "reset";
+  note?: string;
 }
