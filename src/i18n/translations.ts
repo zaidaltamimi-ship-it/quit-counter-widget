@@ -34,6 +34,7 @@ export const translations = {
     gaming: "Gaming",
     pornography: "Pornography",
     shopping: "Shopping",
+    selfHarm: "Self-harm",
 
     // Categories
     catTobacco: "Tobacco & Nicotine",
@@ -68,6 +69,7 @@ export const translations = {
     timeSinceLastGame: "Time since last game",
     timeSinceLastPorn: "Time since last session",
     timeSinceLastShopping: "Time since last impulse buy",
+    timeSinceLastSelfHarm: "Time since last self-harm",
     days: "days",
     hrs: "hrs",
     min: "min",
@@ -88,6 +90,7 @@ export const translations = {
     hoursReclaimedGaming: "Hours reclaimed",
     sessionsAvoidedPorn: "Sessions avoided",
     impulsesPrevented: "Impulses prevented",
+    daysFreeSelfHarm: "Days free",
     moneySaved: "Money saved",
     caloriesSaved: "Calories saved",
 
@@ -384,6 +387,7 @@ export const translations = {
     gaming: "Hraní her",
     pornography: "Pornografie",
     shopping: "Nakupování",
+    selfHarm: "Sebepožkozování",
 
     // Categories
     catTobacco: "Tabák a nikotin",
@@ -418,6 +422,7 @@ export const translations = {
     timeSinceLastGame: "Čas od poslední hry",
     timeSinceLastPorn: "Čas od posledního sezení",
     timeSinceLastShopping: "Čas od posledního impulzivního nákupu",
+    timeSinceLastSelfHarm: "Čas od posledního sebepožkození",
     days: "dny",
     hrs: "hod",
     min: "min",
@@ -438,6 +443,7 @@ export const translations = {
     hoursReclaimedGaming: "Získaných hodin",
     sessionsAvoidedPorn: "Vynechaných sezení",
     impulsesPrevented: "Zabráněných impulzů",
+    daysFreeSelfHarm: "Dní bez sebepožkození",
     moneySaved: "Ušetřeno",
     caloriesSaved: "Kalorií ušetřeno",
 
@@ -734,6 +740,7 @@ export const translations = {
     gaming: "Gaming",
     pornography: "Pornografie",
     shopping: "Shopping",
+    selfHarm: "Selbstverletzung",
 
     // Categories
     catTobacco: "Tabak & Nikotin",
@@ -768,6 +775,7 @@ export const translations = {
     timeSinceLastGame: "Zeit seit letztem Spiel",
     timeSinceLastPorn: "Zeit seit letzter Session",
     timeSinceLastShopping: "Zeit seit letztem Impulskauf",
+    timeSinceLastSelfHarm: "Zeit seit letzter Selbstverletzung",
     days: "Tage",
     hrs: "Std",
     min: "Min",
@@ -788,6 +796,7 @@ export const translations = {
     hoursReclaimedGaming: "Zurückgewonnene Stunden",
     sessionsAvoidedPorn: "Vermiedene Sessions",
     impulsesPrevented: "Verhinderte Impulse",
+    daysFreeSelfHarm: "Tage frei",
     moneySaved: "Geld gespart",
     caloriesSaved: "Kalorien gespart",
 
@@ -1084,6 +1093,7 @@ export const translations = {
     gaming: "Videojuegos",
     pornography: "Pornografía",
     shopping: "Compras",
+    selfHarm: "Autolesión",
 
     // Categories
     catTobacco: "Tabaco y nicotina",
@@ -1118,6 +1128,7 @@ export const translations = {
     timeSinceLastGame: "Tiempo desde el último juego",
     timeSinceLastPorn: "Tiempo desde la última sesión",
     timeSinceLastShopping: "Tiempo desde la última compra impulsiva",
+    timeSinceLastSelfHarm: "Tiempo desde la última autolesión",
     days: "días",
     hrs: "hrs",
     min: "min",
@@ -1138,6 +1149,7 @@ export const translations = {
     hoursReclaimedGaming: "Horas recuperadas",
     sessionsAvoidedPorn: "Sesiones evitadas",
     impulsesPrevented: "Impulsos prevenidos",
+    daysFreeSelfHarm: "Días libres",
     moneySaved: "Dinero ahorrado",
     caloriesSaved: "Calorías ahorradas",
 
@@ -1434,6 +1446,7 @@ export const translations = {
     gaming: "Hranie hier",
     pornography: "Pornografia",
     shopping: "Nakupovanie",
+    selfHarm: "Sebapoškodzovanie",
 
     // Categories
     catTobacco: "Tabak a nikotín",
@@ -1468,6 +1481,7 @@ export const translations = {
     timeSinceLastGame: "Čas od poslednej hry",
     timeSinceLastPorn: "Čas od posledného sedenia",
     timeSinceLastShopping: "Čas od posledného impulzívneho nákupu",
+    timeSinceLastSelfHarm: "Čas od posledného sebapoškodenia",
     days: "dní",
     hrs: "hod",
     min: "min",
@@ -1488,6 +1502,7 @@ export const translations = {
     hoursReclaimedGaming: "Získaných hodín",
     sessionsAvoidedPorn: "Vynechaných sedení",
     impulsesPrevented: "Zabránených impulzov",
+    daysFreeSelfHarm: "Dní bez sebapoškodenia",
     moneySaved: "Ušetrené",
     caloriesSaved: "Kalórií ušetrených",
 
@@ -1784,6 +1799,7 @@ export const translations = {
     gaming: "Videogiochi",
     pornography: "Pornografia",
     shopping: "Shopping",
+    selfHarm: "Autolesionismo",
 
     // Categories
     catTobacco: "Tabacco e nicotina",
@@ -1818,6 +1834,7 @@ export const translations = {
     timeSinceLastGame: "Tempo dall'ultimo gioco",
     timeSinceLastPorn: "Tempo dall'ultima sessione",
     timeSinceLastShopping: "Tempo dall'ultimo acquisto impulsivo",
+    timeSinceLastSelfHarm: "Tempo dall'ultima autolesione",
     days: "giorni",
     hrs: "ore",
     min: "min",
@@ -1838,6 +1855,7 @@ export const translations = {
     hoursReclaimedGaming: "Ore recuperate",
     sessionsAvoidedPorn: "Sessioni evitate",
     impulsesPrevented: "Impulsi prevenuti",
+    daysFreeSelfHarm: "Giorni liberi",
     moneySaved: "Soldi risparmiati",
     caloriesSaved: "Calorie risparmiate",
 
