@@ -12,9 +12,11 @@ import Auth from "@/pages/Auth";
 import { useAddictions } from "@/hooks/useAddictions";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useNavigate } from "react-router-dom";
 import type { AddictionRecord } from "@/types/addiction";
-import { LogOut, LayoutDashboard, Users, Crown, Lightbulb } from "lucide-react";
+import { LogOut, LayoutDashboard, Users, Crown, Lightbulb, Shield } from "lucide-react";
 
 type View = "dashboard" | "survey" | "onboarding" | "detail";
 type Tab = "home" | "friends" | "ideas";
@@ -23,6 +25,8 @@ const Index = () => {
   const { user, loading: authLoading, signOut } = useAuth();
   const { records, addRecord, updateRecord, removeRecord, addSlip } = useAddictions();
   const { isPremium, loading: subLoading, openPortal } = useSubscription();
+  const { isAdmin } = useIsAdmin();
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const [view, setView] = useState<View>("dashboard");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -118,6 +122,16 @@ const Index = () => {
     <div className="flex flex-col min-h-screen">
       {/* Top bar */}
       <div className="absolute top-4 right-6 z-10 flex items-center gap-2">
+        {isAdmin && (
+          <button
+            onClick={() => navigate("/admin")}
+            className="flex items-center gap-1 rounded-xl bg-primary/10 px-3 py-2 text-xs text-primary font-medium hover:bg-primary/20 transition-colors"
+            aria-label="Admin"
+          >
+            <Shield className="h-3.5 w-3.5" />
+            Admin
+          </button>
+        )}
         {isPremium && (
           <button
             onClick={openPortal}
