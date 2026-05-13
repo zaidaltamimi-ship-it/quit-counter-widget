@@ -94,7 +94,7 @@ const PatchTracker = () => {
   };
 
   const handleStepChange = (step: number) => {
-    for (let i = 1; i <= 3; i++) localStorage.removeItem(`patch-notif-step-${i}`);
+    for (let i = 1; i <= 4; i++) localStorage.removeItem(`patch-notif-step-${i}`);
     setState(prev => ({ ...prev, currentStep: step, stepStartDate: new Date().toISOString() }));
   };
 
