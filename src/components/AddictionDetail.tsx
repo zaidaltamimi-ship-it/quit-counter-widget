@@ -15,6 +15,18 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 
+        {(() => null)()}
+        {/* Slips summary */}
+        {record.slips && record.slips.length > 0 && (
+          <div className="card-elevated p-4 mb-6">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2">
+              {(t as any).slipsLogged || "Slips logged"}
+            </p>
+            <p className="text-sm text-foreground">
+              {record.slips.length} · <span className="text-muted-foreground">{(t as any).slipsKindMessage || "Every day you choose again is a win."}</span>
+            </p>
+          </div>
+        )}
 
 interface AddictionDetailProps {
   record: AddictionRecord;
