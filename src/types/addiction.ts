@@ -12,6 +12,8 @@ export interface MilestoneConfig {
   descKey: string;
 }
 
+export type StatKey = "unitsAvoided" | "moneySaved" | "caloriesSaved" | "hoursReclaimed" | "moneyEstimate";
+
 export interface AddictionTypeConfig {
   id: AddictionTypeId;
   category: AddictionCategory;
@@ -24,8 +26,12 @@ export interface AddictionTypeConfig {
   showPerDay: boolean;
   showPatchTracker: boolean;
   showReductionMode: boolean;
+  /** When true, this addiction is tracked as a pure streak — no quantification, no money, no calories. Use for sensitive topics like self-harm. */
+  streakOnly?: boolean;
+  /** Whether the price input represents a per-unit cost or a monthly average spend. Defaults to "perUnit". */
+  pricePeriod?: "perUnit" | "perMonth";
   milestones: MilestoneConfig[];
-  statKeys: string[];
+  statKeys: StatKey[];
 }
 
 export interface MoodEntry {
