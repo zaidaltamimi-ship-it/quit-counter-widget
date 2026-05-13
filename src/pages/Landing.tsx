@@ -218,6 +218,15 @@ const Landing = () => {
             {t.landingBeginNow}
             <ArrowRight className="h-4 w-4" />
           </Button>
+          <p className="mt-4 text-sm text-muted-foreground">
+            {t.haveAccount}{" "}
+            <button
+              onClick={() => navigate("/auth")}
+              className="text-primary hover:underline font-medium"
+            >
+              {t.logIn}
+            </button>
+          </p>
         </motion.div>
       </section>
 
