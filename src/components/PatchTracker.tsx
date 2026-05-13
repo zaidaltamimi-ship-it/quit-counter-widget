@@ -203,6 +203,14 @@ const PatchTracker = () => {
                           <span>{currentPatchStep.durationWeeks} {t.weeksTotal}</span>
                           <span>{daysRemaining} {t.daysLeft}</span>
                         </div>
+                        <div className="flex items-baseline justify-between mb-1.5">
+                          <span className="text-sm font-semibold text-foreground">
+                            {Math.max(0, daysRemaining)} / {currentPatchStep.durationWeeks * 7} × {currentPatchStep.mg}mg
+                          </span>
+                          <span className="text-[0.65rem] uppercase tracking-widest text-muted-foreground">
+                            {(t as any).patchesLabel}
+                          </span>
+                        </div>
                         <div className="h-1.5 w-full rounded-full bg-background overflow-hidden">
                           <motion.div
                             className="h-full rounded-full bg-primary"
