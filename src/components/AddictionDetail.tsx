@@ -86,7 +86,7 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
     },
     moneySaved: {
       label: t.moneySaved,
-      value: `$${(daysElapsed * record.perDay * record.pricePerUnit).toFixed(2)}`,
+      value: formatMoney(daysElapsed * record.perDay * record.pricePerUnit),
     },
     caloriesSaved: {
       label: t.caloriesSaved,
@@ -100,7 +100,7 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
     moneyEstimate: {
       label: (t as any).moneyKept || t.moneySaved,
       // pricePerUnit holds monthly avg spend for perMonth pricing
-      value: `$${Math.max(0, monthsElapsed * record.pricePerUnit).toFixed(2)}`,
+      value: formatMoney(Math.max(0, monthsElapsed * record.pricePerUnit)),
     },
   };
 
