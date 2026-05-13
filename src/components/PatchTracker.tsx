@@ -112,7 +112,7 @@ const PatchTracker = () => {
   }, [state.notificationsEnabled]);
 
   const handleDeactivate = () => {
-    for (let i = 1; i <= 3; i++) localStorage.removeItem(`patch-notif-step-${i}`);
+    for (let i = 1; i <= 4; i++) localStorage.removeItem(`patch-notif-step-${i}`);
     setState(getDefaultState());
   };
 
