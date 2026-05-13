@@ -50,6 +50,16 @@ export const BEHAVIORAL_MILESTONES = [
   { time: 8760, titleKey: "m_behavioralOneYear", descKey: "m_behavioralOneYearDesc" },
 ];
 
+// Gentle, mental-health framed milestones for self-harm. No "cravings", no shame.
+export const SELF_HARM_MILESTONES = [
+  { time: 24, titleKey: "m_shFirstDay", descKey: "m_shFirstDayDesc" },
+  { time: 72, titleKey: "m_shThreeDays", descKey: "m_shThreeDaysDesc" },
+  { time: 168, titleKey: "m_shOneWeek", descKey: "m_shOneWeekDesc" },
+  { time: 720, titleKey: "m_shOneMonth", descKey: "m_shOneMonthDesc" },
+  { time: 2160, titleKey: "m_shThreeMonths", descKey: "m_shThreeMonthsDesc" },
+  { time: 8760, titleKey: "m_shOneYear", descKey: "m_shOneYearDesc" },
+];
+
 export const ADDICTION_TYPES: AddictionTypeConfig[] = [
   // Tobacco
   {
