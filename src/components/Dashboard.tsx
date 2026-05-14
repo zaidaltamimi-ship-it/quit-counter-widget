@@ -33,8 +33,9 @@ interface DashboardProps {
   onOpenMessages?: () => void;
 }
 
-const Dashboard = ({ records, onSelect, onAdd, onRemove }: DashboardProps) => {
+const Dashboard = ({ records, onSelect, onAdd, onRemove, onOpenMessages }: DashboardProps) => {
   const { t } = useLanguage();
+  const { totalUnread } = useChatNotifications();
   const [now, setNow] = useState(Date.now());
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
