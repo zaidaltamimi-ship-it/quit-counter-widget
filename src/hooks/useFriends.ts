@@ -202,5 +202,3 @@ export function useFriends() {
     refresh: () => { fetchFriends(); fetchPendingInvites(); fetchSentInvites(); },
   };
 }
-  };
-}
