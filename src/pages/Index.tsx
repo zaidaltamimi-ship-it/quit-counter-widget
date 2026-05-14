@@ -160,6 +160,7 @@ const Index = () => {
             onSelect={handleSelect}
             onAdd={handleAdd}
             onRemove={removeRecord}
+            onOpenMessages={() => setTab("friends")}
           />
         )}
         {tab === "friends" && (isPremium ? <FriendsTab /> : <PremiumPaywall />)}
