@@ -107,10 +107,29 @@ export function useFriends() {
     );
   }, [user]);
 
+  const fetchSentInvites = useCallback(async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("friend_invitations")
+      .select("id, recipient_email, status, created_at")
+      .eq("sender_id", user.id)
+      .order("created_at", { ascending: false });
+
+    setSentInvites(
+      (data ?? []).map((inv) => ({
+        id: inv.id,
+        recipientEmail: inv.recipient_email,
+        status: inv.status as SentInvite["status"],
+        createdAt: inv.created_at,
+      }))
+    );
+  }, [user]);
+
   useEffect(() => {
     fetchFriends();
     fetchPendingInvites();
-  }, [fetchFriends, fetchPendingInvites]);
+    fetchSentInvites();
+  }, [fetchFriends, fetchPendingInvites, fetchSentInvites]);
 
   const sendInvite = async (email: string) => {
     if (!user) return { error: "Not logged in" };
