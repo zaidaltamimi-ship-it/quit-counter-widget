@@ -52,6 +52,31 @@ const Dashboard = ({ records, onSelect, onAdd, onRemove, onOpenMessages }: Dashb
           <p className="text-sm text-muted-foreground mt-1">{t.dashboardSubtitle}</p>
         </div>
 
+        {/* New messages banner */}
+        {totalUnread > 0 && onOpenMessages && (
+          <motion.button
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={onOpenMessages}
+            className="flex w-full items-center gap-3 rounded-2xl bg-primary/10 border border-primary/15 px-4 py-3 mb-4 text-left transition-colors hover:bg-primary/15"
+          >
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <MessageCircle className="h-4 w-4" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-foreground">
+                {totalUnread === 1 ? "Nová zpráva" : `${totalUnread} nové zprávy`}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Klepnutím přejdeš do chatu
+              </p>
+            </div>
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-destructive-foreground">
+              {totalUnread}
+            </span>
+          </motion.button>
+        )}
+
         <div className="space-y-3">
           <AnimatePresence>
             {records.map((record, i) => {
