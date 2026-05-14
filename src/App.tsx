@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { AuthProvider } from "@/hooks/useAuth";
+import { ChatNotificationsProvider } from "@/hooks/ChatNotificationsContext";
 import { initCurrencyFromLocation } from "@/hooks/useCurrency";
 import Index from "./pages/Index.tsx";
 import Landing from "./pages/Landing.tsx";
@@ -25,21 +26,23 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route path="/survey" element={<Survey />} />
-                <Route path="/app" element={<Index />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/admin" element={<Admin />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
+          <ChatNotificationsProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Landing />} />
+                  <Route path="/survey" element={<Survey />} />
+                  <Route path="/app" element={<Index />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/admin" element={<Admin />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </TooltipProvider>
+          </ChatNotificationsProvider>
         </AuthProvider>
       </LanguageProvider>
     </QueryClientProvider>
