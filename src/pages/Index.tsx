@@ -16,6 +16,8 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useChatNotifications } from "@/hooks/ChatNotificationsContext";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import type { AddictionRecord } from "@/types/addiction";
 import { LogOut, LayoutDashboard, Users, Crown, Lightbulb, Shield } from "lucide-react";
 
