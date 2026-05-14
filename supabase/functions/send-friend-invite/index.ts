@@ -3,7 +3,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2.45.0';
 
 const GATEWAY_URL = 'https://connector-gateway.lovable.dev/resend';
 const FROM = 'MyAddiction <hello@myaddiction.space>';
-const APP_URL = 'https://myaddiction.space';
+const APP_URL = 'https://myaddiction.space/app';
 
 interface InviteBody {
   recipientEmail: string;
