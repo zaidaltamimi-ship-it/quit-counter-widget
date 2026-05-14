@@ -16,6 +16,13 @@ export interface PendingInvite {
   createdAt: string;
 }
 
+export interface SentInvite {
+  id: string;
+  recipientEmail: string;
+  status: "pending" | "accepted" | "declined";
+  createdAt: string;
+}
+
 export function useFriends() {
   const { user } = useAuth();
   const [friends, setFriends] = useState<Friend[]>([]);
