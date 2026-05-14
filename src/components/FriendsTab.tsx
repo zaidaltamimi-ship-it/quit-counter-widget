@@ -132,6 +132,42 @@ const FriendsTab = () => {
           </div>
         )}
 
+        {/* Sent invites (outbound) */}
+        {sentInvites.length > 0 && (
+          <div className="mb-4 space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider px-1">
+              Tvé pozvánky
+            </p>
+            {sentInvites.slice(0, 8).map((inv) => {
+              const config =
+                inv.status === "accepted"
+                  ? { Icon: CheckCircle2, label: "Přijato", cls: "text-primary bg-primary/10" }
+                  : inv.status === "declined"
+                  ? { Icon: XCircle, label: "Odmítnuto", cls: "text-muted-foreground bg-secondary" }
+                  : { Icon: Clock, label: "Čeká", cls: "text-amber-600 bg-amber-500/10" };
+              return (
+                <motion.div
+                  key={inv.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="card-elevated flex items-center justify-between p-4"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-foreground truncate">{inv.recipientEmail}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {new Date(inv.createdAt).toLocaleDateString("cs-CZ", { day: "numeric", month: "short" })}
+                    </p>
+                  </div>
+                  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${config.cls}`}>
+                    <config.Icon className="h-3 w-3" />
+                    {config.label}
+                  </span>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
+
         {/* Friends list */}
         <div className="space-y-3">
           <AnimatePresence>
