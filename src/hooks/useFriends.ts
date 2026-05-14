@@ -27,6 +27,7 @@ export function useFriends() {
   const { user } = useAuth();
   const [friends, setFriends] = useState<Friend[]>([]);
   const [pendingInvites, setPendingInvites] = useState<PendingInvite[]>([]);
+  const [sentInvites, setSentInvites] = useState<SentInvite[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchFriends = useCallback(async () => {
