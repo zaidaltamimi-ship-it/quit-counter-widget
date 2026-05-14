@@ -64,6 +64,16 @@ const FriendsTab = () => {
           </p>
         </div>
 
+        {/* Trezor banner */}
+        <div className="flex items-start gap-3 rounded-2xl bg-primary/5 border border-primary/10 p-3.5 mb-4">
+          <Shield className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            <span className="text-foreground font-medium">Tvůj kruh.</span>{" "}
+            Vidí jen lidé, které jsi sám pozval — a jen to, co povolíš v každém trackeru.
+            Citlivá data jsou ve výchozím stavu skrytá.
+          </p>
+        </div>
+
         {/* Invite section */}
         <div className="card-elevated p-4 mb-4">
           <p className="text-sm font-medium text-foreground mb-2">
@@ -75,10 +85,10 @@ const FriendsTab = () => {
               placeholder="friend@email.com"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleInvite()}
+              onKeyDown={(e) => e.key === "Enter" && openConfirm()}
               className="flex-1"
             />
-            <Button onClick={handleInvite} disabled={sending} size="sm">
+            <Button onClick={openConfirm} disabled={sending} size="sm">
               <UserPlus className="h-4 w-4" />
             </Button>
           </div>
