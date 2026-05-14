@@ -19,7 +19,7 @@ function calcDays(quitDate: string) {
 
 const FriendsTab = () => {
   const { t } = useLanguage();
-  const { friends, pendingInvites, sentInvites, sendInvite, acceptInvite, declineInvite, removeFriend } = useFriends();
+  const { friends, pendingInvites, sentInvites, sendInvite, acceptInvite, declineInvite, deleteSentInvite, removeFriend } = useFriends();
   const [inviteEmail, setInviteEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -158,10 +158,18 @@ const FriendsTab = () => {
                       {new Date(inv.createdAt).toLocaleDateString("cs-CZ", { day: "numeric", month: "short" })}
                     </p>
                   </div>
-                  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${config.cls}`}>
-                    <config.Icon className="h-3 w-3" />
-                    {config.label}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ${config.cls}`}>
+                      <config.Icon className="h-3 w-3" />
+                      {config.label}
+                    </span>
+                    <button
+                      onClick={() => deleteSentInvite(inv.id)}
+                      className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground/30 hover:text-destructive transition-colors"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </motion.div>
               );
             })}
