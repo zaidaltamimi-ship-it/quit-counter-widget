@@ -627,6 +627,7 @@ export type Database = {
         Args: { _flag: string; _owner: string; _viewer: string }
         Returns: boolean
       }
+      get_my_email: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
