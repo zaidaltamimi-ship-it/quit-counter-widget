@@ -146,6 +146,7 @@ export function useFriends() {
     const { error: fnError } = await supabase.functions.invoke("send-friend-invite", {
       body: { recipientEmail: normalizedEmail, invitationId: inserted?.id },
     });
+    await fetchSentInvites();
     if (fnError) {
       console.error("send-friend-invite failed", fnError);
       return { error: "Pozvánka uložena, ale email se nepodařilo odeslat." };
