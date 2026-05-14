@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserPlus, Check, X, Trash2, MessageCircle } from "lucide-react";
+import { UserPlus, Check, X, Trash2, MessageCircle, Shield } from "lucide-react";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
+} from "@/components/ui/dialog";
 import { useFriends, type Friend } from "@/hooks/useFriends";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Input } from "@/components/ui/input";
@@ -19,10 +22,16 @@ const FriendsTab = () => {
   const { friends, pendingInvites, sendInvite, acceptInvite, declineInvite, removeFriend } = useFriends();
   const [inviteEmail, setInviteEmail] = useState("");
   const [sending, setSending] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [chatFriend, setChatFriend] = useState<Friend | null>(null);
 
-  const handleInvite = async () => {
+  const openConfirm = () => {
     if (!inviteEmail.trim()) return;
+    setConfirmOpen(true);
+  };
+
+  const handleInvite = async () => {
+    setConfirmOpen(false);
     setSending(true);
     const { error } = await sendInvite(inviteEmail.trim());
     setSending(false);
@@ -55,6 +64,16 @@ const FriendsTab = () => {
           </p>
         </div>
 
+        {/* Trezor banner */}
+        <div className="flex items-start gap-3 rounded-2xl bg-primary/5 border border-primary/10 p-3.5 mb-4">
+          <Shield className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            <span className="text-foreground font-medium">Tvůj kruh.</span>{" "}
+            Vidí jen lidé, které jsi sám pozval — a jen to, co povolíš v každém trackeru.
+            Citlivá data jsou ve výchozím stavu skrytá.
+          </p>
+        </div>
+
         {/* Invite section */}
         <div className="card-elevated p-4 mb-4">
           <p className="text-sm font-medium text-foreground mb-2">
@@ -66,10 +85,10 @@ const FriendsTab = () => {
               placeholder="friend@email.com"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleInvite()}
+              onKeyDown={(e) => e.key === "Enter" && openConfirm()}
               className="flex-1"
             />
-            <Button onClick={handleInvite} disabled={sending} size="sm">
+            <Button onClick={openConfirm} disabled={sending} size="sm">
               <UserPlus className="h-4 w-4" />
             </Button>
           </div>
@@ -172,6 +191,30 @@ const FriendsTab = () => {
           )}
         </div>
       </div>
+
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Shield className="h-4 w-4 text-primary" />
+              Pozvat do tvého kruhu
+            </DialogTitle>
+            <DialogDescription className="pt-2 space-y-2">
+              <span className="block">
+                Pošleš pozvánku na <span className="font-medium text-foreground">{inviteEmail}</span>.
+              </span>
+              <span className="block">
+                Ve výchozím stavu uvidí jen <span className="text-foreground font-medium">typ závislosti a počet dní</span>.
+                Zdravotní data, náladu a další citlivé údaje neuvidí, dokud je sám nepovolíš v nastavení trackeru.
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2">
+            <Button variant="ghost" onClick={() => setConfirmOpen(false)}>Zrušit</Button>
+            <Button onClick={handleInvite} disabled={sending}>Odeslat pozvánku</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
