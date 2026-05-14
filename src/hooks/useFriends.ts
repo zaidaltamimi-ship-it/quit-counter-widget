@@ -108,11 +108,22 @@ export function useFriends() {
     if (!user) return { error: "Not logged in" };
     if (email === user.email) return { error: "Cannot invite yourself" };
 
-    const { error } = await supabase.from("friend_invitations").insert({
-      sender_id: user.id,
-      recipient_email: email,
+    const normalizedEmail = email.trim().toLowerCase();
+    const { data: inserted, error } = await supabase
+      .from("friend_invitations")
+      .insert({ sender_id: user.id, recipient_email: normalizedEmail })
+      .select("id")
+      .single();
+    if (error) return { error: error.message };
+
+    const { error: fnError } = await supabase.functions.invoke("send-friend-invite", {
+      body: { recipientEmail: normalizedEmail, invitationId: inserted?.id },
     });
-    return { error: error?.message || null };
+    if (fnError) {
+      console.error("send-friend-invite failed", fnError);
+      return { error: "Pozvánka uložena, ale email se nepodařilo odeslat." };
+    }
+    return { error: null };
   };
 
   const acceptInvite = async (inviteId: string) => {
