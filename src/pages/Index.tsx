@@ -16,6 +16,8 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useChatNotifications } from "@/hooks/ChatNotificationsContext";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import type { AddictionRecord } from "@/types/addiction";
 import { LogOut, LayoutDashboard, Users, Crown, Lightbulb, Shield } from "lucide-react";
 
@@ -52,6 +54,28 @@ const Index = () => {
       }
     }
   }, [user, records.length]);
+
+  // Handle ?invite=TOKEN from email link
+  useEffect(() => {
+    if (!user) return;
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("invite");
+    if (!token) return;
+
+    const accept = async () => {
+      const { data, error } = await supabase.functions.invoke("accept-friend-invite", {
+        body: { token },
+      });
+      if (error || data?.error) {
+        console.error("accept-friend-invite failed", error, data);
+      } else {
+        toast.success("Pozvánka přijata! Nyní jste přátelé.");
+      }
+      // Clean URL
+      window.history.replaceState({}, "", window.location.pathname);
+    };
+    accept();
+  }, [user]);
 
   if (authLoading) {
     return (
@@ -160,6 +184,7 @@ const Index = () => {
             onSelect={handleSelect}
             onAdd={handleAdd}
             onRemove={removeRecord}
+            onOpenMessages={() => setTab("friends")}
           />
         )}
         {tab === "friends" && (isPremium ? <FriendsTab /> : <PremiumPaywall />)}
