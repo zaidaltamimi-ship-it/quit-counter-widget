@@ -191,6 +191,30 @@ const FriendsTab = () => {
           )}
         </div>
       </div>
+
+      <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Shield className="h-4 w-4 text-primary" />
+              Pozvat do tvého kruhu
+            </DialogTitle>
+            <DialogDescription className="pt-2 space-y-2">
+              <span className="block">
+                Pošleš pozvánku na <span className="font-medium text-foreground">{inviteEmail}</span>.
+              </span>
+              <span className="block">
+                Ve výchozím stavu uvidí jen <span className="text-foreground font-medium">typ závislosti a počet dní</span>.
+                Zdravotní data, náladu a další citlivé údaje neuvidí, dokud je sám nepovolíš v nastavení trackeru.
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-col-reverse sm:flex-row gap-2">
+            <Button variant="ghost" onClick={() => setConfirmOpen(false)}>Zrušit</Button>
+            <Button onClick={handleInvite} disabled={sending}>Odeslat pozvánku</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
