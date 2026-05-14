@@ -30,6 +30,7 @@ interface DashboardProps {
   onSelect: (id: string) => void;
   onAdd: () => void;
   onRemove: (id: string) => void;
+  onOpenMessages?: () => void;
 }
 
 const Dashboard = ({ records, onSelect, onAdd, onRemove }: DashboardProps) => {
