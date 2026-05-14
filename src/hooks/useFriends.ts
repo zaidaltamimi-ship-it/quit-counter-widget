@@ -185,6 +185,11 @@ export function useFriends() {
     await fetchPendingInvites();
   };
 
+  const deleteSentInvite = async (inviteId: string) => {
+    await supabase.from("friend_invitations").delete().eq("id", inviteId);
+    await fetchSentInvites();
+  };
+
   const removeFriend = async (friendshipId: string) => {
     await supabase.from("friendships").delete().eq("id", friendshipId);
     await fetchFriends();
@@ -198,6 +203,7 @@ export function useFriends() {
     sendInvite,
     acceptInvite,
     declineInvite,
+    deleteSentInvite,
     removeFriend,
     refresh: () => { fetchFriends(); fetchPendingInvites(); fetchSentInvites(); },
   };
