@@ -193,11 +193,14 @@ export function useFriends() {
   return {
     friends,
     pendingInvites,
+    sentInvites,
     loading,
     sendInvite,
     acceptInvite,
     declineInvite,
     removeFriend,
-    refresh: () => { fetchFriends(); fetchPendingInvites(); },
+    refresh: () => { fetchFriends(); fetchPendingInvites(); fetchSentInvites(); },
+  };
+}
   };
 }
