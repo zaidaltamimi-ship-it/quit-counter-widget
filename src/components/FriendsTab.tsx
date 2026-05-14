@@ -19,7 +19,7 @@ function calcDays(quitDate: string) {
 
 const FriendsTab = () => {
   const { t } = useLanguage();
-  const { friends, pendingInvites, sendInvite, acceptInvite, declineInvite, removeFriend } = useFriends();
+  const { friends, pendingInvites, sentInvites, sendInvite, acceptInvite, declineInvite, removeFriend } = useFriends();
   const [inviteEmail, setInviteEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
