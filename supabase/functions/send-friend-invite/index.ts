@@ -2,7 +2,7 @@ import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { createClient } from 'npm:@supabase/supabase-js@2.45.0';
 
 const GATEWAY_URL = 'https://connector-gateway.lovable.dev/resend';
-const FROM = 'MyAddiction <pozvanky@myaddiction.space>';
+const FROM = 'MyAddiction <hello@myaddiction.space>';
 const APP_URL = 'https://myaddiction.space';
 
 interface InviteBody {
