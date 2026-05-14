@@ -14,6 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      addiction_sharing: {
+        Row: {
+          addiction_id: string
+          created_at: string
+          id: string
+          share_health: boolean
+          share_mood: boolean
+          share_per_day: boolean
+          share_quit_date: boolean
+          share_savings: boolean
+          share_type: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          addiction_id: string
+          created_at?: string
+          id?: string
+          share_health?: boolean
+          share_mood?: boolean
+          share_per_day?: boolean
+          share_quit_date?: boolean
+          share_savings?: boolean
+          share_type?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          addiction_id?: string
+          created_at?: string
+          id?: string
+          share_health?: boolean
+          share_mood?: boolean
+          share_per_day?: boolean
+          share_quit_date?: boolean
+          share_savings?: boolean
+          share_type?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "addiction_sharing_addiction_id_fkey"
+            columns: ["addiction_id"]
+            isOneToOne: true
+            referencedRelation: "addictions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       addictions: {
         Row: {
           created_at: string
@@ -572,6 +622,10 @@ export type Database = {
       enqueue_email: {
         Args: { payload: Json; queue_name: string }
         Returns: number
+      }
+      friend_can_see: {
+        Args: { _flag: string; _owner: string; _viewer: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
