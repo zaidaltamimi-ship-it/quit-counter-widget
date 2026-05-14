@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { UserPlus, Check, X, Trash2, MessageCircle } from "lucide-react";
+import { UserPlus, Check, X, Trash2, MessageCircle, Shield } from "lucide-react";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
+} from "@/components/ui/dialog";
 import { useFriends, type Friend } from "@/hooks/useFriends";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Input } from "@/components/ui/input";
@@ -19,10 +22,16 @@ const FriendsTab = () => {
   const { friends, pendingInvites, sendInvite, acceptInvite, declineInvite, removeFriend } = useFriends();
   const [inviteEmail, setInviteEmail] = useState("");
   const [sending, setSending] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [chatFriend, setChatFriend] = useState<Friend | null>(null);
 
-  const handleInvite = async () => {
+  const openConfirm = () => {
     if (!inviteEmail.trim()) return;
+    setConfirmOpen(true);
+  };
+
+  const handleInvite = async () => {
+    setConfirmOpen(false);
     setSending(true);
     const { error } = await sendInvite(inviteEmail.trim());
     setSending(false);

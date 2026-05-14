@@ -11,6 +11,7 @@ import HealthLogForm from "@/components/HealthLogForm";
 import HealthCharts from "@/components/HealthCharts";
 import PatchTracker from "@/components/PatchTracker";
 import MoodLog from "@/components/MoodLog";
+import SharingSettingsPanel from "@/components/SharingSettings";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from "@/components/ui/dialog";
@@ -223,6 +224,9 @@ const AddictionDetail = ({ record, onBack, onUpdate, onAddSlip }: AddictionDetai
 
         {/* Health Milestones */}
         <HealthMilestones hoursElapsed={hoursElapsed} milestones={config.milestones} />
+
+        {/* Sharing settings */}
+        <SharingSettingsPanel addictionId={record.id} />
       </div>
 
       <Dialog open={slipOpen} onOpenChange={setSlipOpen}>
