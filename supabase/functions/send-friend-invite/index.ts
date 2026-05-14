@@ -3,7 +3,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2.45.0';
 
 const GATEWAY_URL = 'https://connector-gateway.lovable.dev/resend';
 const FROM = 'MyAddiction <hello@myaddiction.space>';
-const APP_URL = 'https://myaddiction.space/app';
+const APP_BASE = 'https://myaddiction.space';
 
 interface InviteBody {
   recipientEmail: string;
@@ -19,7 +19,7 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#39;');
 }
 
-function renderEmail(senderName: string): { html: string; text: string; subject: string } {
+function renderEmail(senderName: string, acceptUrl: string): { html: string; text: string; subject: string } {
   const safeName = escapeHtml(senderName);
   const subject = `${senderName} tě zve do svého kruhu na MyAddiction`;
   const html = `<!DOCTYPE html>
@@ -41,17 +41,17 @@ function renderEmail(senderName: string): { html: string; text: string; subject:
             MyAddiction je aplikace, která pomáhá zvládat závislosti — den po dni. Kruh slouží jako tichá podpora od lidí, kterým věříš.
           </p>
           <div style="text-align:center;margin:32px 0 16px;">
-            <a href="${APP_URL}" style="display:inline-block;background:#0f4f54;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:600;font-size:15px;">Otevřít MyAddiction</a>
+            <a href="${acceptUrl}" style="display:inline-block;background:#0f4f54;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:600;font-size:15px;">Přijmout pozvánku</a>
           </div>
           <p style="font-size:12px;line-height:1.5;margin:0 0 16px;color:#8a9a9c;text-align:center;">
-            nebo zkopíruj odkaz: <a href="${APP_URL}" style="color:#0f4f54;text-decoration:underline;">${APP_URL}</a>
+            nebo zkopíruj odkaz: <a href="${acceptUrl}" style="color:#0f4f54;text-decoration:underline;">${acceptUrl}</a>
           </p>
           <div style="background:#f0f5f5;border-radius:10px;padding:16px 18px;margin:24px 0 0;">
             <div style="font-size:13px;font-weight:600;color:#0f4f54;margin:0 0 6px;">Tvé soukromí je chráněno</div>
             <div style="font-size:13px;line-height:1.5;color:#4a6568;">Uvidíš jen to, co se ${safeName} rozhodne sdílet — typ závislosti a počet dní bez. Žádné citlivé detaily.</div>
           </div>
           <p style="font-size:13px;line-height:1.5;margin:24px 0 0;color:#8a9a9c;">
-            Pokud aplikaci ještě nemáš, stačí se přihlásit stejným emailem (${escapeHtml(FROM)}) — pozvánka tě bude čekat.
+            Pro přijetí se přihlas (nebo registruj) tímto emailem.
           </p>
         </td></tr>
         <tr><td style="background:#fafbfb;padding:20px 32px;text-align:center;font-size:12px;color:#8a9a9c;border-top:1px solid #eef2f2;">
@@ -61,7 +61,7 @@ function renderEmail(senderName: string): { html: string; text: string; subject:
     </td></tr>
   </table>
 </body></html>`;
-  const text = `${senderName} tě zve do svého kruhu na MyAddiction.\n\nOtevři aplikaci: ${APP_URL}\n\nUvidíš jen to, co se ${senderName} rozhodne sdílet — typ závislosti a počet dní bez.`;
+  const text = `${senderName} tě zve do svého kruhu na MyAddiction.\n\nPřijmi pozvánku: ${acceptUrl}\n\nUvidíš jen to, co se ${senderName} rozhodne sdílet.`;
   return { html, text, subject };
 }
 
