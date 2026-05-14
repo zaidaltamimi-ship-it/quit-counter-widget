@@ -13,6 +13,7 @@ import { useAddictions } from "@/hooks/useAddictions";
 import { useAuth } from "@/hooks/useAuth";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { useChatNotifications } from "@/hooks/ChatNotificationsContext";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useNavigate } from "react-router-dom";
 import type { AddictionRecord } from "@/types/addiction";
@@ -26,6 +27,7 @@ const Index = () => {
   const { records, addRecord, updateRecord, removeRecord, addSlip } = useAddictions();
   const { isPremium, loading: subLoading, openPortal } = useSubscription();
   const { isAdmin } = useIsAdmin();
+  const { totalUnread } = useChatNotifications();
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [view, setView] = useState<View>("dashboard");
@@ -171,25 +173,31 @@ const Index = () => {
             { key: "home" as Tab, icon: LayoutDashboard, label: "MyAddiction" },
             { key: "ideas" as Tab, icon: Lightbulb, label: (t as any).ideas || "Ideas" },
             { key: "friends" as Tab, icon: Users, label: t.friends, premium: true },
-          ]).map(({ key, icon: Icon, label, premium }) => (
-            <button
-              key={key}
-              onClick={() => setTab(key)}
-              className={`flex-1 flex flex-col items-center gap-0.5 py-2 text-[10px] font-medium transition-colors ${
-                tab === key
-                  ? "text-primary"
-                  : "text-muted-foreground"
-              }`}
-            >
-              <div className="relative">
-                <Icon className="h-5 w-5" />
-                {premium && !isPremium && (
-                  <Crown className="absolute -top-1.5 -right-2.5 h-3 w-3 text-primary" />
-                )}
-              </div>
-              {label}
-            </button>
-          ))}
+          ]).map(({ key, icon: Icon, label, premium }) => {
+            const showUnread = key === "friends" && totalUnread > 0;
+            return (
+              <button
+                key={key}
+                onClick={() => setTab(key)}
+                className={`flex-1 flex flex-col items-center gap-0.5 py-2 text-[10px] font-medium transition-colors ${
+                  tab === key ? "text-primary" : "text-muted-foreground"
+                }`}
+              >
+                <div className="relative">
+                  <Icon className="h-5 w-5" />
+                  {premium && !isPremium && (
+                    <Crown className="absolute -top-1.5 -right-2.5 h-3 w-3 text-primary" />
+                  )}
+                  {showUnread && (
+                    <span className="absolute -top-1.5 -right-2.5 min-w-[16px] h-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold flex items-center justify-center">
+                      {totalUnread}
+                    </span>
+                  )}
+                </div>
+                {label}
+              </button>
+            );
+          })}
         </div>
       </nav>
     </div>

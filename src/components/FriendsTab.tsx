@@ -5,6 +5,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from "@/components/ui/dialog";
 import { useFriends, type Friend } from "@/hooks/useFriends";
+import { useChatNotifications } from "@/hooks/ChatNotificationsContext";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ function calcDays(quitDate: string) {
 const FriendsTab = () => {
   const { t } = useLanguage();
   const { friends, pendingInvites, sentInvites, sendInvite, acceptInvite, declineInvite, deleteSentInvite, removeFriend } = useFriends();
+  const { unreadByFriendship } = useChatNotifications();
   const [inviteEmail, setInviteEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -209,9 +211,14 @@ const FriendsTab = () => {
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => setChatFriend(friend)}
-                      className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                      className="relative flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:text-foreground transition-colors"
                     >
                       <MessageCircle className="h-4 w-4" />
+                      {(unreadByFriendship[friend.friendshipId] ?? 0) > 0 && (
+                        <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[10px] font-semibold flex items-center justify-center">
+                          {unreadByFriendship[friend.friendshipId]}
+                        </span>
+                      )}
                     </button>
                     <button
                       onClick={() => removeFriend(friend.friendshipId)}

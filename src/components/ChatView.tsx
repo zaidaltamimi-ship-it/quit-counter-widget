@@ -4,6 +4,7 @@ import { ArrowLeft, Send } from "lucide-react";
 import { useChat } from "@/hooks/useChat";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useChatNotifications } from "@/hooks/ChatNotificationsContext";
 import type { Friend } from "@/hooks/useFriends";
 
 const ENCOURAGEMENTS = ["💪", "🔥", "⭐", "❤️", "🎉", "👏"];
@@ -17,12 +18,20 @@ const ChatView = ({ friend, onBack }: ChatViewProps) => {
   const { user } = useAuth();
   const { t } = useLanguage();
   const { messages, sendMessage } = useChat(friend.friendshipId);
+  const { setActiveFriendship, markRead } = useChatNotifications();
   const [text, setText] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setActiveFriendship(friend.friendshipId);
+    markRead(friend.friendshipId);
+    return () => setActiveFriendship(null);
+  }, [friend.friendshipId, setActiveFriendship, markRead]);
+
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (messages.length > 0) markRead(friend.friendshipId);
+  }, [messages, friend.friendshipId, markRead]);
 
   const handleSend = async () => {
     const msg = text.trim();
