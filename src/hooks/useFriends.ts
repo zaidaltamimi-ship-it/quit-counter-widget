@@ -16,10 +16,18 @@ export interface PendingInvite {
   createdAt: string;
 }
 
+export interface SentInvite {
+  id: string;
+  recipientEmail: string;
+  status: "pending" | "accepted" | "declined";
+  createdAt: string;
+}
+
 export function useFriends() {
   const { user } = useAuth();
   const [friends, setFriends] = useState<Friend[]>([]);
   const [pendingInvites, setPendingInvites] = useState<PendingInvite[]>([]);
+  const [sentInvites, setSentInvites] = useState<SentInvite[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchFriends = useCallback(async () => {
@@ -99,10 +107,29 @@ export function useFriends() {
     );
   }, [user]);
 
+  const fetchSentInvites = useCallback(async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("friend_invitations")
+      .select("id, recipient_email, status, created_at")
+      .eq("sender_id", user.id)
+      .order("created_at", { ascending: false });
+
+    setSentInvites(
+      (data ?? []).map((inv) => ({
+        id: inv.id,
+        recipientEmail: inv.recipient_email,
+        status: inv.status as SentInvite["status"],
+        createdAt: inv.created_at,
+      }))
+    );
+  }, [user]);
+
   useEffect(() => {
     fetchFriends();
     fetchPendingInvites();
-  }, [fetchFriends, fetchPendingInvites]);
+    fetchSentInvites();
+  }, [fetchFriends, fetchPendingInvites, fetchSentInvites]);
 
   const sendInvite = async (email: string) => {
     if (!user) return { error: "Not logged in" };
@@ -119,6 +146,7 @@ export function useFriends() {
     const { error: fnError } = await supabase.functions.invoke("send-friend-invite", {
       body: { recipientEmail: normalizedEmail, invitationId: inserted?.id },
     });
+    await fetchSentInvites();
     if (fnError) {
       console.error("send-friend-invite failed", fnError);
       return { error: "Pozvánka uložena, ale email se nepodařilo odeslat." };
@@ -165,11 +193,12 @@ export function useFriends() {
   return {
     friends,
     pendingInvites,
+    sentInvites,
     loading,
     sendInvite,
     acceptInvite,
     declineInvite,
     removeFriend,
-    refresh: () => { fetchFriends(); fetchPendingInvites(); },
+    refresh: () => { fetchFriends(); fetchPendingInvites(); fetchSentInvites(); },
   };
 }
